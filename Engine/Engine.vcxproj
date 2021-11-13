@@ -38,6 +38,9 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="galaxy2.bmp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{92DE34EC-DEFB-4DD3-B968-206455230A0B}</ProjectGuid>

@@ -2,18 +2,43 @@
 #include <iostream>
 #include "Texture.h"
 
-void TextureManager::DrawTexture(std::string id, int y, int x, int width, int height, double angle, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
+TextureManager* TextureManager::sInstance{ nullptr };
+
+bool TextureManager::DrawTexture(std::string id, int y, int x, int width, int height, double angle, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
 {
-    SDL_RendererFlip flip{SDL_FLIP_NONE};
+    
+    if (textureMap[id] == nullptr)
+    {
+        std::cout << "Texture id not valid" << std::endl;
+        return false;
+    }
+    if (renderTarget == nullptr)
+    {
+        renderTarget = SDL_CreateRenderer(GameEngine::GetInstance()->GetWindow()->GetSDLWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        if (SDL_GetError())
+        {
+            std::cout << SDL_GetError();
+            return false;
+        }
+    }
+
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
 
     if(flipHor)
         flip =  SDL_FLIP_HORIZONTAL ;
     
-
     SDL_Rect scrRect = { 0, 0, width, height }; // which part of the image you wanna draw
     SDL_Rect dstRect = { x,y, width, height }; // where you wanna draw
 
-    SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, angle, 0, flip);
+    int sucess = SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, angle, 0, flip);
+    std::cout << SDL_GetError();
+    return (sucess == 0) ? true : false;
+}
+
+void TextureManager::DropTexture(std::string id)
+{
+    delete textureMap[id];
+    textureMap.erase(id);
 }
 
 void TextureManager::DrawFrame(std::string id, int y, int x, int width, int height, double angle, int row, int frame, bool flipHor)

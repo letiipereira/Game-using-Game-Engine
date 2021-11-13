@@ -13,7 +13,8 @@ public:
 	class Window* GetWindow();
 
 	static GameEngine* GetInstance();
-	
+
+
 	~GameEngine();
 
 private:
