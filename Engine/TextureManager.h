@@ -28,14 +28,15 @@ public:
 		delete renderTarget;
 	};
 
-	void Init();
-	void Draw();
-	void DrawFrame();
+	void DrawTexture(std::string id, int y, int x, int width, int height, double angle, bool flipHor);
+	void DrawFrame(std::string id, int y, int x, int width, int height, double angle, int row, int frame, bool flipHor);
 	Texture* LoadTexture(std::string id, std::string filePath);
+	
 
 private:
 	
 	std::map<std::string, Texture*> textureMap{};
 	GameEngine* myGameEngine{ nullptr };
 	SDL_Renderer* renderTarget{ nullptr };
+	
 };

@@ -48,8 +48,9 @@ public:
 
 	~GameObject() {};
 
-	void Start();
-	void Update();
+	virtual void Start();
+	virtual void Update();
+	
 
 	std::vector<float> GetPosition();
 	std::vector<float> GetRotation();

@@ -2,6 +2,33 @@
 #include <iostream>
 #include "Texture.h"
 
+void TextureManager::DrawTexture(std::string id, int y, int x, int width, int height, double angle, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
+{
+    SDL_RendererFlip flip{SDL_FLIP_NONE};
+
+    if(flipHor)
+        flip =  SDL_FLIP_HORIZONTAL ;
+    
+
+    SDL_Rect scrRect = { 0, 0, width, height }; // which part of the image you wanna draw
+    SDL_Rect dstRect = { x,y, width, height }; // where you wanna draw
+
+    SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, angle, 0, flip);
+}
+
+void TextureManager::DrawFrame(std::string id, int y, int x, int width, int height, double angle, int row, int frame, bool flipHor)
+{
+    SDL_RendererFlip flip{ SDL_FLIP_NONE };
+
+    if (flipHor)
+        flip = SDL_FLIP_HORIZONTAL;
+
+    SDL_Rect scrRect = { width*frame, height*(row-1), width, height }; // which part of the image you wanna draw
+    SDL_Rect dstRect = { x,y, width, height }; // where you wanna draw
+    SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, angle, 0, flip);
+
+}
+
 Texture* TextureManager::LoadTexture(std::string id, std::string filePath)
 {
     Texture* newTexture = nullptr;

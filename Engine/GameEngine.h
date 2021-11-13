@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 
-class GameEngine
-{
+class GameEngine //should be the only one -> make sure of it
+{ 
 public:
 	void init(std::string windowTitle, int windowWidth, int windowHeight);
 

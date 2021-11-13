@@ -12,6 +12,9 @@ public:
 
 		textureSDL = SDL_CreateTextureFromSurface(targetRederer, surface);
 	};
+
+	SDL_Texture* GetSDLTexture();
+
 	~Texture() 
 	{
 		SDL_DestroyTexture(textureSDL);
