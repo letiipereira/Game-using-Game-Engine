@@ -46,7 +46,7 @@ public:
 
 
 
-	~GameObject() {};
+	virtual ~GameObject() {};
 
 	virtual void Start();
 	virtual void Update();

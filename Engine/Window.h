@@ -14,8 +14,8 @@ public:
 
 	~Window() 
 	{ 
-		SDL_DestroyWindow(window); 
+		SDL_DestroyWindow(sdlWindow); 
 	};
 private:
-	SDL_Window* window;
+	SDL_Window* sdlWindow;
 };

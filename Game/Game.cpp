@@ -1,18 +1,17 @@
 // Game.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include <iostream>
 #include "GameEngine.h"
 
+
 int main(int argc, char ** argv)
 {
-    GameEngine engine;
-         
-    engine.init("Xennon Clone.", 640, 480);
+    
+    GameEngine::GetInstance()->init("Xennon Clone.", 640, 480);
 
     //set up do level
 
-    engine.start();
+    GameEngine::GetInstance()->start();
 
     // game logic
 

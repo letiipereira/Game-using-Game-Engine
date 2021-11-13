@@ -1,14 +1,15 @@
 #include "GameEngine.h"
 #include "SDLWrapper.h"
 #include "Window.h"
+#include "TextureManager.h"
 
+GameEngine* GameEngine::sInstance = nullptr;
 
 void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight )
 {
 	sdl = new SDLWrapper(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 	window = new Window(windowTitle, windowWidth, windowHeight);
-
-	//window = new Window(windowTitle, windowWidth, windowHeight,this)
+	textureManager = new TextureManager;
 }
 
 void GameEngine::start()
@@ -34,8 +35,17 @@ Window* GameEngine::GetWindow()
 	return window;
 }
 
+GameEngine* GameEngine::GetInstance()
+{
+	if (sInstance == nullptr)
+		sInstance = new GameEngine();
+		
+	return sInstance;
+}
+
 GameEngine::~GameEngine()
 {
 	delete window;
 	delete sdl;
+	delete textureManager;
 }

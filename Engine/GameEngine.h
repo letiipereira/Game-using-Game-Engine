@@ -1,7 +1,9 @@
 #pragma once
+#ifndef GAMEENGINE_H
+#define GAMEENGINE_H
 #include <string>
 
-class GameEngine //should be the only one -> make sure of it
+ class GameEngine //should be the only one -> make sure of it
 { 
 public:
 	void init(std::string windowTitle, int windowWidth, int windowHeight);
@@ -10,10 +12,16 @@ public:
 
 	class Window* GetWindow();
 
+	static GameEngine* GetInstance();
+	
 	~GameEngine();
 
 private:
-	class SDLWrapper* sdl;
-	class Window* window;
+	GameEngine() {};
+	static GameEngine* sInstance;
+	class TextureManager* textureManager{nullptr};
+	class SDLWrapper* sdl{ nullptr };
+	class Window* window{ nullptr };
 };
 
+#endif //

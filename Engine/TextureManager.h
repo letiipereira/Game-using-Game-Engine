@@ -9,10 +9,9 @@ class TextureManager {
 
 public:
 
-	TextureManager(GameEngine* gameEngineRef) 
+	TextureManager() 
 	{
-		myGameEngine = myGameEngine;
-		renderTarget = SDL_CreateRenderer(myGameEngine->GetWindow()->GetSDLWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		renderTarget = SDL_CreateRenderer(GameEngine::GetInstance()->GetWindow()->GetSDLWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	};
 
 	~TextureManager() 
@@ -24,7 +23,7 @@ public:
 			textureMap.erase(it);
 		}
 
-		delete myGameEngine;
+		
 		delete renderTarget;
 	};
 
@@ -36,7 +35,7 @@ public:
 private:
 	
 	std::map<std::string, Texture*> textureMap{};
-	GameEngine* myGameEngine{ nullptr };
+	
 	SDL_Renderer* renderTarget{ nullptr };
 	
 };

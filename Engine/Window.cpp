@@ -3,26 +3,26 @@
 
 Window::Window(std::string title, int windowWidth, int windowHeight)
 {
-	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_OPENGL);
+	sdlWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_OPENGL);
 
-	if (window == nullptr)
+	if (sdlWindow == nullptr)
 	{
 		throw InitError();
 	}
 }
 
-SDL_Window* Window::GetWindow() 
+SDL_Window* Window::GetSDLWindow() 
 {
-	return window;
+	return sdlWindow;
 }
 
 SDL_Surface* Window::getSurface()
 {
-	return SDL_GetWindowSurface(window);
+	return SDL_GetWindowSurface(sdlWindow);
 }
 
 void Window::updateSurface()
 {
-	SDL_UpdateWindowSurface(window);
+	SDL_UpdateWindowSurface(sdlWindow);
 }
 

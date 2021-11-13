@@ -1,6 +1,6 @@
 #include "Level.h"
 
-void Level::addGameObject(GameObject newGameObject)
+void Level::addGameObject(GameObject* newGameObject)
 {
 	levelObjects.push_back(newGameObject);
 }

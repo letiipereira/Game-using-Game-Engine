@@ -17,7 +17,7 @@ public:
 		}
 	};
 
-	void addGameObject(GameObject newGameObject);
+	void addGameObject(GameObject* newGameObject);
 
 private:
 
