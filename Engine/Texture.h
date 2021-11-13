@@ -1,14 +1,16 @@
 #pragma once
 #include <SDL.h>
+#include "Window.h"
 
 class Texture
 
 {
 public:
 
-	Texture(SDL_Surface* surface) 
+	Texture(SDL_Surface* surface, SDL_Renderer* targetRederer) 
 	{
-		textureSDL = SDL_CreateTextureFromSurface(window, surface);
+
+		textureSDL = SDL_CreateTextureFromSurface(targetRederer, surface);
 	};
 	~Texture() 
 	{

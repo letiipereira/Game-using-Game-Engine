@@ -2,25 +2,28 @@
 #include <iostream>
 #include "Texture.h"
 
-Texture* TextureManager::LoadTexture(std::string filePath)
+Texture* TextureManager::LoadTexture(std::string id, std::string filePath)
 {
     Texture* newTexture = nullptr;
 
     SDL_Surface* surface = SDL_LoadBMP(filePath.c_str());
 
     if (surface == NULL)
-        std::cout << "Error" << std::endl;
+        std::cout << "Error Loading texture" << std::endl;
 
     else
     {
-        SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
-        
-        newTexture = new Texture(surface);
-        textureList.push_back(newTexture);
 
-        //newTexture = SDL_CreateTextureFromSurface(renderTarget, surface);
-        if (newTexture == NULL)
-            std::cout << "Error" << std::endl;
+        SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
+        if (textureMap[id] == nullptr)
+        {
+            newTexture = new Texture(surface, renderTarget);
+            textureMap[id] = newTexture; // problemas de overwrite (?)
+            if (newTexture == NULL)
+                std::cout << "Error creating texture from surface" << std::endl;
+        }
+        else
+            std::cout << "Error Id already exists" << std::endl;
     }
 
     SDL_FreeSurface(surface);

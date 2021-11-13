@@ -10,6 +10,8 @@ public:
 
 	void updateSurface();
 
+	SDL_Window* GetSDLWindow();
+
 	~Window() 
 	{ 
 		SDL_DestroyWindow(window); 
