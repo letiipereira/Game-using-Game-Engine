@@ -38,7 +38,7 @@ private:
 
 	TextureManager()
 	{
-		
+		renderTarget = SDL_CreateRenderer(GameEngine::GetInstance()->GetWindow()->GetSDLWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	};
 
 	static TextureManager* sInstance;

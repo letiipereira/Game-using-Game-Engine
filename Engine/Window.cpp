@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "InitError.h"
+#include <iostream>
 
 Window::Window(std::string title, int windowWidth, int windowHeight)
 {
@@ -13,16 +14,22 @@ Window::Window(std::string title, int windowWidth, int windowHeight)
 
 SDL_Window* Window::GetSDLWindow() 
 {
+	if (sdlWindow == nullptr)
+		std::cout << "Window::GetSDLWindow() " << SDL_GetError() << std::endl;
 	return sdlWindow;
 }
 
 SDL_Surface* Window::getSurface()
 {
-	return SDL_GetWindowSurface(sdlWindow);
+	SDL_Surface* windowSurface= SDL_GetWindowSurface(sdlWindow);
+	if (windowSurface == nullptr)
+		std::cout << "Window::getSurface()" << SDL_GetError() << std::endl;
+	return windowSurface;
 }
 
 void Window::updateSurface()
 {
 	SDL_UpdateWindowSurface(sdlWindow);
+	std::cout << "Window::updateSurface(): " << SDL_GetError() << std::endl;
 }
 

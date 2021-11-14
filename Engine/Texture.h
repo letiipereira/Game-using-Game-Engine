@@ -11,8 +11,7 @@ public:
 	Texture(SDL_Surface* surface, SDL_Renderer* targetRederer) 
 	{
 		textureSDL = SDL_CreateTextureFromSurface(targetRederer, surface);
-		if (textureSDL == nullptr)
-			std::cout << "Error creating SDL Texture";
+		std::cout << SDL_GetError() << std::endl;
 	};
 
 	SDL_Texture* GetSDLTexture();
@@ -25,6 +24,6 @@ public:
 
 private:
 
-	SDL_Texture* textureSDL{ nullptr };
+	SDL_Texture* textureSDL;
 
 };

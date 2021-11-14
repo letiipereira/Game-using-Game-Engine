@@ -7,7 +7,6 @@ int main(int argc, char ** argv)
 {
     
     GameEngine::GetInstance()->init("Xennon Clone.", 640, 480);
-
     //set up do level
 
     GameEngine::GetInstance()->start();
