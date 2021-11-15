@@ -16,6 +16,7 @@ public:
 	~TextureManager() 
 	{
 		std::map<std::string, Texture*>::iterator it;
+
 		for (it = textureMap.begin(); it != textureMap.end(); it++) 
 		{
 			delete it->second;

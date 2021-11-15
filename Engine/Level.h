@@ -7,7 +7,7 @@ class Level
 {
 public:
 
-	Level() {};
+	Level(std::string levelName) {};
 
 	~Level() 
 	{
@@ -18,6 +18,7 @@ public:
 	};
 
 	void addGameObject(GameObject* newGameObject);
+	void Update();
 
 private:
 

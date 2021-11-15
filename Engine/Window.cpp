@@ -30,6 +30,6 @@ SDL_Surface* Window::getSurface()
 void Window::updateSurface()
 {
 	SDL_UpdateWindowSurface(sdlWindow);
-	std::cout << "Window::updateSurface(): " << SDL_GetError() << std::endl;
+	//std::cout << "Window::updateSurface(): " << SDL_GetError() << std::endl;
 }
 
