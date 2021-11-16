@@ -5,13 +5,14 @@
 #include "Texture.h"
 #include "Level.h"
 #include "GameObject.h"
+#include "InputManager.h"
 #include <iostream>
 
 GameEngine* GameEngine::sInstance = nullptr;
 
 void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight )
 {
-	sdl = new SDLWrapper(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+	sdl = new SDLWrapper(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER);
 	window = new Window(windowTitle, windowWidth, windowHeight);
 	defaultLevel = new Level("defaultLevel");
 
@@ -34,6 +35,9 @@ void GameEngine::start()
 		{
 			if (ev.type == SDL_QUIT)
 				isRunning = false;
+
+			InputManager::GetInstance()->CheckInput(ev);
+
 		}
 		//TextureManager::GetInstance()->DrawTexture("background", 0, 0, 640, 480, 0);
 		currentLevel->Update();

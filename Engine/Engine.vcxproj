@@ -22,7 +22,9 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InitError.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="SDLWrapper.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -32,7 +34,9 @@
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InitError.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Pawn.h" />
     <ClInclude Include="SDLWrapper.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
