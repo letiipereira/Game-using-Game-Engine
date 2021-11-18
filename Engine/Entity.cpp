@@ -1,4 +1,14 @@
 #include "Entity.h"
+#include "Level.h"
+
+
+Entity::Entity()
+{
+
+this->AddCompoonent<Transform>();
+GameEngine::GetInstance()->GetActiveLevel()->AddEntity(this);
+
+}
 
 template<typename T, typename... TArgs>
 T& Entity::AddCompoonent(TArgs&&... args)
@@ -19,3 +29,26 @@ T& Entity::AddCompoonent(TArgs&&... args)
 
 	return *static_cast<T*>(nullptr);
 }
+
+template<typename T>
+T& Entity::GetComponent() const {
+	auto ptr(compList[GetComponentTypeID<T>()]);
+	return *static_cast<T*>(ptr);
+}
+
+void Entity::Draw()
+{
+	for (auto& comp : components)
+	{
+		comp->Draw();
+	}
+}
+
+void Entity::Update()
+{
+	for (auto& comp : components)
+	{
+		comp->Update();
+	}
+}
+
