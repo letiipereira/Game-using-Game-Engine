@@ -1,14 +1,27 @@
 #include "Level.h"
 
-void Level::addGameObject(GameObject* newGameObject)
+void Level::Draw()
 {
-	levelObjects.push_back(newGameObject);
+}
+
+void Level::AddEntity(Entity* entity)
+{
+	levelEntities.push_back(entity);
+}
+
+void Level::EraseEntity(Entity* entity)
+{
+	
 }
 
 void Level::Update()
 {
-	for (GameObject* obj : levelObjects)
+	for (Entity* ent : levelEntities)
 	{
-		obj->Update();
+		ent->Update();
 	}
+}
+
+void Level::Refresh()
+{
 }

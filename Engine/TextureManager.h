@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TEXTUREMANAGER_M
-#define TEXTUREMANAGER_M
+//#ifndef TEXTUREMANAGER_M
+//#define TEXTUREMANAGER_M
 
 #include <SDL.h>
 #include <string>
@@ -48,4 +48,4 @@ private:
 	
 };
 
-#endif // TEXTUREMANAGER_M
+//#endif // TEXTUREMANAGER_M

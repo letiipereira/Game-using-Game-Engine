@@ -19,8 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InitError.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="SDLWrapper.cpp" />
@@ -29,11 +30,14 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ECS.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="InitError.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="SDLWrapper.h" />
+    <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />

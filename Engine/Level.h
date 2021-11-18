@@ -1,7 +1,7 @@
 #pragma once
 #include "GameEngine.h"
 #include <vector>
-#include "GameObject.h"
+#include "Entity.h"
 
 class Level
 {
@@ -9,19 +9,17 @@ public:
 
 	Level(std::string levelName) {};
 
-	~Level() 
-	{
-		for (GameObject* obj : levelObjects)
-		{ 
-			delete obj;
-		}
-	};
+	~Level() {};
 
-	void addGameObject(GameObject* newGameObject);
+	void Draw();
 	void Update();
+	void Refresh();
+
+	void AddEntity(Entity* entity);
+	void EraseEntity(Entity* entity);
 
 private:
 
-	std::vector<GameObject*> levelObjects;
+	std::vector<Entity*> levelEntities;
 
 };

@@ -4,10 +4,9 @@
 #include "TextureManager.h"
 #include "Texture.h"
 #include "Level.h"
-#include "GameObject.h"
 #include <iostream>
 
-GameEngine* GameEngine::sInstance = nullptr;
+GameEngine* GameEngine::instance = nullptr;
 
 void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight )
 {
@@ -18,6 +17,7 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 	if (currentLevel == nullptr)
 	{
 		ActivateLevelByName("defaultLevel");
+		currentLevel = defaultLevel;
 	}
 		
 	//Texture* background= TextureManager::GetInstance()->LoadTexture("background", "assets/galaxy2.bmp");
@@ -49,10 +49,10 @@ Window* GameEngine::GetWindow()
 
 GameEngine* GameEngine::GetInstance()
 {
-	if (sInstance == nullptr)
-		sInstance = new GameEngine();
+	if (instance == nullptr)
+		instance = new GameEngine();
 		
-	return sInstance;
+	return instance;
 }
 
 void GameEngine::ActivateLevelByName(std::string levelName)
@@ -68,7 +68,7 @@ Level* GameEngine::GetActiveLevel()
 void GameEngine::CreateNewLevel(std::string levelName)
 {
 	Level* newLevel = new Level(levelName);
-	levelMap[levelName]== newLevel;
+	levelMap[levelName] = newLevel;
 }
 
 void GameEngine::DeleteLevelByName(std::string levelName)

@@ -2,6 +2,7 @@
 //
 #include <iostream>
 #include "GameEngine.h"
+#include <Entity.h>
 
 int main(int argc, char ** argv)
 {
@@ -10,7 +11,11 @@ int main(int argc, char ** argv)
 
     //set up do level
 
+    
+
     GameEngine::GetInstance()->start();
+   
+
 
     // game logic
 

@@ -2,6 +2,9 @@
 #include "GameEngine.h"
 #include <vector>
 #include "Transform.h"
+#include "ECS.h"
+#include <memory>
+#include "Component.h"
 
 class GameObject {
 
@@ -24,8 +27,11 @@ public:
 	std::string GetName();
 	//Update texture?
 
+	
+
 private:
 
+	
 	Transform* myTransform{};
 	std::string textureID{};
 	bool flip{ false };

@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <map>
+//#include "Entity.h"
+//#include "Level.h"
 
  class GameEngine //should be the only one -> make sure of it
 { 
@@ -25,7 +27,7 @@ public:
 private:
 
 	GameEngine() {};
-	static GameEngine* sInstance;
+	static GameEngine* instance;
 	class TextureManager* textureManager{nullptr};
 	class SDLWrapper* sdl{ nullptr };
 	class Window* window{ nullptr };
