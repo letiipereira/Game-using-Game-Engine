@@ -3,6 +3,7 @@
 #include <vector>
 #include "Entity.h"
 
+
 class Level
 {
 public:
@@ -17,9 +18,10 @@ public:
 
 	void AddEntity(Entity* entity);
 	void EraseEntity(Entity* entity);
+	//void AddToGroup(Entity* mEntity, Group mGroup);
+	//std::vector<Entity*>& GetGroup(Group mGroup);
 
 private:
-
 	std::vector<Entity*> levelEntities;
-
+	//std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 };

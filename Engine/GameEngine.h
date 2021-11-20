@@ -4,14 +4,13 @@
 #include <vector>
 #include <string>
 #include <map>
-//#include "Entity.h"
-//#include "Level.h"
 
  class GameEngine //should be the only one -> make sure of it
 { 
 public:
 	void init(std::string windowTitle, int windowWidth, int windowHeight);
 	void start();
+
 
 	class Window* GetWindow();
 	static GameEngine* GetInstance();
@@ -21,6 +20,16 @@ public:
 	void CreateNewLevel(std::string levelName);
 	void DeleteLevelByName(std::string levelName);
 	class Level* GetLevelByName(std::string levelName);
+
+	/*enum groupLabels : std::size_t
+	{
+		groupMap,
+		groupPlayers,
+		groupColliders,
+		groupProjectiles,
+		groupBackground,
+		groupUI,
+	};*/
 
 	~GameEngine();
 

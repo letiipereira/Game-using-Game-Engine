@@ -2,45 +2,26 @@
 #include "Level.h"
 
 
+
 Entity::Entity()
 {
-
-this->AddCompoonent<Transform>();
-GameEngine::GetInstance()->GetActiveLevel()->AddEntity(this);
+	level = GameEngine::GetInstance()->GetActiveLevel();
+	level->AddEntity(this);
+	this->AddComponent<Transform>();
 
 }
 
-template<typename T, typename... TArgs>
-T& Entity::AddCompoonent(TArgs&&... args)
-{
-	T* comp(new T(std::forward<TArgs>(args)...));
-
-	std::unique_ptr<Component> uptr{ comp };
-	components.emplace_back(std::move(uptr));
-	comp->entity = this;
-
-	if (comp->Init())
-	{
-		compList[GetComponentTypeID<T>()] = comp;
-		compBitset[GetComponentTypeID<T>()] = true;
-		comp->entity = this;
-		return *comp;
-	}
-
-	return *static_cast<T*>(nullptr);
-}
-
-template<typename T>
-T& Entity::GetComponent() const {
-	auto ptr(compList[GetComponentTypeID<T>()]);
-	return *static_cast<T*>(ptr);
-}
+//void Entity::AddGroup(Group mGroup)
+//{
+//	groupBitset[mGroup] = true;
+//	level->AddToGroup(this, mGroup);
+//}
 
 void Entity::Draw()
 {
 	for (auto& comp : components)
 	{
-		comp->Draw();
+			comp->Draw();
 	}
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "Component.h"
 
 struct Position {
 
@@ -32,6 +33,6 @@ struct Transform : public Component {
 
 	Position* myPosition{};
 	Scale* myScale{};
-	float myRotation{};
+	double myRotation{};
 
 };

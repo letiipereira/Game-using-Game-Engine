@@ -35,12 +35,12 @@ void GameEngine::start()
 			if (ev.type == SDL_QUIT)
 				isRunning = false;
 		}
-		//TextureManager::GetInstance()->DrawTexture("background", 0, 0, 640, 480, 0);
 		currentLevel->Update();
+		currentLevel->Draw();
 		window->updateSurface();
-		//for reach element of the leval do stuff
 	}
 }
+
 
 Window* GameEngine::GetWindow()
 {

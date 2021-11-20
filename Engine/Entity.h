@@ -1,27 +1,53 @@
 #pragma once
 
 #include "GameEngine.h"
-#include "ECS.h"
 #include <vector>
+
+#include "ECS.h"
 #include "Component.h"
-#include <memory>
+
 #include "Transform.h"
+#include "SpriteComponent.h"
+#include "Rigidbody.h"
+#include "Animation.h"
 
 class Entity
 {
 public:
 
 	Entity();
+	
 	virtual ~Entity() {};
 
 	template<typename T, typename... TArgs>
-	T& AddComponent(TArgs&&... args);
+	T& AddComponent(TArgs&&... args) {
+		T* comp(new T(std::forward<TArgs>(args)...));
+
+		std::unique_ptr<Component> uptr{ comp };
+		components.emplace_back(std::move(uptr));
+		comp->entity = this;
+
+		if (comp->Init())
+		{
+			compList[GetComponentTypeID<T>()] = comp;
+			compBitset[GetComponentTypeID<T>()] = true;
+			comp->entity = this;
+			return *comp;
+		}
+
+		return *static_cast<T*>(nullptr);
+	}
 
 	template<typename T>
-	T& GetComponent() const;
+	T& GetComponent() const 
+	{
+		auto ptr(compList[GetComponentTypeID<T>()]);
+		return *static_cast<T*>(ptr);
+	}
 
 	template <typename T>
 	inline bool HasComponent() const {
+		
 		return compBitset[GetComponentTypeID<T>()];
 	}
 
@@ -33,14 +59,28 @@ public:
 		active = false;
 	}
 
+	/*bool HasGroup(Group mGroup) 
+	{
+		return groupBitset[mGroup];
+	}*/
+
+	//void AddGroup(Group mGroup);
+
+	/*void delGroup(Group mGroup) 
+	{
+		groupBitset[mGroup] = false;
+	}*/
+
 	void Draw();
 
 	void Update();
 
 private:
 
+	class Level* level{ nullptr };
 	bool active{};
 	ComponentList compList{};
 	ComponentBitset compBitset{};
 	std::vector<std::unique_ptr<Component>> components;
+	//GroupBitset groupBitset;
 };
