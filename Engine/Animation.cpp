@@ -30,7 +30,7 @@ bool Animation::Init()
 
 void Animation::Draw()
 {
-	TextureManager::GetInstance()->DrawFrame(myTextureID, transform->myPosition->x, transform->myPosition->y, frameHeight, frameWidth, transform->myRotation, mySpriteRow, mySpriteFrame, flip);
+	TextureManager::GetInstance()->DrawFrame(myTextureID, transform, frameHeight, frameWidth, transform->myRotation, mySpriteRow, mySpriteFrame, flip);
 }
 
 
@@ -54,7 +54,7 @@ void Animation::Update()
 		}
 	}
 
-	std::cout << mySpriteFrame << " " << mySpriteRow << std::endl;
+	//std::cout << mySpriteFrame << " " << mySpriteRow << std::endl;
 }
 
 void Animation::SetProperties(std::string textureID, std::string filePath, int spriteRow, int frameCount, int rowCount, int animSpeed, bool horFlip)

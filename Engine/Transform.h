@@ -1,38 +1,21 @@
 #pragma once
 #include "Component.h"
-
-struct Position {
-
-	Position(float x, float y) {};
-
-	float x{};
-	float y{};
-};
-
-struct Scale {
-
-	Scale(float x, float y) {};
-
-	float x{ 1.0 };
-	float y{ 1.0 };
-};
+#include "Vector2D.h"
 
 struct Transform : public Component {
 
-	Transform(Position* position = new Position(0, 0), Scale* scale = new Scale(1,1), float rotation = 0)
+	
+	Transform(float posX = 0, float posY = 0, float sclX = 1, float sclY = 1, float rotation = 0)
 	{
-		myPosition = position;
+		myPosition.X = posX;
+		myPosition.Y = posY;
+		myScale.X = sclX;
+		myScale.Y = sclY;
 		myRotation = rotation;
-		myScale = scale;
-	}
-	virtual ~Transform()
-	{
-		delete myPosition;
-		delete myScale;
 	}
 
-	Position* myPosition{};
-	Scale* myScale{};
+	Vector2D myPosition{};
+	Vector2D myScale{};
 	double myRotation{};
 
 };

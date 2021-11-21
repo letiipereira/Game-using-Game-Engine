@@ -2,14 +2,19 @@
 
 bool Rigidbody::Init()
 {
+    transform = &entity->GetComponent<Transform>();
     return false;
 }
 
-void Rigidbody::Update()
+void Rigidbody::Update() // pess on the delta time?
 {
-    //velocity.x = force.x - drag.x;
-    //velocity.y = force.y + drag + myGravityScale*GRAVITY
-    //Aceleration?
-    //transform->translate(velocity);
+    myAcceleration.X = (myForce.X + myFriction.X) / myMass;
+    myAcceleration.Y = myGravity + myForce.Y / myMass;
+    myVelocity = myAcceleration;
+    transform->myPosition.X += myVelocity.X;
+    transform->myPosition.Y += myVelocity.Y;
+    // myVelocitty = myAcceleration*dt;
+    // myPosition = myVelocity*dt;
+
 
 }

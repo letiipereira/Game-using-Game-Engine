@@ -17,7 +17,7 @@ TextureManager::~TextureManager()
 
     textureMap.clear();
     delete sInstance;
-    delete renderTarget;
+    //delete renderTarget;
     
 }
 
@@ -56,10 +56,10 @@ bool TextureManager::DrawTexture(std::string id, Transform* transform, bool flip
     SDL_Rect scrRect = { 0, 0, width, height }; // which part of the image you wanna draw
     SDL_Rect dstRect{}; // where you wanna draw
 
-    dstRect.x = static_cast<int>(transform->myPosition->x);
-    dstRect.y = static_cast<int>(transform->myPosition->y);
-    dstRect.w = static_cast<int>(width * transform->myScale->x);
-    dstRect.h = static_cast<int>(height * transform->myScale->y);
+    dstRect.x = static_cast<int>(transform->myPosition.X);
+    dstRect.y = static_cast<int>(transform->myPosition.Y);
+    dstRect.w = static_cast<int>(width * transform->myScale.X);
+    dstRect.h = static_cast<int>(height * transform->myScale.Y);
 
     int sucess = SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, transform->myRotation, nullptr, flip);
     //std::cout << "TextureManager::DrawTexture: SDL_RenderCopyEx: " << SDL_GetError() << std::endl;
@@ -83,16 +83,15 @@ void TextureManager::DropTexture(std::string id)
     textureMap.erase(id);
 }
 
-void TextureManager::DrawFrame(std::string id, int y, int x, int width, int height, double angle, int row, int frame, bool flipHor = false)
+void TextureManager::DrawFrame(std::string id, Transform* transform, int width, int height, double angle, int row, int frame, bool flipHor)
 {
-
     SDL_RendererFlip flip{ SDL_FLIP_NONE };
 
     if (flipHor)
         flip = SDL_FLIP_HORIZONTAL;
 
     SDL_Rect scrRect = { width*(frame-1), height*(row-1), width, height }; // which part of the image you wanna draw
-    SDL_Rect dstRect = { x,y, width, height }; // where you wanna draw
+    SDL_Rect dstRect = { static_cast<int>(transform->myPosition.X),static_cast<int>(transform->myPosition.Y), static_cast<int>(width * transform->myScale.X), static_cast<int>(width * transform->myScale.X) }; // where you wanna draw
     SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, angle, 0, flip);
 }
 

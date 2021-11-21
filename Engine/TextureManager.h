@@ -21,7 +21,7 @@ public:
 	void Render();
 	void Clear();
 	void DropTexture(std::string id);
-	void DrawFrame(std::string id, int x, int y, int width, int height, double angle, int row, int frame, bool flipHor);
+	void DrawFrame(std::string id, Transform* transform, int width, int height, double angle, int row, int frame, bool flipHor = false);
 	Texture* GetTexture(std::string id);
 	Texture* LoadTexture(std::string id, std::string filePath);
 	

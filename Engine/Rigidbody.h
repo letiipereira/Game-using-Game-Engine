@@ -3,30 +3,55 @@
 #include <vector>
 #include "Entity.h"
 #include "Component.h"
+#include "Vector2D.h"
 
 constexpr float GRAVITY = 10.0f;
+
+#define UNI_MASS 1.0f;
+#define GRAVITY 9.8f;
 
 class Rigidbody : public Component
 {
 public:
-	Rigidbody() = default;
-	virtual ~Rigidbody() = default;
-
-	Rigidbody(float gravityScale) 
+	Rigidbody()
 	{
-		myGravityScale = gravityScale;
-	}
+		myMass = UNI_MASS;
+		myGravity = GRAVITY;
+	};
+
+	virtual ~Rigidbody() = default;
 
 	bool Init() override final;
 	void Update() override final;
-	//setforce
+
+	inline void SetMass(float mass) { myMass = mass; }
+	inline void SetGravity(float gravity) { myGravity = gravity; }
+
+
+	//Force
+	inline void ApplyForce(Vector2D force) { myForce = force; }
+	inline void ApplyForceX(float forceX) { myForce.X = forceX; }
+	inline void ApplyForceY(float forceY) { myForce.Y = forceY; }
+	inline void RemoveForce() { myForce = Vector2D(0, 0); }
+
+	//Frictions
+	inline void ApplyFriction(Vector2D friction) { myFriction = friction; }
+	inline void RemoveFriction(Vector2D friction) { myFriction= Vector2D(0, 0); }
 
 private:
 
-	float myGravityScale{ 1.0f };
+	float myMass{};
+	float myGravity{ 1.0f };
+
+	Vector2D myForce{};
+	Vector2D myFriction{};
+
 	Transform* transform{ nullptr };
+	Vector2D myVelocity{};
+	Vector2D myAcceleration{};
+
 	//drag
-	//force
+	//vector 2D force
 	//velocity
 
 	
