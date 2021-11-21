@@ -5,8 +5,8 @@
 #include <string>
 #include <map>
 
- class GameEngine //should be the only one -> make sure of it
-{ 
+class GameEngine //should be the only one -> make sure of it
+{
 public:
 	void init(std::string windowTitle, int windowWidth, int windowHeight);
 	void start();
@@ -17,9 +17,11 @@ public:
 
 	void ActivateLevelByName(std::string levelName);
 	class Level* GetActiveLevel();
+	class InputManager* GetInputManager();
 	void CreateNewLevel(std::string levelName);
 	void DeleteLevelByName(std::string levelName);
 	class Level* GetLevelByName(std::string levelName);
+	float GetDeltatime() { return deltaTime; }
 
 	/*enum groupLabels : std::size_t
 	{
@@ -36,8 +38,11 @@ public:
 private:
 
 	GameEngine() {};
+	int prevTime = 0;
+	int currentTime = 0;
+	float deltaTime = 0;
 	static GameEngine* instance;
-	class TextureManager* textureManager{nullptr};
+	class TextureManager* textureManager{ nullptr };
 	class SDLWrapper* sdl{ nullptr };
 	class Window* window{ nullptr };
 	class Level* currentLevel{ nullptr };

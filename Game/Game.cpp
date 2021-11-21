@@ -2,12 +2,13 @@
 //
 #include <iostream>
 #include "GameEngine.h"
-#include <Entity.h>
+#include "Spaceship.h"
+#include "Entity.h"
 #include <Vector2D.h>
 
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
-    
+
     GameEngine::GetInstance()->init("Xennon Clone.", 640, 480);
 
     //set up do level
@@ -24,6 +25,11 @@ int main(int argc, char ** argv)
     gAster.GetComponent<Transform>().myPosition.X = 100;
     gAster.GetComponent<Transform>().myPosition.Y = 100;
     gAster.AddComponent<Rigidbody>();
+
+    Spaceship currentPlayer;
+    currentPlayer.AddComponent<Animation>("SpaceshipAnim", "assets/Ship1.bmp", 1, 4, 1, 100, false, 3);
+    currentPlayer.GetComponent<Transform>().myPosition.X = 100;
+    currentPlayer.GetComponent<Transform>().myPosition.Y = 100;
 
     //newEnt2->AddGroup(GameEngine::GetInstance()->groupUI);
 
