@@ -10,7 +10,15 @@ public:
 
 	Level(std::string levelName) {};
 
-	~Level() {};
+	~Level() 
+	{
+		for (Entity* ent : levelEntities)
+		{
+			delete ent;
+		}
+
+		levelEntities.clear();
+	};
 
 	void Draw();
 	void Update();

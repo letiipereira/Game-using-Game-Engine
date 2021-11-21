@@ -89,6 +89,7 @@ GameEngine::~GameEngine()
 	delete window;
 	delete sdl;
 	delete textureManager;
+	delete instance;
 
 	std::map<std::string, Level*>::iterator it;
 	for (it = levelMap.begin(); it != levelMap.end(); it++)

@@ -14,8 +14,7 @@ public:
 
 	virtual ~SpriteComponent() 
 	{
-		delete transform;
-		//delete texture;
+		delete texture;
 	};
 
 	bool Init() override final;
