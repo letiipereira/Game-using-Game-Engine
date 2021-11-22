@@ -19,9 +19,9 @@ void Level::Draw()
 			store[layer] = ent;
 			
 		}
-		else if (ent->HasComponent<Animation>())
+		else if (ent->HasComponent<Animator>())
 		{
-			int layer = ent->GetComponent<Animation>().GetLayer();
+			int layer = ent->GetComponent<Animator>().GetLayer();
 			store[layer] = ent;
 		}
 		else

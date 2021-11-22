@@ -24,6 +24,7 @@ void Spaceship::Move(MovementType movement, float deltaTime)
 		GetComponent<Transform>().myPosition.Y += (moveSpeed * deltaTime * uniform);
 		break;
 	}
+
 	}
 }
 

@@ -20,14 +20,14 @@ int main(int argc, char** argv)
     newEnt2.AddComponent<SpriteComponent>("logo", "assets/logo.bmp", 1);
     //newEnt->AddGroup(GameEngine::GetInstance()->groupMap);
 
-    Entity gAster;
-    gAster.AddComponent<Animation>("AsteroidAnim", "assets/LonerB.bmp", 1, 4, 4, 100, false, 2);
-    gAster.GetComponent<Transform>().myPosition.X = 100;
-    gAster.GetComponent<Transform>().myPosition.Y = 100;
-    gAster.AddComponent<Rigidbody>();
+    //Entity gAster;
+    //gAster.AddComponent<Animation>("AsteroidAnim", "assets/LonerB.bmp", 1, 4, 4, 100, false, 2);
+    //gAster.GetComponent<Transform>().myPosition.X = 100;
+    //gAster.GetComponent<Transform>().myPosition.Y = 100;
+    //gAster.AddComponent<Rigidbody>();
 
     Spaceship currentPlayer;
-    currentPlayer.AddComponent<Animation>("SpaceshipAnim", "assets/Ship1.bmp", 1, 4, 1, 100, false, 3);
+    currentPlayer.AddComponent<Animator>("MoveRight", "assets/Ship1.bmp", 1, 7, 1, 7, 1 , 1, 7, false, 3, true , true, true);
     currentPlayer.GetComponent<Transform>().myPosition.X = 100;
     currentPlayer.GetComponent<Transform>().myPosition.Y = 100;
 

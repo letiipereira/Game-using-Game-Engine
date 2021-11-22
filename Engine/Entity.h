@@ -9,7 +9,7 @@
 #include "Transform.h"
 #include "SpriteComponent.h"
 #include "Rigidbody.h"
-#include "Animation.h"
+#include "Animator.h"
 
 class Entity
 {
