@@ -27,7 +27,19 @@ int main(int argc, char** argv)
     //gAster.AddComponent<Rigidbody>();
 
     Spaceship currentPlayer;
-    currentPlayer.AddComponent<Animator>("MoveRight", "assets/Ship1.bmp", 1, 7, 1, 7, 1 , 1, 7, false, 3, true , true, true);
+
+    // maybe we could have this code in the player init function 
+
+    currentPlayer.AddComponent<Animator>();
+
+    Animation* moveRight = new Animation("moveRight", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 7, false, 6, false, true, false);
+    Animation* moveLeft = new Animation("moveLeft", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 7, false, 6, false, false, false);
+    Animation* idle = new Animation("idle", "assets/Ship1.bmp", 1, 7, 1, 4, 1, 4, 7, false, 6, false, false, false);
+
+    currentPlayer.GetComponent<Animator>().AddAnimation("moveRight", moveRight);
+    currentPlayer.GetComponent<Animator>().AddAnimation("moveLeft", moveLeft);
+    currentPlayer.GetComponent<Animator>().AddAnimation("idle",idle);
+
     currentPlayer.GetComponent<Transform>().myPosition.X = 100;
     currentPlayer.GetComponent<Transform>().myPosition.Y = 100;
 
@@ -36,6 +48,8 @@ int main(int argc, char** argv)
     GameEngine::GetInstance()->start();
 
     // game logic
+
+    delete moveRight, moveLeft, idle;
 
     return 0;
 }

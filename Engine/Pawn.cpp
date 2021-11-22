@@ -5,3 +5,4 @@ Pawn::Pawn()
 {
 	GameEngine::GetInstance()->GetInputManager()->AddPawn(this);
 }
+

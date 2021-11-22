@@ -8,8 +8,11 @@ private:
 	float moveSpeed = 500.0f;
 	float uniform = 0.7071f;
 
+	float spaceshipXDir{};
+
 	void Move(MovementType movement, float deltaTime) override;
 
 	void Attack() override;
+
 };
 #pragma once

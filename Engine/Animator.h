@@ -3,61 +3,83 @@
 #include "Transform.h"
 #include <string>
 #include <vector>
+#include <map>
 
-
-class Animator : public Component
+struct Animation
 {
-public:
-	Animator(std::string textureID, std::string filePath, int rowNumber, int columnNumber, int rowEnd, int columnEnd, int rowStart = 1, int colunmStart = 1, int framesPerSeconds = 2, bool horFlip = false, int layer = 0, bool shouldLoop = true, bool playfoward = true, bool playOnStart = true);
-	~Animator() 
+	Animation(std::string textureID, std::string filePath, int rowNumber, int columnNumber, int rowEnd, int columnEnd, int rowStart = 1, int colunmStart = 1, int framesPerSeconds = 2, bool horFlip = false, int layer = 0, bool shouldLoop = true, bool playfoward = true, bool playOnStart = true)
+	{
+		myTextureID = textureID;
+		myFilePath = filePath;
+		myColumnNumber = columnNumber;
+		myRowNumber = rowNumber;
+		myRowEnd = rowEnd;
+		myColunmEnd = columnEnd;
+		myRowStart = rowStart;
+		myColunmStart = colunmStart;
+		myFramesPerSeconds = framesPerSeconds;
+		flip = horFlip;
+		myLayer = layer;
+		loop = shouldLoop;
+		foward = playfoward;
+		startOnplay = playOnStart;
+	}
+	~Animation()
 	{
 		delete texture;
-	};
-
-	bool Init() override final;
-	void Draw() override final;
-	void Update() override final;
-
-	void SetProperties(std::string textureID, std::string filePath, int rowNumber, int columnNumber, int rowEnd, int columnEnd, int rowStart = 1, int colunmStart = 1, int framesPerSeconds = 2, bool horFlip = false, int layer = 0, bool shouldLoop = true, bool playfoward = true, bool playOnStart = true);
-	void SetupAnimation();
-	
-	void PlayFromStart(bool loopAnim, bool playFoward = true);
-	
-
-	inline int GetLayer()
-	{
-		return myLayer;
 	}
 
-private:
+	void Init();
+	void SetupAnimation();
 
-	void PlayFoward(bool goingFoward);
-
-	Transform* transform {nullptr};
 	std::string myTextureID{};
 	class Texture* texture{ nullptr };
 	std::string myFilePath{};
-	std::pair<int, int> currentFrame{1,1};
-	int frameNumber{};
-	int myLayer{};
-
+	int myLayer{0};
 	int myRowStart{}, myColunmStart{};
 	int myRowEnd{}, myColunmEnd{};
 	int currentColumn, currentRow;
 	int  myColumnNumber{}, myRowNumber{};
 	float myFramesPerSeconds{};
-
 	int textureWidth{}, textureHeight{};
 	int frameWidth{}, frameHeight{};
-
-	bool flip{ false };
-	bool isActive{ true };
-	bool loop{true};
-	double time{ 0 };
 	int frameIndex{ 0 };
-	bool foward{ true };
-
 	std::vector<std::pair<int, int>> frames{};
+
+	bool foward{ true };
+	bool startOnplay{ true };
+	bool flip{ false };
+	bool loop{ true };
+};
+
+class Animator : public Component
+{
+public:
+	Animator() {};
+	~Animator() {};
+
+	bool Init() override final;
+	void Draw() override final;
+	void Update() override final;
+
+	void AddAnimation(std::string name, Animation* newAnimation);
+	void PlayFromStart(std::string animName, bool loopAnim, bool playFoward = true);
+
+	inline Animation* GetAnimationByName(std::string name) { return animations[name]; }
+	inline Animation* GetCurrentAnimation() { return currentAnimation; }
+	inline int GetLayer(){	return currentAnimation->myLayer;}
+
+private:
+
+	void PlayFoward();
+
+	Transform* transform {nullptr};
+	std::pair<int, int> currentFrame{1,1};
+	bool isActive{ true };
+	double time{ 0 };
+	
+	std::map<std::string, Animation*> animations{};
+	Animation* currentAnimation{};
 	
 };
 

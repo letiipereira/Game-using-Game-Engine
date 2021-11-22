@@ -7,97 +7,27 @@
 #include <iostream>
 #include "SDL.h"
 
-Animator::Animator(std::string textureID, std::string filePath, int rowNumber, int columnNumber, int rowEnd, int columnEnd, int rowStart, int colunmStart, int framesPerSeconds, bool horFlip, int layer, bool shouldLoop, bool playfoward, bool playOnStart)
-{
-	myTextureID = textureID;
-	myFilePath = filePath;
-	myColumnNumber = columnNumber;
-	myRowNumber = rowNumber;
-	myRowEnd = rowEnd;
-	myColunmEnd = columnEnd;
-	myRowStart = rowStart;
-	myColunmStart = colunmStart;
-	myFramesPerSeconds = framesPerSeconds;
-	flip = horFlip;
-	myLayer = layer;
-	loop = shouldLoop;
-	foward = playfoward;
-	isActive = playOnStart;
-}
 
-bool Animator::Init()
+void Animation::Init()
 {
-	transform = &entity->GetComponent<Transform>();
 	texture = TextureManager::GetInstance()->LoadTexture(myTextureID, myFilePath);
 	SDL_QueryTexture(texture->GetSDLTexture(), NULL, NULL, &textureWidth, &textureHeight);
 	frameWidth = textureWidth / myColumnNumber;
 	frameHeight = textureHeight / myRowNumber;
 	currentColumn = myColunmStart;
 	currentRow = myRowStart;
+
 	SetupAnimation();
+
 	if (!foward)
 		frameIndex = (frames.size() - 1);
-	return true;
-}
 
-void Animator::Draw()
-{
-	TextureManager::GetInstance()->DrawFrame(myTextureID, transform, frameHeight, frameWidth, transform->myRotation, currentFrame.first, currentFrame.second, flip);
 }
 
 
-void Animator::Update()
+void Animation::SetupAnimation()
 {
-	transform = &entity->GetComponent<Transform>();
 
-	if (isActive)
-	{
-		time += GameEngine::GetInstance()->GetDeltatime();
-
-		if (time >= (1 / myFramesPerSeconds))
-		{
-			PlayFoward(foward);
-			time = 0;
-		}
-
-		currentFrame = frames.at(frameIndex);
-		std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
-		
-	}
-	
-}
-
-void Animator::SetProperties(std::string textureID, std::string filePath, int rowNumber, int columnNumber, int rowEnd, int columnEnd, int rowStart, int colunmStart, int framesPerSeconds, bool horFlip, int layer, bool shouldLoop, bool playfoward, bool playOnStart)
-{
-	myTextureID = textureID;
-	myFilePath = filePath;
-	myColumnNumber = columnNumber;
-	myRowNumber = rowNumber;
-	myRowEnd = rowEnd;
-	myColunmEnd = columnEnd;
-	myRowStart = rowStart;
-	myColunmStart = colunmStart;
-	myFramesPerSeconds = framesPerSeconds;
-	flip = horFlip;
-	myLayer = layer;
-	loop = shouldLoop;
-	isActive = playOnStart;
-
-	transform = &entity->GetComponent<Transform>();
-	texture = TextureManager::GetInstance()->LoadTexture(myTextureID, myFilePath);
-	SDL_QueryTexture(texture->GetSDLTexture(), NULL, NULL, &textureWidth, &textureHeight);
-	frameWidth = textureWidth / myColumnNumber;
-	frameHeight = textureHeight / myRowNumber;
-
-	currentColumn = myColunmStart;
-	currentRow = myRowStart;
-
-	SetupAnimation();
-}
-
-void Animator::SetupAnimation()
-{
-	
 	for (int row = myRowStart; row <= myRowNumber; ++row)
 	{
 		for (int col = 1; col <= myColumnNumber; ++col)
@@ -112,29 +42,76 @@ void Animator::SetupAnimation()
 			}
 			else if (row == myRowStart && col < myColunmStart)
 			{
-				std::cout << " continue" << std::endl;
 				continue;
 			}
-			std::pair<int, int> newFrame { row, col };
+			std::pair<int, int> newFrame{ row, col };
 			frames.push_back(newFrame);
-			
+
 		}
 	}
 }
 
-void Animator::PlayFoward(bool goingFoward)
+bool Animator::Init()
 {
-	if (goingFoward)
-	{
-		if (frameIndex < (frames.size() - 1))
+	transform = &entity->GetComponent<Transform>();
+
+	return true;
+		
+}
+
+void Animator::Draw()
+{
+	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform, currentAnimation->frameHeight, currentAnimation->frameWidth, transform->myRotation, currentFrame.first, currentFrame.second, currentAnimation->flip);
+}
+
+
+void Animator::Update()
+{
+	transform = &entity->GetComponent<Transform>();
+	std::cout << currentAnimation->myTextureID << std::endl;
+	if(currentAnimation != nullptr)
+	{ 
+	
+		if (isActive)
 		{
-			++frameIndex;
+			time += GameEngine::GetInstance()->GetDeltatime();
+
+			if (time >= (1 / currentAnimation->myFramesPerSeconds))
+			{
+				PlayFoward();
+				time = 0;
+			}
+
+			currentFrame = currentAnimation->frames.at(currentAnimation->frameIndex);
+			std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
+
+		}	
+	}
+	
+}
+
+void Animator::AddAnimation(std::string name, Animation* newAnimation)
+{
+	animations[name] = newAnimation;
+	animations[name]->Init();
+
+	if (animations.size() == 1)
+		currentAnimation = animations[name];
+}
+
+void Animator::PlayFoward()
+{
+	if (currentAnimation->foward)
+	{
+		if (currentAnimation->frameIndex < (currentAnimation->frames.size() - 1))
+		{
+			++currentAnimation->frameIndex;
 		}
 		else
 		{
-			if (loop)
+			if (currentAnimation->loop)
 			{
-				frameIndex = 0;
+				currentAnimation->frameIndex = 0;
 			}
 			else
 			{
@@ -144,15 +121,15 @@ void Animator::PlayFoward(bool goingFoward)
 	}
 	else
 	{
-		if (frameIndex > 0)
+		if (currentAnimation->frameIndex > 0)
 		{
-			--frameIndex;
+			--currentAnimation->frameIndex;
 		}
 		else
 		{
-			if (loop)
+			if (currentAnimation->loop)
 			{
-				frameIndex = (frames.size() - 1);
+				currentAnimation->frameIndex = (currentAnimation->frames.size() - 1);
 			}
 			else
 			{
@@ -162,22 +139,26 @@ void Animator::PlayFoward(bool goingFoward)
 	}
 }
 
-void Animator::PlayFromStart(bool loopAnim, bool playFoward)
+void Animator::PlayFromStart(std::string animName, bool loopAnim, bool playFoward)
 {
-	foward = playFoward;
+	
+	currentAnimation = animations[animName];
 
-	if (foward)
+	currentAnimation->foward = playFoward;
+
+	if (currentAnimation->foward)
 	{
-		frameIndex = 0;
+		currentAnimation->frameIndex = 0;
 	}
 	else
 	{
-		frameIndex = (frames.size() - 1);
+		currentAnimation->frameIndex = (currentAnimation->frames.size() - 1);
 	}
-	loop = loopAnim;
+
+	currentAnimation->loop = loopAnim;
 	isActive = true;
+	
+	
 }
-
-
 
 
