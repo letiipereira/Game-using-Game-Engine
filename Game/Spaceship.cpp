@@ -50,7 +50,12 @@ void Spaceship::Update()
 	}
 	lastPosX = GetComponent<Transform>().myPosition.X;
 	
+	ShipAnimation();
+	
+}
 
+void Spaceship::ShipAnimation()
+{
 	if (spaceshipXDir > 0 && animDir != 1)
 	{
 		if ((GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveLeft")))
@@ -59,13 +64,13 @@ void Spaceship::Update()
 			GetComponent<Animator>().ClearAnimationQueu();
 			GetComponent<Animator>().AddToAnimationQueue("moveRight", false, true);
 		}
-		else if(GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("idle"))
+		else if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("idle"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveRight", false, true);
 		}
 		animDir = 1;
 	}
-	else if(spaceshipXDir < 0 && animDir != -1)
+	else if (spaceshipXDir < 0 && animDir != -1)
 	{
 		if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
@@ -90,7 +95,7 @@ void Spaceship::Update()
 				GetComponent<Animator>().PlayFromStart("moveLeft", false, true);
 				GetComponent<Animator>().ClearAnimationQueu();
 				GetComponent<Animator>().AddToAnimationQueue("idle", true, true);
-				std::cout << spaceshipXDir <<" " <<  GetComponent<Transform>().myPosition.X << " " << lastPosX <<std::endl;
+				std::cout << spaceshipXDir << " " << GetComponent<Transform>().myPosition.X << " " << lastPosX << std::endl;
 				std::cout << "moveback\n";
 			}
 			else
@@ -98,7 +103,7 @@ void Spaceship::Update()
 				GetComponent<Animator>().PlayFromStart("idle", false, true);
 			}
 		}
-		else if(GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveRight"))
+		else if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
 			if (GetComponent<Animator>().GetCurrentAnimation()->foward == true)
 			{
@@ -115,4 +120,5 @@ void Spaceship::Update()
 		}
 		animDir = 0;
 	}
+
 }

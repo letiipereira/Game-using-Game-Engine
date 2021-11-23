@@ -21,5 +21,7 @@ private:
 
 	void Update() override final;
 
+	void ShipAnimation();
+
 };
 #pragma once
