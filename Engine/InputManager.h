@@ -3,10 +3,10 @@
 #ifndef INPUTMANAGER_M
 #define INPUTMANAGER_M
 
-#include <SDL.h>
 #include <iostream>
 #include <map>
 #include <vector>
+#include "SDL.h"
 #include "SDL_gamecontroller.h"
 
 class InputManager
@@ -15,10 +15,7 @@ class InputManager
 public:
 	InputManager();
 
-	~InputManager()
-	{
-		delete sInstance;
-	};
+	~InputManager();
 
 	int numControllers;
 
@@ -42,6 +39,8 @@ public:
 	// Controller and corresponding index
 	std::map<int, SDL_GameController*> ControllerIndex{};
 
+	std::map<std::string, SDL_Scancode> KeyboardKeys{};
+
 	// Update the pawn and controller relation
 	void UpdateController(std::map<Pawn*, SDL_GameController*> updatedControllerMap) { ControlledPawn = updatedControllerMap; }
 
@@ -50,6 +49,7 @@ public:
 private:
 	static InputManager* sInstance;
 	const Uint8* keyState;
+	float joystickDeadZone = 8000.0f;
 };
 
 #endif // INPUTMANAGER_M#pragma once

@@ -11,6 +11,13 @@
 
 GameEngine* GameEngine::instance = nullptr;
 
+GameEngine::GameEngine()
+{
+	prevTime = 0;
+	currentTime = 0;
+	deltaTime = 0;
+}
+
 void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight)
 {
 	sdl = new SDLWrapper(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER);
@@ -52,123 +59,118 @@ void GameEngine::start()
 
 			switch (ev.type)
 			{
-			case SDL_CONTROLLERDEVICEADDED:
-			{
-				std::cout << "A controller was connected. " << std::endl;
-
-				// Mapping controller
-				int controllerIndex = 0;
-				std::map<int, SDL_GameController*> temporaryControllerIndexMap = InputManager::GetInstance()->ControllerIndex;
-
-				if (temporaryControllerIndexMap.size())
+				case SDL_CONTROLLERDEVICEADDED:
 				{
-					bool controllerIncluded = false;
+					std::cout << "A controller was connected. " << std::endl;
 
-					std::map<int, SDL_GameController*>::iterator it;
-					for (it = temporaryControllerIndexMap.begin(); it != temporaryControllerIndexMap.end(); it++)
+					// Mapping controller
+					int controllerIndex = 0;
+					std::map<int, SDL_GameController*> temporaryControllerIndexMap = InputManager::GetInstance()->ControllerIndex;
+
+					if (temporaryControllerIndexMap.size())
 					{
-						// If a controller was removed and there is a free index
-						if (it->second == nullptr)
+						bool controllerIncluded = false;
+
+						std::map<int, SDL_GameController*>::iterator it;
+						for (it = temporaryControllerIndexMap.begin(); it != temporaryControllerIndexMap.end(); it++)
 						{
-							//it->second = SDL_GameControllerFromInstanceID(ev.cdevice.which);
-							it->second = SDL_GameControllerOpen(ev.cdevice.which);
-							controllerIndex = it->first;
-							InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
-							controllerIncluded = true;
-							break;
+							// If a controller was removed and there is a free index
+							if (it->second == nullptr)
+							{
+								//it->second = SDL_GameControllerFromInstanceID(ev.cdevice.which);
+								it->second = SDL_GameControllerOpen(ev.cdevice.which);
+								controllerIndex = it->first;
+								InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
+								controllerIncluded = true;
+								break;
+							}
 						}
-					}
 
-					// If there is no free index
-					if (controllerIncluded == false)
+						// If there is no free index
+						if (controllerIncluded == false)
+						{
+							temporaryControllerIndexMap.insert({ temporaryControllerIndexMap.size() , SDL_GameControllerOpen(ev.cdevice.which) });
+							controllerIndex = temporaryControllerIndexMap.size() - 1;
+							InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
+						}
+
+					}
+					else
 					{
+						// Add controll at index 0
 						temporaryControllerIndexMap.insert({ temporaryControllerIndexMap.size() , SDL_GameControllerOpen(ev.cdevice.which) });
 						controllerIndex = temporaryControllerIndexMap.size() - 1;
 						InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
 					}
 
-				}
-				else
-				{
-					// Add controll at index 0
-					temporaryControllerIndexMap.insert({ temporaryControllerIndexMap.size() , SDL_GameControllerOpen(ev.cdevice.which) });
-					controllerIndex = temporaryControllerIndexMap.size() - 1;
-					InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
-				}
+					InputManager::GetInstance()->MapNewController(controllerIndex);
 
-				InputManager::GetInstance()->MapNewController(controllerIndex);
-
-				// Associate controller with available pawn
-				std::map<Pawn*, SDL_GameController*> pawnController = InputManager::GetInstance()->ControlledPawn;
-				if (pawnController.size())
-				{
-					std::map<Pawn*, SDL_GameController*>::iterator it;
-					for (it = pawnController.begin(); it != pawnController.end(); it++)
+					// Associate controller with available pawn
+					std::map<Pawn*, SDL_GameController*> pawnController = InputManager::GetInstance()->ControlledPawn;
+					if (pawnController.size())
 					{
-						if (it->second == nullptr)
+						std::map<Pawn*, SDL_GameController*>::iterator it;
+						for (it = pawnController.begin(); it != pawnController.end(); it++)
 						{
-							it->second = SDL_GameControllerOpen(ev.cdevice.which);
-							std::cout << "Found a pawn! " << std::endl;
-							std::cout << SDL_GameControllerNameForIndex(ev.cdevice.which) << " pawn: " << it->first << std::endl;
-							InputManager::GetInstance()->UpdateController(pawnController);
-							break;
+							if (it->second == nullptr)
+							{
+								it->second = SDL_GameControllerOpen(ev.cdevice.which);
+								std::cout << "Found a pawn! " << std::endl;
+								std::cout << SDL_GameControllerNameForIndex(ev.cdevice.which) << " pawn: " << it->first << std::endl;
+								InputManager::GetInstance()->UpdateController(pawnController);
+								break;
+							}
 						}
 					}
+
+					break;
 				}
 
-				break;
-			}
-
-			case SDL_CONTROLLERDEVICEREMOVED:
-			{
-				std::cout << "A controller was disconnected. " << std::endl;
-
-				// Remove controller from index map
-				std::map<int, SDL_GameController*> temporaryControllerIndexMap = InputManager::GetInstance()->ControllerIndex;
-				std::map<int, SDL_GameController*>::iterator it;
-				for (it = temporaryControllerIndexMap.begin(); it != temporaryControllerIndexMap.end(); it++)
+				case SDL_CONTROLLERDEVICEREMOVED:
 				{
-					if (it->second == SDL_GameControllerFromInstanceID(ev.cdevice.which))
-					{
-						it->second = nullptr;
-						break;
-					}
-				}
-				InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
+					std::cout << "A controller was disconnected. " << std::endl;
 
-				// Dissociate pawn connected with controller
-				std::map<Pawn*, SDL_GameController*> pawnController = InputManager::GetInstance()->ControlledPawn;
-				if (pawnController.size())
-				{
-					std::map<Pawn*, SDL_GameController*>::iterator it;
-					for (it = pawnController.begin(); it != pawnController.end(); it++)
+					// Remove controller from index map
+					std::map<int, SDL_GameController*> temporaryControllerIndexMap = InputManager::GetInstance()->ControllerIndex;
+					std::map<int, SDL_GameController*>::iterator it;
+					for (it = temporaryControllerIndexMap.begin(); it != temporaryControllerIndexMap.end(); it++)
 					{
 						if (it->second == SDL_GameControllerFromInstanceID(ev.cdevice.which))
 						{
 							it->second = nullptr;
-							InputManager::GetInstance()->UpdateController(pawnController);
 							break;
 						}
 					}
+					InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
+
+					// Dissociate pawn connected with controller
+					std::map<Pawn*, SDL_GameController*> pawnController = InputManager::GetInstance()->ControlledPawn;
+					if (pawnController.size())
+					{
+						std::map<Pawn*, SDL_GameController*>::iterator it;
+						for (it = pawnController.begin(); it != pawnController.end(); it++)
+						{
+							if (it->second == SDL_GameControllerFromInstanceID(ev.cdevice.which))
+							{
+								it->second = nullptr;
+								InputManager::GetInstance()->UpdateController(pawnController);
+								break;
+							}
+						}
+					}
+
+					break;
 				}
-
-				break;
 			}
+		}
 
-			default:
-				break;
+		if (InputManager::GetInstance()->ControlledPawn.size())
+		{
+			// Check keyboard input
+			InputManager::GetInstance()->CheckKeyboardInput(ev, InputManager::GetInstance()->ControlledPawn.begin()->first);
 
-			}
-
-			if (InputManager::GetInstance()->ControlledPawn.size())
-			{
-				// Check keyboard input
-				InputManager::GetInstance()->CheckKeyboardInput(ev, InputManager::GetInstance()->ControlledPawn.begin()->first);
-
-				// Check controller input
-				InputManager::GetInstance()->CheckControllerInput(ev);
-			}
-
+			// Check controller input
+			InputManager::GetInstance()->CheckControllerInput(ev);
 		}
 
 		currentLevel->Update();

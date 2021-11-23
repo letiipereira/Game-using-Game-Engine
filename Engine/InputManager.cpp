@@ -10,6 +10,16 @@ InputManager::InputManager()
 	class Pawn* pawn = nullptr;
 	numControllers = 0;
 	keyState = SDL_GetKeyboardState(NULL);
+
+	KeyboardKeys.insert({ "SPACE", SDL_SCANCODE_SPACE });
+	KeyboardKeys.insert({ "RIGHT", SDL_SCANCODE_RIGHT });
+	KeyboardKeys.insert({ "LEFT", SDL_SCANCODE_LEFT });
+	KeyboardKeys.insert({ "UP", SDL_SCANCODE_UP });
+	KeyboardKeys.insert({ "DOWN", SDL_SCANCODE_DOWN });
+	KeyboardKeys.insert({ "D", SDL_SCANCODE_D });
+	KeyboardKeys.insert({ "A", SDL_SCANCODE_A });
+	KeyboardKeys.insert({ "W", SDL_SCANCODE_W });
+	KeyboardKeys.insert({ "S", SDL_SCANCODE_S });
 }
 
 void InputManager::AddPawn(Pawn* pawn)
@@ -40,23 +50,23 @@ void InputManager::CheckKeyboardInput(SDL_Event gamepadEvent, class Pawn* curren
 {
 	if (keyState[SDL_SCANCODE_RIGHT])
 	{
-		currentPlayer->Move(Pawn::MovementType::move_right, GameEngine::GetInstance()->GetDeltatime());
+		currentPlayer->Move(Pawn::MovementType::move_right);
 		std::cout << "Right" << std::endl;
 	}
 
 	if (keyState[SDL_SCANCODE_LEFT])
 	{
-		currentPlayer->Move(Pawn::MovementType::move_left, GameEngine::GetInstance()->GetDeltatime());
+		currentPlayer->Move(Pawn::MovementType::move_left);
 	}
 
 	if (keyState[SDL_SCANCODE_UP])
 	{
-		currentPlayer->Move(Pawn::MovementType::move_up, GameEngine::GetInstance()->GetDeltatime());
+		currentPlayer->Move(Pawn::MovementType::move_up);
 	}
 
 	if (keyState[SDL_SCANCODE_DOWN])
 	{
-		currentPlayer->Move(Pawn::MovementType::move_down, GameEngine::GetInstance()->GetDeltatime());
+		currentPlayer->Move(Pawn::MovementType::move_down);
 	}
 
 	if (keyState[SDL_SCANCODE_SPACE])
@@ -82,31 +92,38 @@ void InputManager::CheckControllerInput(SDL_Event gamepadEvent)
 			}
 		}
 
-		if (gamepadEvent.jaxis.axis == 0)
+		if (currentPlayer)
 		{
-			if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
+			if (gamepadEvent.jaxis.axis == 0)
 			{
-				currentPlayer->Move(Pawn::MovementType::move_left, GameEngine::GetInstance()->GetDeltatime());
-				std::cout << "Left" << std::endl;
+				//if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
+				if (gamepadEvent.jaxis.value < -joystickDeadZone)
+				{
+					currentPlayer->Move(Pawn::MovementType::move_left);
+					std::cout << "Left" << std::endl;
+				}
+
+				//if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
+				if (gamepadEvent.jaxis.value > joystickDeadZone)
+				{
+					currentPlayer->Move(Pawn::MovementType::move_right);
+					std::cout << "Right" << std::endl;
+				}
 			}
 
-			if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
+			if (gamepadEvent.jaxis.axis == 1)
 			{
-				currentPlayer->Move(Pawn::MovementType::move_right, GameEngine::GetInstance()->GetDeltatime());
-				std::cout << "Right" << std::endl;
-			}
-		}
+				//if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
+				if (gamepadEvent.jaxis.value < -joystickDeadZone)
+				{
+					currentPlayer->Move(Pawn::MovementType::move_up);
+				}
 
-		if (gamepadEvent.jaxis.axis == 1)
-		{
-			if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
-			{
-				currentPlayer->Move(Pawn::MovementType::move_up, GameEngine::GetInstance()->GetDeltatime());
-			}
-
-			if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
-			{
-				currentPlayer->Move(Pawn::MovementType::move_down, GameEngine::GetInstance()->GetDeltatime());
+				//if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
+				if (gamepadEvent.jaxis.value > joystickDeadZone)
+				{
+					currentPlayer->Move(Pawn::MovementType::move_down);
+				}
 			}
 		}
 	}
@@ -129,5 +146,28 @@ void InputManager::CheckControllerInput(SDL_Event gamepadEvent)
 			currentPlayer->Attack();
 			std::cout << "Attack" << std::endl;
 		}
+	}
+}
+
+InputManager::~InputManager()
+{
+	delete sInstance;
+
+	std::map<Pawn*, SDL_GameController*>::iterator it;
+	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
+	{
+		ControlledPawn.erase(it);
+	}
+
+	std::map<int, SDL_GameController*>::iterator it2;
+	for (it2 = ControllerIndex.begin(); it2 != ControllerIndex.end(); it2++)
+	{
+		ControllerIndex.erase(it2);
+	}
+
+	std::map<std::string, SDL_Scancode>::iterator it3;
+	for (it3 = KeyboardKeys.begin(); it3 != KeyboardKeys.end(); it3++)
+	{
+		KeyboardKeys.erase(it3);
 	}
 }

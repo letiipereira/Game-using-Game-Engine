@@ -11,7 +11,6 @@ public:
 	void init(std::string windowTitle, int windowWidth, int windowHeight);
 	void start();
 
-
 	class Window* GetWindow();
 	static GameEngine* GetInstance();
 
@@ -33,14 +32,14 @@ public:
 		groupUI,
 	};*/
 
+	GameEngine();
+
 	~GameEngine();
 
 private:
-
-	GameEngine() {};
-	int prevTime = 0;
-	int currentTime = 0;
-	float deltaTime = 0;
+	int prevTime;
+	int currentTime;
+	float deltaTime;
 	static GameEngine* instance;
 	class TextureManager* textureManager{ nullptr };
 	class SDLWrapper* sdl{ nullptr };

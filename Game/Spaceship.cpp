@@ -1,6 +1,11 @@
 #include "Spaceship.h"
 
-void Spaceship::Move(MovementType movement, float deltaTime)
+Spaceship::Spaceship()
+{
+	health = 100;
+}
+
+void Spaceship::Move(MovementType movement)
 {
 	float posX{ GetComponent<Transform>().myPosition.X };
 
@@ -8,7 +13,7 @@ void Spaceship::Move(MovementType movement, float deltaTime)
 	{
 	case (MovementType::move_left):
 	{
-		GetComponent<Transform>().myPosition.X -= (moveSpeed * deltaTime * uniform);
+		GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
@@ -17,7 +22,7 @@ void Spaceship::Move(MovementType movement, float deltaTime)
 	}
 	case (MovementType::move_right):
 	{
-		GetComponent<Transform>().myPosition.X += (moveSpeed * deltaTime * uniform);
+		GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveRight", false, true);
@@ -26,17 +31,17 @@ void Spaceship::Move(MovementType movement, float deltaTime)
 	}
 	case (MovementType::move_up):
 	{
-		GetComponent<Transform>().myPosition.Y -= (moveSpeed * deltaTime * uniform);
+		GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 		break;
 	}
 	case (MovementType::move_down):
 	{
-		GetComponent<Transform>().myPosition.Y += (moveSpeed * deltaTime * uniform);
+		GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 		break;
 	}
-	
+
 	}
-	
+
 	spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
 
 	// if possible move the code below to update function 
@@ -57,7 +62,7 @@ void Spaceship::Move(MovementType movement, float deltaTime)
 	}
 	else
 	{
-		if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveLeft")) 
+		if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveLeft"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveLeft", false, true);
 		}
@@ -72,4 +77,3 @@ void Spaceship::Attack()
 {
 
 }
-
