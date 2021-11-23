@@ -2,6 +2,7 @@
 
 Spaceship::Spaceship()
 {
+	
 	health = 100;
 }
 
@@ -82,11 +83,19 @@ void Spaceship::Update()
 			if (GetComponent<Animator>().GetCurrentAnimation()->foward == true)
 			{
 				GetComponent<Animator>().PlayFromStart("moveLeft", false, true);
+				GetComponent<Animator>().AddToAnimationQueue("idle", true, true);
+				std::cout << "move back\n";
 			}
 		}
-		else if(GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+		else if(GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
-			GetComponent<Animator>().PlayFromStart("moveRight", false, false);
+			if (GetComponent<Animator>().GetCurrentAnimation()->foward == true)
+			{
+				GetComponent<Animator>().PlayFromStart("moveRight", false, false);
+				GetComponent<Animator>().AddToAnimationQueue("idle", true, true);
+				std::cout << "move back\n";
+			}
 		}
+
 	}
 }

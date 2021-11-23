@@ -68,7 +68,7 @@ void Animator::Draw()
 void Animator::Update()
 {
 	transform = &entity->GetComponent<Transform>();
-	std::cout << currentAnimation->myTextureID << std::endl;
+	//std::cout << currentAnimation->myTextureID << std::endl;
 	if(currentAnimation != nullptr)
 	{ 
 	
@@ -115,7 +115,15 @@ void Animator::PlayFoward()
 			}
 			else
 			{
-				isActive = false;
+				if (animationsQueue.size() > 0)
+				{
+					std::tuple<std::string, bool, bool> nextAnim{};
+					nextAnim = animationsQueue.front();
+					animationsQueue.erase(animationsQueue.begin());
+					PlayFromStart(std::get<0>(nextAnim), std::get<1>(nextAnim), std::get<2>(nextAnim));
+				}
+				else
+					isActive = false;
 			}
 		}
 	}
@@ -133,7 +141,15 @@ void Animator::PlayFoward()
 			}
 			else
 			{
-				isActive = false;
+				if (animationsQueue.size() > 0)
+				{
+					std::tuple<std::string, bool, bool> nextAnim{};
+					nextAnim = animationsQueue.front();
+					animationsQueue.erase(animationsQueue.begin());
+					PlayFromStart(std::get<0>(nextAnim), std::get<1>(nextAnim), std::get<2>(nextAnim));
+				}
+				else
+					isActive = false;
 			}
 		}
 	}
@@ -141,7 +157,6 @@ void Animator::PlayFoward()
 
 void Animator::PlayFromStart(std::string animName, bool loopAnim, bool playFoward)
 {
-	
 	currentAnimation = animations[animName];
 
 	currentAnimation->foward = playFoward;
@@ -160,4 +175,8 @@ void Animator::PlayFromStart(std::string animName, bool loopAnim, bool playFowar
 	
 }
 
-
+void Animator::AddToAnimationQueue(std::string animName, bool loopAnim, bool playFoward)
+{
+	std::tuple<std::string, bool, bool> anim{ animName, loopAnim, playFoward };
+	animationsQueue.push_back(anim);
+}

@@ -65,6 +65,8 @@ public:
 	void AddAnimation(std::string name, Animation* newAnimation);
 	void PlayFromStart(std::string animName, bool loopAnim, bool playFoward = true);
 
+	void AddToAnimationQueue(std::string animName, bool loopAnim, bool playFoward);
+
 	inline Animation* GetAnimationByName(std::string name) { return animations[name]; }
 	inline Animation* GetCurrentAnimation() { return currentAnimation; }
 	inline int GetLayer(){	return currentAnimation->myLayer;}
@@ -79,6 +81,7 @@ private:
 	double time{ 0 };
 	
 	std::map<std::string, Animation*> animations{};
+	std::vector<std::tuple<std::string, bool, bool>> animationsQueue{};
 	Animation* currentAnimation{};
 	
 };
