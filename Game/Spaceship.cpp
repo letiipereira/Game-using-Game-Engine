@@ -2,26 +2,18 @@
 
 void Spaceship::Move(MovementType movement, float deltaTime)
 {
-	float posX{ GetComponent<Transform>().myPosition.X };
+	
 
 	switch (movement)
 	{
 	case (MovementType::move_left):
 	{
 		GetComponent<Transform>().myPosition.X -= (moveSpeed * deltaTime * uniform);
-		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
-		{
-			GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
-		}
 		break;
 	}
 	case (MovementType::move_right):
 	{
-		GetComponent<Transform>().myPosition.X += (moveSpeed * deltaTime * uniform);
-		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
-		{
-			GetComponent<Animator>().PlayFromStart("moveRight", false, true);
-		}
+		GetComponent<Transform>().myPosition.X += (moveSpeed * deltaTime * uniform);		
 		break;
 	}
 	case (MovementType::move_up):
@@ -34,14 +26,29 @@ void Spaceship::Move(MovementType movement, float deltaTime)
 		GetComponent<Transform>().myPosition.Y += (moveSpeed * deltaTime * uniform);
 		break;
 	}
-	
 	}
 	
-	spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
+}
 
-	// if possible move the code below to update function 
+void Spaceship::Attack()
+{
 
-	/*if (spaceshipXDir > 0)
+}
+
+void Spaceship::Update()
+{
+	Pawn::Update();
+
+	time += GameEngine::GetInstance()->GetDeltatime();
+	if (time >= 1)
+	{
+		lastPosX = GetComponent<Transform>().myPosition.X;
+		time = 0;
+	}
+	spaceshipXDir = GetComponent<Transform>().myPosition.X - lastPosX;
+	std::cout << spaceshipXDir << std::endl;
+
+	if (spaceshipXDir > 0)
 	{
 		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
@@ -57,19 +64,17 @@ void Spaceship::Move(MovementType movement, float deltaTime)
 	}
 	else
 	{
-		if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveLeft")) 
+		if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveLeft"))
 		{
-			GetComponent<Animator>().PlayFromStart("moveLeft", false, true);
+			if (GetComponent<Animator>().GetCurrentAnimation()->foward == true)
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, true);
+			}
 		}
 		else if(GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveRight", false, false);
 		}
-	}*/
-}
-
-void Spaceship::Attack()
-{
-
-}
+	}
+};
 

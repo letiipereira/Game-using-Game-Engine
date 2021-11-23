@@ -14,5 +14,7 @@ public:
 
 	virtual void Attack() {};
 
+	inline void Update() override { Entity::Update(); };
+
 };
 #pragma once

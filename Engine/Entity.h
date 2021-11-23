@@ -71,9 +71,9 @@ public:
 		groupBitset[mGroup] = false;
 	}*/
 
-	void Draw();
+	virtual void Draw();
 
-	void Update();
+	virtual void Update();
 
 private:
 
