@@ -13,6 +13,7 @@ private:
 	float spaceshipXDir{};
 	float lastPosX{};
 	float time{};
+	int animDir{ 0 };
 
 	void Move(MovementType movement) override;
 

@@ -51,7 +51,7 @@ void InputManager::CheckKeyboardInput(SDL_Event gamepadEvent, class Pawn* curren
 	if (keyState[SDL_SCANCODE_RIGHT])
 	{
 		currentPlayer->Move(Pawn::MovementType::move_right);
-		std::cout << "Right" << std::endl;
+		/*std::cout << "Right" << std::endl;*/
 	}
 
 	if (keyState[SDL_SCANCODE_LEFT])

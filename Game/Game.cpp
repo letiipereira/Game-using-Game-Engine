@@ -31,9 +31,9 @@ int main(int argc, char** argv)
 
     currentPlayer.AddComponent<Animator>();
 
-    Animation* moveRight = new Animation("moveRight", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 7, false, 6, false, true, false);
-    Animation* moveLeft = new Animation("moveLeft", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 7, false, 6, false, false, false);
-    Animation* idle = new Animation("idle", "assets/Ship1.bmp", 1, 7, 1, 4, 1, 4, 7, false, 6, false, false, true);
+    Animation* moveRight = new Animation("moveRight", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 14, false, 6, false, true, false);
+    Animation* moveLeft = new Animation("moveLeft", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 14, false, 6, false, false, false);
+    Animation* idle = new Animation("idle", "assets/Ship1.bmp", 1, 7, 1, 4, 1, 4, 7, false, 14, false, false, true);
 
     currentPlayer.GetComponent<Animator>().AddAnimation("moveRight", moveRight);
     currentPlayer.GetComponent<Animator>().AddAnimation("moveLeft", moveLeft);

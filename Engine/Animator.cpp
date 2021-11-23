@@ -83,11 +83,11 @@ void Animator::Update()
 			}
 
 			currentFrame = currentAnimation->frames.at(currentAnimation->frameIndex);
-			std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
+			//std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
 
 		}	
 	}
-	
+	//std::cout << animationsQueue.size()<<std::endl;
 }
 
 void Animator::AddAnimation(std::string name, Animation* newAnimation)
@@ -172,11 +172,15 @@ void Animator::PlayFromStart(std::string animName, bool loopAnim, bool playFowar
 
 	currentAnimation->loop = loopAnim;
 	isActive = true;
-	
 }
 
 void Animator::AddToAnimationQueue(std::string animName, bool loopAnim, bool playFoward)
 {
 	std::tuple<std::string, bool, bool> anim{ animName, loopAnim, playFoward };
 	animationsQueue.push_back(anim);
+}
+
+void Animator::ClearAnimationQueu()
+{
+	animationsQueue.clear();
 }
