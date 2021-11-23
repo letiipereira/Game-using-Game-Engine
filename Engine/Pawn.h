@@ -16,5 +16,7 @@ public:
 
 	int health;
 
+	inline void Update() override { Entity::Update(); };
+
 };
 #pragma once

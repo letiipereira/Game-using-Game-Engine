@@ -7,46 +7,61 @@ Spaceship::Spaceship()
 
 void Spaceship::Move(MovementType movement)
 {
-	float posX{ GetComponent<Transform>().myPosition.X };
-
 	switch (movement)
 	{
-	case (MovementType::move_left):
-	{
-		GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+		case (MovementType::move_left):
 		{
-			GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+			GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+			}
+			break;
 		}
-		break;
-	}
-	case (MovementType::move_right):
-	{
-		GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+		case (MovementType::move_right):
 		{
-			GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+			GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+			}
+			break;
 		}
-		break;
+		case (MovementType::move_up):
+		{
+			GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			break;
+		}
+		case (MovementType::move_down):
+		{
+			GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			break;
+		}
+
+		//spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
 	}
-	case (MovementType::move_up):
+	
+}
+
+void Spaceship::Attack()
+{
+
+}
+
+void Spaceship::Update()
+{
+	Pawn::Update();
+
+	time += GameEngine::GetInstance()->GetDeltatime();
+	if (time >= 1)
 	{
-		GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-		break;
+		lastPosX = GetComponent<Transform>().myPosition.X;
+		time = 0;
 	}
-	case (MovementType::move_down):
-	{
-		GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-		break;
-	}
+	spaceshipXDir = GetComponent<Transform>().myPosition.X - lastPosX;
+	std::cout << spaceshipXDir << std::endl;
 
-	}
-
-	spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
-
-	// if possible move the code below to update function 
-
-	/*if (spaceshipXDir > 0)
+	if (spaceshipXDir > 0)
 	{
 		if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
@@ -64,16 +79,14 @@ void Spaceship::Move(MovementType movement)
 	{
 		if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveLeft"))
 		{
-			GetComponent<Animator>().PlayFromStart("moveLeft", false, true);
+			if (GetComponent<Animator>().GetCurrentAnimation()->foward == true)
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, true);
+			}
 		}
 		else if(GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveRight", false, false);
 		}
-	}*/
-}
-
-void Spaceship::Attack()
-{
-
+	}
 }
