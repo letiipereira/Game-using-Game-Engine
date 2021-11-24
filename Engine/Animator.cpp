@@ -173,6 +173,7 @@ void Animator::PlayFromStart(std::string animName, bool loopAnim, bool playFowar
 	}
 
 	currentAnimation->loop = loopAnim;
+
 	isActive = true;
 }
 

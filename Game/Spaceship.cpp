@@ -29,22 +29,34 @@ void Spaceship::Move(MovementType movement)
 	{
 		case (MovementType::move_left):
 		{
-			GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			if (GetComponent<Transform>().myPosition.X > 0)
+			{
+				GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			}
 			break;
 		}
 		case (MovementType::move_right):
 		{
-			GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht()- 64))
+			{
+				GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			}
 			break;
 		}
 		case (MovementType::move_up):
 		{
-			GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-			break;
+			if (GetComponent<Transform>().myPosition.Y > 0)
+			{
+				GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			}
+				break;
 		}
 		case (MovementType::move_down):
 		{
-			GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight()-64))
+			{
+				GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			}
 			break;
 		}
 

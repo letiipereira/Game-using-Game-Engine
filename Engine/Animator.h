@@ -67,6 +67,7 @@ public:
 
 	void AddToAnimationQueue(std::string animName, bool loopAnim, bool playFoward);
 	void ClearAnimationQueu();
+	inline bool AnimationIsPlaying(){return isActive;}
 
 	inline Animation* GetAnimationByName(std::string name) { return animations[name]; }
 	inline Animation* GetCurrentAnimation() { return currentAnimation; }

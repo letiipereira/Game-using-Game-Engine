@@ -153,7 +153,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Loner.cpp" />
@@ -168,7 +167,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Loner.h" />
     <ClInclude Include="Missile.h" />

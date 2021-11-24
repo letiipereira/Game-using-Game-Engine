@@ -15,7 +15,9 @@ public:
 
 protected: 
 
-	float health{0};
-
+	float health{10};
+	Animation* die{ nullptr };
+	float time{};
+	float loseDemageRate{1};
 };
 

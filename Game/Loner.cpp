@@ -11,7 +11,7 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 		idleLoner = new Animation("idleLoner", "assets/LonerA.bmp", 4, 4, 4, 4, 1, 1, 8, true, 2, true, true, true);
 	else
 		idleLoner = new Animation("idleLoner", "assets/LonerA.bmp", 4, 4, 4, 4, 1, 1, 8, false, 2, true, true, true);
-
+	
 	GetComponent<Animator>().AddAnimation("idle",idleLoner);
 	
 	health = 10;
@@ -28,6 +28,7 @@ void Loner::Init()
 	Enemy::Init();
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
+	GetComponent<Animator>().PlayFromStart("idle", true, true);
 	std::cout << "loner init\n";
 
 }

@@ -55,5 +55,6 @@ void Rusher::Init()
 	Enemy::Init();
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
+	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
 	std::cout << "Rusher init\n";
 }
