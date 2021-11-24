@@ -16,8 +16,8 @@ void Animation::Init()
 		texture = TextureManager::GetInstance()->GetTexture(myTextureID);
 
 	SDL_QueryTexture(texture->GetSDLTexture(), NULL, NULL, &textureWidth, &textureHeight);
-	frameWidth = textureWidth / myColumnNumber;
-	frameHeight = textureHeight / myRowNumber;
+	frameWidth = static_cast<int>(textureWidth / myColumnNumber);
+	frameHeight = static_cast<int>(textureHeight / myRowNumber);
 	currentColumn = myColunmStart;
 	currentRow = myRowStart;
 
@@ -50,7 +50,6 @@ void Animation::SetupAnimation()
 			}
 			std::pair<int, int> newFrame{ row, col };
 			frames.push_back(newFrame);
-
 		}
 	}
 }
@@ -65,7 +64,7 @@ bool Animator::Init()
 
 void Animator::Draw()
 {
-	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform, currentAnimation->frameHeight, currentAnimation->frameWidth, transform->myRotation, currentFrame.first, currentFrame.second, currentAnimation->flip);
+	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform,  currentAnimation->frameWidth, currentAnimation->frameHeight, transform->myRotation, currentFrame.first, currentFrame.second, currentAnimation->flip);
 }
 
 

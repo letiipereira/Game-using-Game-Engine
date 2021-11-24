@@ -13,6 +13,8 @@ public:
 
 	class Window* GetWindow();
 	static GameEngine* GetInstance();
+	int GameWindowWidht();
+	int GameWindowHeight();
 
 	void ActivateLevelByName(std::string levelName);
 	class Level* GetActiveLevel();
@@ -42,6 +44,10 @@ private:
 	int currentTime;
 	float deltaTime;
 	bool isRunning{ false };
+	int myWindowWidth{};
+	int myWindowHeigth{};
+
+
 	static GameEngine* instance;
 	class TextureManager* textureManager{ nullptr };
 	class SDLWrapper* sdl{ nullptr };

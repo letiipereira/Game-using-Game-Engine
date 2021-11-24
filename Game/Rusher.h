@@ -2,18 +2,18 @@
 #include "Enemy.h"
 #include "Spawner.h"
 
-class Loner : public Enemy
+class Rusher :  public Enemy
 {
 public:
-	Loner(int posX, int posY, Spawner* spawner);
-	~Loner();
+	Rusher(int posX, int posY, Spawner* spawner);
+	~Rusher();
 
 	void Update() override final;
 	void Init() override final;
 
 private:
 	Spawner* mySpawner{ nullptr };
-	Animation* idleLoner{ nullptr };
+	Animation* idleRusher{ nullptr };
 	int spawnPosX{};
 	int spawnPosY{};
 	float moveSpeed = 100.0f;

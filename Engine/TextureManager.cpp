@@ -24,7 +24,6 @@ TextureManager::~TextureManager()
 bool TextureManager::DrawTexture(std::string id, Transform* transform, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
 {
     
-
     if (textureMap[id] == nullptr)
     {
         std::cout << "TextureManager::DrawTexture: Texture id not valid" << std::endl;
@@ -62,8 +61,8 @@ bool TextureManager::DrawTexture(std::string id, Transform* transform, bool flip
     dstRect.h = static_cast<int>(height * transform->myScale.Y);
 
     int sucess = SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, transform->myRotation, nullptr, flip);
-    //std::cout << "TextureManager::DrawTexture: SDL_RenderCopyEx: " << SDL_GetError() << std::endl;
-    //SDL_RenderPresent(renderTarget);
+   // std::cout << "TextureManager::DrawTexture: SDL_RenderCopyEx: " << SDL_GetError() << std::endl;
+    
     return (sucess == 0) ? true : false;
 }
 
@@ -91,7 +90,9 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int width, 
         flip = SDL_FLIP_HORIZONTAL;
 
     SDL_Rect scrRect = { width*(frame-1), height*(row-1), width, height }; // which part of the image you wanna draw
-    SDL_Rect dstRect = { static_cast<int>(transform->myPosition.X),static_cast<int>(transform->myPosition.Y), static_cast<int>(width * transform->myScale.X), static_cast<int>(width * transform->myScale.X) }; // where you wanna draw
+    SDL_Rect dstRect = { static_cast<int>(transform->myPosition.X),static_cast<int>(transform->myPosition.Y), 
+        static_cast<int>(width * transform->myScale.X), static_cast<int>(width * transform->myScale.X) }; // where you wanna draw
+
     SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, angle, 0, flip);
 }
 
@@ -105,6 +106,8 @@ Texture* TextureManager::LoadTexture(std::string id, std::string filePath)
     Texture* newTexture = nullptr;
 
     SDL_Surface* surface = SDL_LoadBMP(filePath.c_str());
+
+    std::cout << "Load : " << id << std::endl;
 
     if (surface == nullptr)
         std::cout << "Error Loading texture, null surface " << std::endl;
@@ -128,7 +131,7 @@ Texture* TextureManager::LoadTexture(std::string id, std::string filePath)
             std::cout << "Error Id already exists" << std::endl;
     }
 
-    SDL_FreeSurface(surface);
+    SDL_FreeSurface(surface);   
 
     return newTexture;
 }

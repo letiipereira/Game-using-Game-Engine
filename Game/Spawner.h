@@ -12,15 +12,18 @@ public:
 	void Update() override final;
 	void Init() override final;
 
-	void SpawnLoner();
-	void SpawnRusher();
+	void SpawnLoner(int spawnPosX, int spawnPosY);
+	void SpawnRusher(int spawnPosX, int spawnPosY);
+	void RemoveEnemy(Enemy* enemy);
 
 private:
 
-	float lonerSpawnRate{5};
-	float rusherSpawnRate{8};
+	float lonerSpawnRate{4};
+	float rusherSpawnRate{3};
 	float lonerDeltaTime{0};
-	float rusherDeltaTime{ 0 };
+	float rusherDeltaTime{0};
+	int windowWidth{};
+	int windowHeight{};
 
 	std::vector<Enemy*> levelEnemies{};
 };

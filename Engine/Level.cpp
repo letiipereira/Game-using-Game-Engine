@@ -2,27 +2,27 @@
 #include <memory>
 #include "SpriteComponent.h"
 #include <vector>
-#include <map>
 #include "TextureManager.h"
+#include <algorithm>
 
 void Level::Draw()
 {
 	TextureManager::GetInstance()->Clear();
 
-	std::map<int, Entity*> store;
+	std::vector<std::pair<Entity*, int>> store;
 
 	for (Entity* ent : levelEntities)
 	{
 		if (ent->HasComponent<SpriteComponent>())
 		{
 			int layer = ent->GetComponent<SpriteComponent>().GetLayer();
-			store[layer] = ent;
+			store.push_back(std::pair<Entity*, int>{ ent, layer});
 			
 		}
 		else if (ent->HasComponent<Animator>())
 		{
 			int layer = ent->GetComponent<Animator>().GetLayer();
-			store[layer] = ent;
+			store.push_back(std::pair<Entity*, int>{ent, layer});
 		}
 		else
 		{
@@ -30,11 +30,13 @@ void Level::Draw()
 		}
 	}
 
-	std::map<int, Entity*>::iterator it;
+	std::sort(store.begin(), store.end(), [](auto& left, auto& right) {
+		return left.second < right.second;
+		});
 
-	for (it = store.begin(); it != store.end(); it++)
+	for (std::pair<Entity*, int> ent : store)
 	{
-		it->second->Draw();
+		ent.first->Draw();
 	}
 
 	TextureManager::GetInstance()->Render();
@@ -42,14 +44,9 @@ void Level::Draw()
 
 void Level::AddEntity(Entity* entity)
 {
-	std::cout << entity << std::endl;
 	entity->Init();
 	entitiesToAdd.push_back(entity);
-	
-	if (GameEngine::GetInstance()->IsRunning())
-	{
-		entity->Init();
-	}
+
 }
 
 
@@ -101,6 +98,7 @@ void Level::Refresh()
 	for (Entity* ent : entitiesToAdd)
 	{
 		levelEntities.push_back(ent);
+		ent->Init();
 	}
 
 	entitiesToAdd.clear();
@@ -108,8 +106,6 @@ void Level::Refresh()
 
 void Level::Init()
 {
-	std::cout << "currentlevelINIT()\n";
-	std::cout << levelEntities.size();
 	if (levelEntities.size() != 0)
 	{
 		for (Entity* ent : levelEntities)

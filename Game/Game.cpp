@@ -6,6 +6,9 @@
 #include "Entity.h"
 #include <Vector2D.h>
 #include "Spawner.h"
+#include "level.h"
+#include "loner.h"
+#include "rusher.h"
 
 int main(int argc, char** argv)
 {
@@ -18,7 +21,6 @@ int main(int argc, char** argv)
 
     Entity newEnt2;
     newEnt2.AddComponent<SpriteComponent>("logo", "assets/logo.bmp", 1);
-
     //newEnt->AddGroup(GameEngine::GetInstance()->groupMap);
 
     Spawner spawner;

@@ -31,6 +31,8 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 
 	window = new Window(windowTitle, windowWidth, windowHeight);
 	defaultLevel = new Level("defaultLevel");
+	myWindowWidth = windowWidth;
+	myWindowHeigth = windowHeight;
 
 	if (currentLevel == nullptr)
 	{
@@ -193,6 +195,16 @@ GameEngine* GameEngine::GetInstance()
 		instance = new GameEngine();
 
 	return instance;
+}
+
+int GameEngine::GameWindowWidht()
+{
+	return myWindowWidth;
+}
+
+int GameEngine::GameWindowHeight()
+{
+	return myWindowHeigth;
 }
 
 void GameEngine::ActivateLevelByName(std::string levelName)
