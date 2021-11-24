@@ -27,7 +27,6 @@ public:
 	inline void SetMass(float mass) { myMass = mass; }
 	inline void SetGravity(float gravity) { myGravity = gravity; }
 
-
 	//Force
 	inline void ApplyForce(Vector2D force) { myForce = force; }
 	inline void ApplyForceX(float forceX) { myForce.X = forceX; }
@@ -38,10 +37,11 @@ public:
 	inline void ApplyFriction(Vector2D friction) { myFriction = friction; }
 	inline void RemoveFriction(Vector2D friction) { myFriction= Vector2D(0, 0); }
 
+	float myGravity{};
 private:
 
 	float myMass{};
-	float myGravity{ 1.0f };
+	//float myGravity{};
 
 	Vector2D myForce{};
 	Vector2D myFriction{};

@@ -40,7 +40,7 @@ struct Animation
 	int myRowEnd{}, myColunmEnd{};
 	int currentColumn, currentRow;
 	int  myColumnNumber{}, myRowNumber{};
-	float myFramesPerSeconds{};
+	int myFramesPerSeconds{};
 	int textureWidth{}, textureHeight{};
 	int frameWidth{}, frameHeight{};
 	int frameIndex{ 0 };
@@ -79,7 +79,7 @@ private:
 	Transform* transform {nullptr};
 	std::pair<int, int> currentFrame{1,1};
 	bool isActive{ true };
-	double time{ 0 };
+	float time{ 0 };
 	
 	std::map<std::string, Animation*> animations{};
 	std::vector<std::tuple<std::string, bool, bool>> animationsQueue{};

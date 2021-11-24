@@ -2,8 +2,25 @@
 
 Spaceship::Spaceship()
 {
-	
 	health = 100;
+	AddComponent<Animator>();
+
+	moveRight = new Animation("moveRight", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 14, false, 6, false, true, false);
+	moveLeft = new Animation("moveLeft", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 14, false, 6, false, false, false);
+	idle = new Animation("idle", "assets/Ship1.bmp", 1, 7, 1, 4, 1, 4, 7, false, 14, false, false, true);
+
+	GetComponent<Animator>().AddAnimation("moveRight", moveRight);
+	GetComponent<Animator>().AddAnimation("moveLeft", moveLeft);
+	GetComponent<Animator>().AddAnimation("idle", idle);
+}
+void Spaceship::Init()
+{
+	Pawn::Init();
+	
+	GetComponent<Animator>().PlayFromStart("idle", false, false);
+
+	GetComponent<Transform>().myPosition.X = 100;
+	GetComponent<Transform>().myPosition.Y = 100;
 }
 
 void Spaceship::Move(MovementType movement)
@@ -51,8 +68,9 @@ void Spaceship::Update()
 	lastPosX = GetComponent<Transform>().myPosition.X;
 	
 	ShipAnimation();
-	
 }
+
+
 
 void Spaceship::ShipAnimation()
 {
@@ -120,5 +138,4 @@ void Spaceship::ShipAnimation()
 		}
 		animDir = 0;
 	}
-
 }

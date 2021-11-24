@@ -23,13 +23,17 @@ public:
 	void Draw();
 	void Update();
 	void Refresh();
+	void Init();
 
 	void AddEntity(Entity* entity);
 	void EraseEntity(Entity* entity);
+
 	//void AddToGroup(Entity* mEntity, Group mGroup);
 	//std::vector<Entity*>& GetGroup(Group mGroup);
 
 private:
-	std::vector<Entity*> levelEntities;
+	std::vector<Entity*> levelEntities{};
+	std::vector<Entity*> entitiesToAdd{};
+	//std::vector<Entity*> levelEntities{};
 	//std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 };

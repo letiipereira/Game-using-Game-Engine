@@ -71,14 +71,17 @@ public:
 		groupBitset[mGroup] = false;
 	}*/
 
+	virtual void Init() {};
+
 	virtual void Draw();
 
 	virtual void Update();
 
+
 private:
 
 	class Level* level{ nullptr };
-	bool active{};
+	bool active{true};
 	ComponentList compList{};
 	ComponentBitset compBitset{};
 	std::vector<std::unique_ptr<Component>> components;

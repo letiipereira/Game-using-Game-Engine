@@ -154,8 +154,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Loner.cpp" />
+    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Spaceship.cpp" />
+    <ClCompile Include="Spawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
@@ -164,7 +168,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Loner.h" />
+    <ClInclude Include="Missile.h" />
     <ClInclude Include="Spaceship.h" />
+    <ClInclude Include="Spawner.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

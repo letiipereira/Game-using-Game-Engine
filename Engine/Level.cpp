@@ -42,7 +42,14 @@ void Level::Draw()
 
 void Level::AddEntity(Entity* entity)
 {
-	levelEntities.push_back(entity);
+	std::cout << entity << std::endl;
+	entity->Init();
+	entitiesToAdd.push_back(entity);
+	
+	if (GameEngine::GetInstance()->IsRunning())
+	{
+		entity->Init();
+	}
 }
 
 
@@ -65,6 +72,8 @@ void Level::Update()
 {
 	for (Entity* ent : levelEntities)
 	{
+		if (ent == nullptr)
+			continue;
 		ent->Update();
 	}
 }
@@ -88,6 +97,26 @@ void Level::Refresh()
 			return !mEntity->IsActive();
 		}),
 		std::end(levelEntities));
+
+	for (Entity* ent : entitiesToAdd)
+	{
+		levelEntities.push_back(ent);
+	}
+
+	entitiesToAdd.clear();
+}
+
+void Level::Init()
+{
+	std::cout << "currentlevelINIT()\n";
+	std::cout << levelEntities.size();
+	if (levelEntities.size() != 0)
+	{
+		for (Entity* ent : levelEntities)
+		{
+			ent->Init();
+		}
+	}
 }
 
 

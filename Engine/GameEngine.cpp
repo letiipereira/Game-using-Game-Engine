@@ -37,12 +37,13 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 		ActivateLevelByName("defaultLevel");
 		currentLevel = defaultLevel;
 	}
-
 	//Texture* background= TextureManager::GetInstance()->LoadTexture("background", "assets/galaxy2.bmp");
 }
 
 void GameEngine::start()
 {
+	currentLevel->Init();
+
 	bool isRunning = true;
 	SDL_Event ev;
 
@@ -175,6 +176,7 @@ void GameEngine::start()
 
 		currentLevel->Update();
 		currentLevel->Draw();
+		currentLevel->Refresh();
 		window->updateSurface();
 	}
 }
@@ -196,6 +198,7 @@ GameEngine* GameEngine::GetInstance()
 void GameEngine::ActivateLevelByName(std::string levelName)
 {
 	currentLevel = levelMap[levelName];
+	
 }
 
 InputManager* GameEngine::GetInputManager()

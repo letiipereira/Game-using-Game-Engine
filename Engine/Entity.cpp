@@ -1,14 +1,11 @@
 #include "Entity.h"
 #include "Level.h"
 
-
-
 Entity::Entity()
 {
 	level = GameEngine::GetInstance()->GetActiveLevel();
 	level->AddEntity(this);
 	this->AddComponent<Transform>();
-
 }
 
 //void Entity::AddGroup(Group mGroup)
@@ -16,6 +13,7 @@ Entity::Entity()
 //	groupBitset[mGroup] = true;
 //	level->AddToGroup(this, mGroup);
 //}
+
 
 void Entity::Draw()
 {

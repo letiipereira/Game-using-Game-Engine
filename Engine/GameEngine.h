@@ -20,7 +20,8 @@ public:
 	void CreateNewLevel(std::string levelName);
 	void DeleteLevelByName(std::string levelName);
 	class Level* GetLevelByName(std::string levelName);
-	float GetDeltatime() { return deltaTime; }
+	inline float GetDeltatime() { return deltaTime; }
+	inline bool IsRunning(){ return isRunning; }
 
 	/*enum groupLabels : std::size_t
 	{
@@ -40,6 +41,7 @@ private:
 	int prevTime;
 	int currentTime;
 	float deltaTime;
+	bool isRunning{ false };
 	static GameEngine* instance;
 	class TextureManager* textureManager{ nullptr };
 	class SDLWrapper* sdl{ nullptr };

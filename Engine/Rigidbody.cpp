@@ -9,7 +9,7 @@ bool Rigidbody::Init()
 void Rigidbody::Update() // pess on the delta time?
 {
     myAcceleration.X = (myForce.X + myFriction.X) / myMass;
-    myAcceleration.Y = myGravity + myForce.Y / myMass;
+    myAcceleration.Y = (myGravity + myForce.Y) / myMass;
     myVelocity = myAcceleration;
     transform->myPosition.X += myVelocity.X;
     transform->myPosition.Y += myVelocity.Y;

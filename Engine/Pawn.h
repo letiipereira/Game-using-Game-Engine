@@ -18,5 +18,7 @@ public:
 
 	inline void Update() override { Entity::Update(); };
 
+	inline void Init() override { Entity::Init(); };
+
 };
 #pragma once

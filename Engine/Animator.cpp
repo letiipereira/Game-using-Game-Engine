@@ -10,7 +10,11 @@
 
 void Animation::Init()
 {
-	texture = TextureManager::GetInstance()->LoadTexture(myTextureID, myFilePath);
+	if (TextureManager::GetInstance()->GetTexture(myTextureID) == nullptr)
+		texture = TextureManager::GetInstance()->LoadTexture(myTextureID, myFilePath);
+	else
+		texture = TextureManager::GetInstance()->GetTexture(myTextureID);
+
 	SDL_QueryTexture(texture->GetSDLTexture(), NULL, NULL, &textureWidth, &textureHeight);
 	frameWidth = textureWidth / myColumnNumber;
 	frameHeight = textureHeight / myRowNumber;
@@ -20,7 +24,7 @@ void Animation::Init()
 	SetupAnimation();
 
 	if (!foward)
-		frameIndex = (frames.size() - 1);
+		frameIndex = (static_cast<int>(frames.size()) - 1);
 
 }
 
@@ -71,12 +75,11 @@ void Animator::Update()
 	//std::cout << currentAnimation->myTextureID << std::endl;
 	if(currentAnimation != nullptr)
 	{ 
-	
 		if (isActive)
 		{
 			time += GameEngine::GetInstance()->GetDeltatime();
-
-			if (time >= (1 / currentAnimation->myFramesPerSeconds))
+			
+			if (time > (1.0f / currentAnimation->myFramesPerSeconds))
 			{
 				PlayFoward();
 				time = 0;
