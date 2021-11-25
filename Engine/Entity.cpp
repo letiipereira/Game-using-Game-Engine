@@ -13,6 +13,7 @@ Entity::~Entity()
 {
 	for (auto& comp : components)
 	{
+		comp->~Component();
 		comp.release();
 	}
 	//std::cout << "DESTROY Entity";

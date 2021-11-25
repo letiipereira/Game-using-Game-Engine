@@ -4,6 +4,12 @@
 #include "GameEngine.h"
 #include <box2d/box2d.h>
 
+Collider::~Collider()
+{
+	GameEngine::GetInstance()->GetWorld()->DestroyBody(body);
+	std::cout << "DESTROY COLIDER" << std::endl;
+}
+
 bool Collider::Init()
 {
 	transform = &entity->GetComponent<Transform>();

@@ -25,7 +25,7 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 Loner::~Loner()
 {
 	Enemy::~Enemy();
-	//std::cout << "DESTROY";
+	std::cout << "DESTROY";
 }
 
 void Loner::Init()

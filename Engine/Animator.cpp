@@ -56,13 +56,17 @@ void Animation::SetupAnimation()
 
 Animator::~Animator()
 {
-	std::map<std::string, Animation*>::iterator it;
-
-	for (it = animations.begin(); it != animations.end(); it++)
+	std::cout << " DESTROY ANIMATOR " << std::endl;
+	if (animations.size() > 0)
 	{
-		delete it->second;
+		std::map<std::string, Animation*>::iterator it;
+
+		for (it = animations.begin(); it != animations.end(); it++)
+		{
+			delete it->second;
+		}
+		animations.clear();
 	}
-	animations.clear();
 }
 
 bool Animator::Init()

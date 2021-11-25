@@ -6,10 +6,7 @@ class Spaceship : public Pawn
 {
 public:
 	Spaceship();
-	~Spaceship()
-	{
-		delete moveLeft, moveRight, idle;
-	}
+	~Spaceship(){}
 
 private:
 	float moveSpeed = 300.0f;
@@ -17,6 +14,8 @@ private:
 	float spaceshipXDir{};
 	float lastPosX{};
 	float time{};
+	float bulletDeltaTime{0.1};
+	float bulletCoolDown{0.1};
 
 
 	int animDir{ 0 };

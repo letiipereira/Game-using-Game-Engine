@@ -7,7 +7,7 @@ class Collider : public Component
 {
 public:
 	Collider() {};
-	~Collider() {};
+	~Collider();
 
 	bool Init() override final;
 
@@ -23,7 +23,7 @@ public:
 
 private:
 	Transform* transform{ nullptr };
-	class b2Body* body;
+	class b2Body* body{};
 	float colliderHalfWidth = 0;
 	float colliderHalfHeight = 0;
 };

@@ -1,4 +1,5 @@
 #include "Spaceship.h"
+#include "Bullet.h"
 
 Spaceship::Spaceship()
 {
@@ -37,48 +38,61 @@ void Spaceship::Move(MovementType movement)
 	{
 		case (MovementType::move_left):
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
-
-			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
-
-			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+			if (GetComponent<Transform>().myPosition.X > 0)
 			{
-				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+				//GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+
+				GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+
+				if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+				{
+					GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+				}
 			}
 			break;
 		}
 		case (MovementType::move_right):
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
-
-			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
-
-			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+			if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64))
 			{
-				GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+
+				GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+
+				if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+				{
+					GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+				}
 			}
 			break;
 		}
 		case (MovementType::move_up):
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+			if (GetComponent<Transform>().myPosition.Y > 0)
+			{
+				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
 
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
 
-			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+				GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+			}
 			break;
 		}
 		case (MovementType::move_down):
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+			if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+			{
+				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
 
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
 
-			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+				GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+			}
 			break;
 		}
 
@@ -95,13 +109,23 @@ void Spaceship::Move(MovementType movement)
 	//spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
 }
 
-void Spaceship::Attack(){}
+void Spaceship::Attack()
+{
+	if (bulletDeltaTime > bulletCoolDown)
+	{
+		Bullet* bullet = new Bullet(GetComponent<Transform>().myPosition.X + 24, GetComponent<Transform>().myPosition.Y + 0);
+		bulletDeltaTime = 0;
+	}
+	
+}
 
 void Spaceship::Update()
 {
 	Pawn::Update();
 
 	time += GameEngine::GetInstance()->GetDeltatime();
+	bulletDeltaTime += GameEngine::GetInstance()->GetDeltatime();           
+
 	if (time >= GameEngine::GetInstance()->GetDeltatime())
 	{
 		spaceshipXDir = GetComponent<Transform>().myPosition.X - lastPosX;

@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Transform.h"
+#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
@@ -26,7 +27,7 @@ struct Animation
 	}
 	~Animation()
 	{
-
+		std::cout << "DESTROY ANIMATION" << std::endl;
 		//delete texture;
 	}
 
@@ -56,7 +57,7 @@ struct Animation
 class Animator : public Component
 {
 public:
-	Animator() {};
+	Animator() { };
 	~Animator() override;
 
 	bool Init() override final;
