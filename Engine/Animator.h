@@ -27,8 +27,7 @@ struct Animation
 	}
 	~Animation()
 	{
-		std::cout << "DESTROY ANIMATION" << std::endl;
-		//delete texture;
+		//std::cout << "DESTROY ANIMATION" << std::endl;
 	}
 
 	void Init();

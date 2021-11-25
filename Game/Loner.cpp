@@ -1,5 +1,6 @@
 #include "Loner.h"
 #include "Spawner.h";
+#include "Missile.h"
 
 Loner::Loner(int posX, int posY, Spawner* spawner)
 {
@@ -25,7 +26,7 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 Loner::~Loner()
 {
 	Enemy::~Enemy();
-	std::cout << "DESTROY";
+	//std::cout << "DESTROY";
 }
 
 void Loner::Init()
@@ -40,6 +41,13 @@ void Loner::Init()
 void Loner::Update()
 {
 	Enemy::Update();
+
+	missileDeltaTime += GameEngine::GetInstance()->GetDeltatime();
+
+	if (missileDeltaTime > missileCoolDown)
+	{
+		Attack();
+	}
 
 	if (spawnPosX < (GameEngine::GetInstance()->GameWindowWidht() / 2))
 	{
@@ -62,6 +70,15 @@ void Loner::Update()
 		}
 	}
 
-	
 }
 
+void Loner::Attack()
+{
+	int x, y{};
+	x = GetComponent<Transform>().myPosition.X + 32;
+	y = GetComponent<Transform>().myPosition.Y + 64;
+
+	Missile* missile = new Missile(x,y);
+	missileDeltaTime = 0;
+	std::cout << "missile" << std::endl;
+}

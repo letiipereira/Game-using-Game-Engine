@@ -23,9 +23,19 @@ Rusher::Rusher(int posX, int posY, Spawner* spawner)
 
 Rusher::~Rusher() {}
 
+void Rusher::Init()
+{
+	Enemy::Init();
+	GetComponent<Transform>().myPosition.X = spawnPosX;
+	GetComponent<Transform>().myPosition.Y = spawnPosY;
+	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
+}
+
 void Rusher::Update()
 {
 	Enemy::Update();
+
+	
 
 	if (spawnPosY > (GameEngine::GetInstance()->GameWindowHeight() / 2))
 	{
@@ -47,13 +57,8 @@ void Rusher::Update()
 			Destroy();
 		}
 	}
+
+
 	//std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
 }
 
-void Rusher::Init()
-{
-	Enemy::Init();
-	GetComponent<Transform>().myPosition.X = spawnPosX;
-	GetComponent<Transform>().myPosition.Y = spawnPosY;
-	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
-}

@@ -91,8 +91,8 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int width, 
 
     SDL_Rect scrRect = { width*(frame-1), height*(row-1), width, height }; // which part of the image you wanna draw
     SDL_Rect dstRect = { static_cast<int>(transform->myPosition.X),static_cast<int>(transform->myPosition.Y), 
-        static_cast<int>(width * transform->myScale.X), static_cast<int>(width * transform->myScale.X) }; // where you wanna draw
-
+        static_cast<int>(width * transform->myScale.X), static_cast<int>(height * transform->myScale.Y) }; // where you wanna draw
+    
     SDL_RenderCopyEx(renderTarget, textureMap[id]->GetSDLTexture(), &scrRect, &dstRect, angle, 0, flip);
 }
 

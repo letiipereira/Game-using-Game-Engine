@@ -134,6 +134,8 @@ void Spaceship::Update()
 	lastPosX = GetComponent<Transform>().myPosition.X;
 	
 	ShipAnimation();
+
+
 }
 
 

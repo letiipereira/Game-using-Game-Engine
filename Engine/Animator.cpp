@@ -56,7 +56,7 @@ void Animation::SetupAnimation()
 
 Animator::~Animator()
 {
-	std::cout << " DESTROY ANIMATOR " << std::endl;
+	//std::cout << " DESTROY ANIMATOR " << std::endl;
 	if (animations.size() > 0)
 	{
 		std::map<std::string, Animation*>::iterator it;
@@ -154,7 +154,7 @@ void Animator::PlayFoward()
 		{
 			if (currentAnimation->loop)
 			{
-				currentAnimation->frameIndex = (currentAnimation->frames.size() - 1);
+				currentAnimation->frameIndex = static_cast<int>(currentAnimation->frames.size() - 1);
 			}
 			else
 			{
@@ -184,7 +184,7 @@ void Animator::PlayFromStart(std::string animName, bool loopAnim, bool playFowar
 	}
 	else
 	{
-		currentAnimation->frameIndex = (currentAnimation->frames.size() - 1);
+		currentAnimation->frameIndex = static_cast<int>(currentAnimation->frames.size() - 1);
 	}
 
 	currentAnimation->loop = loopAnim;

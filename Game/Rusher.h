@@ -11,12 +11,15 @@ public:
 	void Update() override final;
 	void Init() override final;
 
+	
+
 private:
 	Spawner* mySpawner{ nullptr };
 	Animation* idleRusher{ nullptr };
 	int spawnPosX{};
 	int spawnPosY{};
-	float moveSpeed = 100.0f;
-	float uniform = 0.7071f;
+	float moveSpeed{ 100.0f };
+	float uniform{ 0.7071f };
+	
 };
 

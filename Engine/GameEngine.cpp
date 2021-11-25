@@ -105,7 +105,7 @@ void GameEngine::start()
 						if (controllerIncluded == false)
 						{
 							temporaryControllerIndexMap.insert({ temporaryControllerIndexMap.size() , SDL_GameControllerOpen(ev.cdevice.which) });
-							controllerIndex = temporaryControllerIndexMap.size() - 1;
+							controllerIndex = static_cast<int>(temporaryControllerIndexMap.size() - 1);
 							InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
 						}
 
@@ -114,7 +114,7 @@ void GameEngine::start()
 					{
 						// Add controll at index 0
 						temporaryControllerIndexMap.insert({ temporaryControllerIndexMap.size() , SDL_GameControllerOpen(ev.cdevice.which) });
-						controllerIndex = temporaryControllerIndexMap.size() - 1;
+						controllerIndex = static_cast<int>(temporaryControllerIndexMap.size() - 1);
 						InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);
 					}
 

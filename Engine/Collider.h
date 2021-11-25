@@ -24,6 +24,6 @@ public:
 private:
 	Transform* transform{ nullptr };
 	class b2Body* body{};
-	float colliderHalfWidth = 0;
-	float colliderHalfHeight = 0;
+	float colliderHalfWidth{ 0 };
+	float colliderHalfHeight{ 0 };
 };
