@@ -39,6 +39,8 @@ public:
 
 	~GameEngine();
 
+	class b2World* GetWorld();
+
 private:
 	int prevTime;
 	int currentTime;
@@ -47,10 +49,10 @@ private:
 	int myWindowWidth{};
 	int myWindowHeigth{};
 
-
 	static GameEngine* instance;
 	class TextureManager* textureManager{ nullptr };
 	class SDLWrapper* sdl{ nullptr };
+	class b2World* world;
 	class Window* window{ nullptr };
 	class Level* currentLevel{ nullptr };
 	class Level* defaultLevel{ nullptr };

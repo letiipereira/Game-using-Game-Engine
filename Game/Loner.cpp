@@ -13,6 +13,11 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 		idleLoner = new Animation("idleLoner", "assets/LonerA.bmp", 4, 4, 4, 4, 1, 1, 8, false, 2, true, true, true);
 	
 	GetComponent<Animator>().AddAnimation("idle",idleLoner);
+
+	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+										   GetComponent<Transform>().myPosition.Y,
+										   GetComponent<Animator>().GetAnimationByName("idle")->frameWidth,
+										   GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, 0.0f);
 	
 	health = 10;
 }

@@ -27,6 +27,8 @@ void Enemy::Update()
 		Destroy();
 
 	}
+
+	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 }
 
 void Enemy::Init()

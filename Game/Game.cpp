@@ -19,10 +19,6 @@ int main(int argc, char** argv)
     Entity newEnt;
     newEnt.AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0);
 
-    Entity newEnt2;
-    newEnt2.AddComponent<SpriteComponent>("logo", "assets/logo.bmp", 1);
-    //newEnt->AddGroup(GameEngine::GetInstance()->groupMap);
-
     Spawner spawner;
     Spaceship currentPlayer;
 

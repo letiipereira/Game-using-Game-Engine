@@ -13,6 +13,11 @@ Rusher::Rusher(int posX, int posY, Spawner* spawner)
 
 	GetComponent<Animator>().AddAnimation("idleRusher", idleRusher);
 
+	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+									  	   GetComponent<Transform>().myPosition.Y,
+										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameWidth,
+										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameHeight, 0.0f);
+
 	health = 5;
 }
 

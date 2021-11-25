@@ -10,6 +10,7 @@
 #include "SpriteComponent.h"
 #include "Rigidbody.h"
 #include "Animator.h"
+#include "Collider.h"
 
 class Entity
 {

@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include "SDLWrapper.h"
 #include "Window.h"
+#include "CollisionListener.h"
 #include "TextureManager.h"
 #include "InputManager.h"
 #include "Texture.h"
@@ -16,6 +17,9 @@ GameEngine::GameEngine()
 	prevTime = 0;
 	currentTime = 0;
 	deltaTime = 0;
+
+	b2Vec2 gravity(0.0f, -10.0f);
+	world = new b2World(gravity);
 }
 
 void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight)
@@ -39,12 +43,18 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 		ActivateLevelByName("defaultLevel");
 		currentLevel = defaultLevel;
 	}
+
+	world->SetContactListener(CollisionListener::GetInstance());
 	//Texture* background= TextureManager::GetInstance()->LoadTexture("background", "assets/galaxy2.bmp");
 }
 
 void GameEngine::start()
 {
 	currentLevel->Init();
+
+	float timeStep = 1.0f / 60.0f;
+	int32 velocityIterations = 6;
+	int32 positionIterations = 2;
 
 	bool isRunning = true;
 	SDL_Event ev;
@@ -54,6 +64,8 @@ void GameEngine::start()
 		prevTime = currentTime;
 		currentTime = SDL_GetTicks();
 		deltaTime = (currentTime - prevTime) / 1000.0f;
+
+		world->Step(timeStep, velocityIterations, positionIterations);
 
 		while (SDL_PollEvent(&ev) != 0)
 		{
@@ -238,6 +250,11 @@ void GameEngine::DeleteLevelByName(std::string levelName)
 class Level* GameEngine::GetLevelByName(std::string levelName)
 {
 	return levelMap[levelName];
+}
+
+b2World* GameEngine::GetWorld()
+{
+	return world;
 }
 
 GameEngine::~GameEngine()
