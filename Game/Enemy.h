@@ -6,7 +6,7 @@ class Enemy : public Entity
 public:
 
 	Enemy();
-	~Enemy();
+	~Enemy() override;
 
 	void Update() override;
 	void Init() override;

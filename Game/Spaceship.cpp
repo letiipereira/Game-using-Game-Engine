@@ -25,6 +25,9 @@ void Spaceship::Init()
 
 void Spaceship::Move(MovementType movement)
 {
+	/*float x{};
+	float y{};*/
+
 	switch (movement)
 	{
 		case (MovementType::move_left):
@@ -32,6 +35,7 @@ void Spaceship::Move(MovementType movement)
 			if (GetComponent<Transform>().myPosition.X > 0)
 			{
 				GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+				//x -= 1;
 			}
 			break;
 		}
@@ -40,6 +44,7 @@ void Spaceship::Move(MovementType movement)
 			if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht()- 64))
 			{
 				GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+				//x += 1;
 			}
 			break;
 		}
@@ -48,21 +53,30 @@ void Spaceship::Move(MovementType movement)
 			if (GetComponent<Transform>().myPosition.Y > 0)
 			{
 				GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+				//y -= 1;
 			}
-				break;
+			break;
 		}
 		case (MovementType::move_down):
 		{
 			if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight()-64))
 			{
 				GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+				//y += 1;
 			}
 			break;
 		}
-
-		//spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
+		
+		
 	}
-	
+
+	//Vector2D add{ x,y };
+	//add.NormalizeVector();
+	//std::cout << static_cast<int>(movement) << std::endl;
+	//GetComponent<Transform>().myPosition.X += add.X * moveSpeed;
+	//GetComponent<Transform>().myPosition.Y += add.Y * moveSpeed;
+
+	//spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
 }
 
 void Spaceship::Attack(){}

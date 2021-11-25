@@ -2,6 +2,8 @@
 
 Enemy::~Enemy()
 {
+	Entity::~Entity();
+	/*std::cout << "DESTROY ENEMY";*/
 
 }
 Enemy::Enemy()
@@ -23,6 +25,7 @@ void Enemy::Update()
 	if (health <= 0 && !GetComponent<Animator>().AnimationIsPlaying())
 	{
 		Destroy();
+
 	}
 }
 

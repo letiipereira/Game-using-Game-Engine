@@ -5,16 +5,13 @@
 #include <stdlib.h>  
 #include <time.h>  
 
-Spawner::Spawner()
-{
-	
-}
+Spawner::Spawner(){}
 Spawner::~Spawner()
 {
-	for (Enemy* enemie : levelEnemies)
+	/*for (Enemy* enemie : levelEnemies)
 	{
 		delete enemie;
-	}
+	}*/
 }
 
 void Spawner::Update()
@@ -76,16 +73,12 @@ void Spawner::Init()
 
 void Spawner::SpawnLoner(int spawnPosX, int spawnPosY)
 {
-	Loner* newLoner = new Loner(spawnPosX,spawnPosY, this);
-	levelEnemies.push_back(newLoner);
+	levelEnemies.push_back(new Loner(spawnPosX, spawnPosY, this));
 	lonerDeltaTime = 0;
-	std::cout << "SpawnLoner\n";
 }
 
 void Spawner::SpawnRusher(int spawnPosX, int spawnPosY)
 {
-	Rusher* newRusher = new Rusher(spawnPosX, spawnPosY, this);
-	levelEnemies.push_back(newRusher);
+	levelEnemies.push_back(new Rusher(spawnPosX, spawnPosY, this));
 	rusherDeltaTime = 0;
-	std::cout << "SpawnLoner\n";
 }

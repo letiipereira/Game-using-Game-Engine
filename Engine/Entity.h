@@ -17,7 +17,7 @@ public:
 
 	Entity();
 	
-	virtual ~Entity() {};
+	virtual ~Entity();
 
 	template<typename T, typename... TArgs>
 	T& AddComponent(TArgs&&... args) {

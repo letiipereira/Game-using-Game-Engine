@@ -179,7 +179,7 @@ void GameEngine::start()
 		currentLevel->Update();
 		currentLevel->Draw();
 		currentLevel->Refresh();
-		window->updateSurface();
+		//window->updateSurface();
 	}
 }
 

@@ -3,9 +3,19 @@
 
 Entity::Entity()
 {
+	//std::cout << "entity constructor";
 	level = GameEngine::GetInstance()->GetActiveLevel();
 	level->AddEntity(this);
 	this->AddComponent<Transform>();
+}
+
+Entity::~Entity()
+{
+	for (auto& comp : components)
+	{
+		comp.release();
+	}
+	//std::cout << "DESTROY Entity";
 }
 
 //void Entity::AddGroup(Group mGroup)

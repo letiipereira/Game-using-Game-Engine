@@ -6,7 +6,7 @@ class Loner : public Enemy
 {
 public:
 	Loner(int posX, int posY, Spawner* spawner);
-	~Loner();
+	~Loner() override final;
 
 	void Update() override final;
 	void Init() override final;

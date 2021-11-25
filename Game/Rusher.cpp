@@ -16,10 +16,7 @@ Rusher::Rusher(int posX, int posY, Spawner* spawner)
 	health = 5;
 }
 
-Rusher::~Rusher()
-{
-	//delete idleRusher;
-}
+Rusher::~Rusher() {}
 
 void Rusher::Update()
 {
@@ -31,7 +28,6 @@ void Rusher::Update()
 
 		if (GetComponent<Transform>().myPosition.Y < -64)
 		{
-			std::cout << "Rusher should be destroyed" << std::endl;
 			mySpawner->RemoveEnemy(this);
 			Destroy();
 		}
@@ -42,7 +38,6 @@ void Rusher::Update()
 
 		if (GetComponent<Transform>().myPosition.Y > GameEngine::GetInstance()->GameWindowHeight() + 64)
 		{
-			std::cout << "Rusher should be destroyed" << std::endl;
 			mySpawner->RemoveEnemy(this);
 			Destroy();
 		}
@@ -56,5 +51,4 @@ void Rusher::Init()
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
 	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
-	std::cout << "Rusher init\n";
 }

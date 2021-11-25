@@ -13,6 +13,7 @@ struct Transform : public Component {
 		myScale.Y = sclY;
 		myRotation = rotation;
 	}
+	~Transform() {};
 
 	Vector2D myPosition{};
 	Vector2D myScale{};

@@ -88,12 +88,20 @@ void Level::Refresh()
 	//		std::end(v));
 	//}
 
-	levelEntities.erase(std::remove_if(std::begin(levelEntities), std::end(levelEntities),
-		[](Entity* mEntity)
+	//std::cout << levelEntities.size()<< std::endl;
+
+	for (int i = 0; i < levelEntities.size(); i++)
+	{
+		if (!levelEntities[i]->IsActive())
 		{
-			return !mEntity->IsActive();
-		}),
-		std::end(levelEntities));
+			Entity* thisEntity = levelEntities[i];
+			levelEntities.erase(levelEntities.begin()+i);
+			delete thisEntity;
+		}
+
+	}
+
+	//std::cout << levelEntities.size() << std::endl;
 
 	for (Entity* ent : entitiesToAdd)
 	{

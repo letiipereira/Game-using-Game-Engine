@@ -17,10 +17,10 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 	health = 10;
 }
 
-
 Loner::~Loner()
 {
-
+	Enemy::~Enemy();
+	//std::cout << "DESTROY";
 }
 
 void Loner::Init()
@@ -29,8 +29,7 @@ void Loner::Init()
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
 	GetComponent<Animator>().PlayFromStart("idle", true, true);
-	std::cout << "loner init\n";
-
+	
 }
 
 void Loner::Update()
@@ -43,7 +42,6 @@ void Loner::Update()
 
 		if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht())+10))
 		{
-			std::cout << "Loner should be destroyed" << std::endl;
 			mySpawner->RemoveEnemy(this);
 			Destroy();
 		}
@@ -54,7 +52,6 @@ void Loner::Update()
 
 		if (GetComponent<Transform>().myPosition.X < -75)
 		{
-			std::cout << "Loner should be destroyed" << std::endl;
 			mySpawner->RemoveEnemy(this);
 			Destroy();
 		}

@@ -10,12 +10,7 @@ class SpriteComponent : public Component
 {
 public:
 	SpriteComponent(std::string textureid, std::string filePath, int layer = 0);
-	
-
-	virtual ~SpriteComponent() 
-	{
-		//delete texture;
-	};
+	~SpriteComponent() override {};
 
 	bool Init() override final;
 

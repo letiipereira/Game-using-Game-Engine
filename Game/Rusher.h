@@ -6,7 +6,7 @@ class Rusher :  public Enemy
 {
 public:
 	Rusher(int posX, int posY, Spawner* spawner);
-	~Rusher();
+	~Rusher() override final;
 
 	void Update() override final;
 	void Init() override final;

@@ -26,7 +26,8 @@ struct Animation
 	}
 	~Animation()
 	{
-		delete texture;
+
+		//delete texture;
 	}
 
 	void Init();
@@ -56,7 +57,7 @@ class Animator : public Component
 {
 public:
 	Animator() {};
-	~Animator() {};
+	~Animator() override;
 
 	bool Init() override final;
 	void Draw() override final;
