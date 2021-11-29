@@ -5,14 +5,7 @@ class Pawn : public Entity
 {
 
 public:
-
 	Pawn();
-
-	enum class MovementType { move_right, move_left, move_up, move_down };
-
-	virtual void Move(MovementType movement) {};
-
-	virtual void Attack() {};
 
 	int health;
 
@@ -20,5 +13,17 @@ public:
 
 	inline void Init() override { Entity::Init(); };
 
+	virtual void OnKeyDown(std::string keycode) {};
+
+	virtual void OnKeyUp(std::string keycode) {};
+
+	virtual void OnButtonDown(std::string button) {};
+
+	virtual void OnButtonUp(std::string button) {};
+
+	virtual void CheckKeyState() {};
+
+private:
+	std::map<int, std::string> KeyboardKeystate;
 };
 #pragma once

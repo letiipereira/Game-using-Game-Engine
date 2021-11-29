@@ -15,12 +15,13 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 	
 	GetComponent<Animator>().AddAnimation("idle",idleLoner);
 
-	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+	AddComponent<Collider>().AddAttributes("Enemy", this, Collider::BodyType::dynamicBody,
+										   GetComponent<Transform>().myPosition.X,
 										   GetComponent<Transform>().myPosition.Y,
 										   GetComponent<Animator>().GetAnimationByName("idle")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, 0.0f);
+										   GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, true, 0.0f);
 	
-	health = 10;
+	health = 5;
 }
 
 Loner::~Loner()
@@ -44,15 +45,18 @@ void Loner::Update()
 
 	missileDeltaTime += GameEngine::GetInstance()->GetDeltatime();
 
-	if (missileDeltaTime > missileCoolDown)
+	if (missileDeltaTime > missileCoolDown && health > 0)
 	{
-		Attack();
+		//Attack();
 	}
 
 	if (spawnPosX < (GameEngine::GetInstance()->GameWindowWidht() / 2))
 	{
-		GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-
+		if (health > 0)
+		{
+			GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+		}
+		
 		if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht())+10))
 		{
 			mySpawner->RemoveEnemy(this);
@@ -61,7 +65,11 @@ void Loner::Update()
 	}
 	else
 	{
-		GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+		if (health > 0)
+		{
+			GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+		}
 
 		if (GetComponent<Transform>().myPosition.X < -75)
 		{
@@ -80,5 +88,4 @@ void Loner::Attack()
 
 	Missile* missile = new Missile(x,y);
 	missileDeltaTime = 0;
-	std::cout << "missile" << std::endl;
 }

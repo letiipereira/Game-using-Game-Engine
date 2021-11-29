@@ -175,16 +175,37 @@ void GameEngine::start()
 
 					break;
 				}
+				case (SDL_KEYDOWN):
+				{
+					InputManager::GetInstance()->OnKeyDown(SDL_GetKeyName(ev.key.keysym.sym), InputManager::GetInstance()->ControlledPawn.begin()->first);
+					
+					break;
+				}
+				case (SDL_KEYUP):
+				{
+					InputManager::GetInstance()->OnKeyUp(SDL_GetKeyName(ev.key.keysym.sym), InputManager::GetInstance()->ControlledPawn.begin()->first);
+					break;
+				}
+				case (SDL_CONTROLLERBUTTONDOWN):
+				{
+					InputManager::GetInstance()->OnButtonDown(ev);
+					break;
+				}
+				case (SDL_CONTROLLERBUTTONUP):
+				{
+					InputManager::GetInstance()->OnButtonUp(ev);
+					break;
+				}
 			}
 		}
 
 		if (InputManager::GetInstance()->ControlledPawn.size())
 		{
 			// Check keyboard input
-			InputManager::GetInstance()->CheckKeyboardInput(ev, InputManager::GetInstance()->ControlledPawn.begin()->first);
+			InputManager::GetInstance()->ControlledPawn.begin()->first->CheckKeyState();
 
 			// Check controller input
-			InputManager::GetInstance()->CheckControllerInput(ev);
+			InputManager::GetInstance()->OnAxisMotion(ev);
 		}
 
 		currentLevel->Update();
@@ -271,5 +292,4 @@ GameEngine::~GameEngine()
 		delete it->second;
 	}
 	levelMap.clear();
-	// should vector of created levels?
 }

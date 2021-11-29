@@ -17,7 +17,7 @@ class Entity
 public:
 
 	Entity();
-	
+
 	virtual ~Entity();
 
 	template<typename T, typename... TArgs>
@@ -40,7 +40,7 @@ public:
 	}
 
 	template<typename T>
-	T& GetComponent() const 
+	T& GetComponent() const
 	{
 		auto ptr(compList[GetComponentTypeID<T>()]);
 		return *static_cast<T*>(ptr);
@@ -48,7 +48,7 @@ public:
 
 	template <typename T>
 	inline bool HasComponent() const {
-		
+
 		return compBitset[GetComponentTypeID<T>()];
 	}
 
@@ -60,14 +60,14 @@ public:
 		active = false;
 	}
 
-	/*bool HasGroup(Group mGroup) 
+	/*bool HasGroup(Group mGroup)
 	{
 		return groupBitset[mGroup];
 	}*/
 
 	//void AddGroup(Group mGroup);
 
-	/*void delGroup(Group mGroup) 
+	/*void delGroup(Group mGroup)
 	{
 		groupBitset[mGroup] = false;
 	}*/
@@ -78,11 +78,13 @@ public:
 
 	virtual void Update();
 
+	virtual void WasHit(Entity* collidedObject) {};
+
 
 private:
 
 	class Level* level{ nullptr };
-	bool active{true};
+	bool active{ true };
 	ComponentList compList{};
 	ComponentBitset compBitset{};
 	std::vector<std::unique_ptr<Component>> components;

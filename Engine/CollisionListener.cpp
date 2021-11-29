@@ -1,33 +1,31 @@
 #include "CollisionListener.h"
-#include "GameEngine.h"
-#include "Collider.h"
+#include "Entity.h"
+#include "Pawn.h"
 #include <iostream>
 
 CollisionListener* CollisionListener::sInstance{ nullptr };
 
-CollisionListener::CollisionListener()
-{
-    //GameEngine::GetInstance()->GetWorld()->SetContactListener(this);
-}
-
-void CollisionListener::BeginContact(b2Contact* contact)
-{
-    std::cout << "GenericHello" << std::endl;
-
-    void* userData = (void*)contact->GetFixtureA()->GetBody()->GetUserData().pointer;
-
-    if (userData)
+    void CollisionListener::BeginContact(b2Contact* contact)
     {
-        GameEngine* textCol = static_cast<GameEngine*>(userData);
+        void* userData1 = (void*)contact->GetFixtureA()->GetBody()->GetUserData().pointer;
 
-        if (textCol)
+        void* userData2 = (void*)contact->GetFixtureB()->GetBody()->GetUserData().pointer;
+
+        Entity* object1 = static_cast<Entity*>(userData1);
+
+        Entity* object2 = static_cast<Entity*>(userData2);
+
+        if (object1)
         {
-            std::cout << "hello" << std::endl;
-        }
-        else
-        {
-            std::cout << "helloNull" << std::endl;
+            object1->WasHit(object2);
         }
 
+        if (object2)
+        {
+            object2->WasHit(object1);
+        }
     }
-}
+
+
+
+

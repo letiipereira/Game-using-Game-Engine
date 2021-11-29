@@ -10,16 +10,6 @@ InputManager::InputManager()
 	class Pawn* pawn = nullptr;
 	numControllers = 0;
 	keyState = SDL_GetKeyboardState(NULL);
-
-	KeyboardKeys.insert({ "SPACE", SDL_SCANCODE_SPACE });
-	KeyboardKeys.insert({ "RIGHT", SDL_SCANCODE_RIGHT });
-	KeyboardKeys.insert({ "LEFT", SDL_SCANCODE_LEFT });
-	KeyboardKeys.insert({ "UP", SDL_SCANCODE_UP });
-	KeyboardKeys.insert({ "DOWN", SDL_SCANCODE_DOWN });
-	KeyboardKeys.insert({ "D", SDL_SCANCODE_D });
-	KeyboardKeys.insert({ "A", SDL_SCANCODE_A });
-	KeyboardKeys.insert({ "W", SDL_SCANCODE_W });
-	KeyboardKeys.insert({ "S", SDL_SCANCODE_S });
 }
 
 void InputManager::AddPawn(Pawn* pawn)
@@ -46,36 +36,100 @@ void InputManager::MapNewController(int controllerIndex)
 	}
 }
 
-void InputManager::CheckKeyboardInput(SDL_Event gamepadEvent, class Pawn* currentPlayer)
+void InputManager::OnKeyDown(std::string keycode, Pawn* currentPlayer)
 {
-	if (keyState[SDL_SCANCODE_RIGHT])
+	currentPlayer->OnKeyDown(keycode);
+}
+
+void InputManager::OnKeyUp(std::string keycode, Pawn* currentPlayer)
+{
+	currentPlayer->OnKeyUp(keycode);
+}
+
+void InputManager::OnButtonDown(SDL_Event gamepadEvent)
+{
+	Pawn* currentPlayer = nullptr;
+	SDL_GameController* controller = nullptr;
+
+	std::map<Pawn*, SDL_GameController*>::iterator it;
+	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
 	{
-		currentPlayer->Move(Pawn::MovementType::move_right);
-		/*std::cout << "Right" << std::endl;*/
+		if (it->second == SDL_GameControllerFromInstanceID(gamepadEvent.cdevice.which))
+		{
+			currentPlayer = it->first;
+			controller = it->second;
+
+			break;
+		}
 	}
 
-	if (keyState[SDL_SCANCODE_LEFT])
+	if (currentPlayer)
 	{
-		currentPlayer->Move(Pawn::MovementType::move_left);
-	}
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+		{
+			currentPlayer->OnButtonDown("SDL_CONTROLLER_BUTTON_A");
+		}
 
-	if (keyState[SDL_SCANCODE_UP])
-	{
-		currentPlayer->Move(Pawn::MovementType::move_up);
-	}
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+		{
+			currentPlayer->OnButtonDown("SDL_CONTROLLER_BUTTON_B");
+		}
 
-	if (keyState[SDL_SCANCODE_DOWN])
-	{
-		currentPlayer->Move(Pawn::MovementType::move_down);
-	}
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_X)
+		{
+			currentPlayer->OnButtonDown("SDL_CONTROLLER_BUTTON_X");
+		}
 
-	if (keyState[SDL_SCANCODE_SPACE])
-	{
-		currentPlayer->Attack();
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
+		{
+			currentPlayer->OnButtonDown("SDL_CONTROLLER_BUTTON_Y");
+		}
 	}
 }
 
-void InputManager::CheckControllerInput(SDL_Event gamepadEvent)
+void InputManager::OnButtonUp(SDL_Event gamepadEvent)
+{
+	Pawn* currentPlayer = nullptr;
+	SDL_GameController* controller = nullptr;
+
+	std::map<Pawn*, SDL_GameController*>::iterator it;
+	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
+	{
+		if (it->second == SDL_GameControllerFromInstanceID(gamepadEvent.cdevice.which))
+		{
+			currentPlayer = it->first;
+			controller = it->second;
+
+			break;
+		}
+	}
+
+	if (currentPlayer)
+	{
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+		{
+			currentPlayer->OnButtonUp("SDL_CONTROLLER_BUTTON_A");
+		}
+
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+		{
+			currentPlayer->OnButtonUp("SDL_CONTROLLER_BUTTON_B");
+		}
+
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_X)
+		{
+			currentPlayer->OnButtonUp("SDL_CONTROLLER_BUTTON_X");
+		}
+
+		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
+		{
+			currentPlayer->OnButtonUp("SDL_CONTROLLER_BUTTON_Y");
+		}
+	}
+
+}
+
+void InputManager::OnAxisMotion(SDL_Event gamepadEvent)
 {
 	Pawn* currentPlayer = nullptr;
 
@@ -91,60 +145,49 @@ void InputManager::CheckControllerInput(SDL_Event gamepadEvent)
 				break;
 			}
 		}
-
-		if (currentPlayer)
+				
+		if (gamepadEvent.jaxis.axis == 0)
 		{
-			if (gamepadEvent.jaxis.axis == 0)
+			if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
+			//if (gamepadEvent.jaxis.value < -joystickDeadZone)
 			{
-				//if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
-				if (gamepadEvent.jaxis.value < -joystickDeadZone)
-				{
-					currentPlayer->Move(Pawn::MovementType::move_left);
-					std::cout << "Left" << std::endl;
-				}
-
-				//if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
-				if (gamepadEvent.jaxis.value > joystickDeadZone)
-				{
-					currentPlayer->Move(Pawn::MovementType::move_right);
-					std::cout << "Right" << std::endl;
-				}
+				currentPlayer->OnButtonDown("Joystick_XAxis_Left");
 			}
 
-			if (gamepadEvent.jaxis.axis == 1)
+			if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
+			//if (gamepadEvent.jaxis.value > joystickDeadZone)
 			{
-				//if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
-				if (gamepadEvent.jaxis.value < -joystickDeadZone)
-				{
-					currentPlayer->Move(Pawn::MovementType::move_up);
-				}
-
-				//if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
-				if (gamepadEvent.jaxis.value > joystickDeadZone)
-				{
-					currentPlayer->Move(Pawn::MovementType::move_down);
-				}
+				currentPlayer->OnButtonDown("Joystick_XAxis_Right");
 			}
-		}
-	}
 
-	if (gamepadEvent.type == SDL_CONTROLLERBUTTONDOWN && (ControlledPawn.size() != 0))
-	{
-		std::map<Pawn*, SDL_GameController*>::iterator it;
-		for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
-		{
-			if (it->second == SDL_GameControllerFromInstanceID(gamepadEvent.cdevice.which))
+			//if (110 < gamepadEvent.jaxis.value < 130)
+			if (-1000 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 1000)
 			{
-				currentPlayer = it->first;
-
-				break;
+				currentPlayer->OnButtonUp("Joystick_XAxis_Left");
+				currentPlayer->OnButtonUp("Joystick_XAxis_Right");
 			}
 		}
 
-		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_A && currentPlayer != nullptr)
+		if (gamepadEvent.jaxis.axis == 1)
 		{
-			currentPlayer->Attack();
-			std::cout << "Attack" << std::endl;
+			if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
+			//if (gamepadEvent.jaxis.value > -joystickDeadZone)
+			{
+				currentPlayer->OnButtonDown("Joystick_YAxis_Up");
+			}
+
+			if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
+			//if (gamepadEvent.jaxis.value > joystickDeadZone)
+			{
+				currentPlayer->OnButtonDown("Joystick_YAxis_Down");
+			}
+
+			//if (110 < gamepadEvent.jaxis.value < 130)
+			if (-1000 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 1000)
+			{
+				currentPlayer->OnButtonUp("Joystick_YAxis_Up");
+				currentPlayer->OnButtonUp("Joystick_YAxis_Down");
+			}
 		}
 	}
 }
@@ -163,11 +206,5 @@ InputManager::~InputManager()
 	for (it2 = ControllerIndex.begin(); it2 != ControllerIndex.end(); it2++)
 	{
 		ControllerIndex.erase(it2);
-	}
-
-	std::map<std::string, SDL_Scancode>::iterator it3;
-	for (it3 = KeyboardKeys.begin(); it3 != KeyboardKeys.end(); it3++)
-	{
-		KeyboardKeys.erase(it3);
 	}
 }

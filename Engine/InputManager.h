@@ -27,11 +27,15 @@ public:
 	// Map the new connected controller
 	void MapNewController(int controllerIndex);
 
-	// Check the player's keyboard input
-	void CheckKeyboardInput(SDL_Event gamepadEvent, class Pawn* currentPlayer);
+	void OnKeyDown(std::string keycode, class Pawn* currentPlayer);
 
-	// Check the player's controller input
-	void CheckControllerInput(SDL_Event gamepadEvent);
+	void OnKeyUp(std::string keycode, class Pawn* currentPlayer);
+
+	void OnButtonDown(SDL_Event gamepadEvent);
+
+	void OnButtonUp(SDL_Event gamepadEvent);
+
+	void OnAxisMotion(SDL_Event gamepadEvent);
 
 	// Pawn and their respective controller
 	std::map<Pawn*, SDL_GameController*> ControlledPawn{};
@@ -39,7 +43,7 @@ public:
 	// Controller and corresponding index
 	std::map<int, SDL_GameController*> ControllerIndex{};
 
-	std::map<std::string, SDL_Scancode> KeyboardKeys{};
+	std::map<Pawn*, SDL_GameController*> GetControlledPawn() { return ControlledPawn; }
 
 	// Update the pawn and controller relation
 	void UpdateController(std::map<Pawn*, SDL_GameController*> updatedControllerMap) { ControlledPawn = updatedControllerMap; }
@@ -49,7 +53,7 @@ public:
 private:
 	static InputManager* sInstance;
 	const Uint8* keyState;
-	float joystickDeadZone = 8000.0f;
+	float joystickDeadZone = 800.0f;
 };
 
 #endif // INPUTMANAGER_M#pragma once

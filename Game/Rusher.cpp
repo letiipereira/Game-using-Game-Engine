@@ -22,12 +22,14 @@ void Rusher::Update()
 {
 	Enemy::Update();
 
-	
-
 	if (spawnPosY > (GameEngine::GetInstance()->GameWindowHeight() / 2))
 	{
-		GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-
+		if (health > 0)
+		{
+			GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+		}
+		
 		if (GetComponent<Transform>().myPosition.Y < -64)
 		{
 			mySpawner->RemoveEnemy(this);
@@ -36,7 +38,10 @@ void Rusher::Update()
 	}
 	else
 	{
-		GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+		if (health > 0)
+		{
+			GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+		}
 
 		if (GetComponent<Transform>().myPosition.Y > GameEngine::GetInstance()->GameWindowHeight() + 64)
 		{
@@ -44,9 +49,6 @@ void Rusher::Update()
 			Destroy();
 		}
 	}
-
-
-	//std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
 }
 
 void Rusher::Init()
@@ -57,8 +59,9 @@ void Rusher::Init()
 	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
 
 
-	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+	AddComponent<Collider>().AddAttributes("Enemy", this, Collider::BodyType::dynamicBody,
+										   GetComponent<Transform>().myPosition.X,
 										   GetComponent<Transform>().myPosition.Y,
 										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameHeight, 0.0f);
+										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameHeight, true, 0.0f);
 }

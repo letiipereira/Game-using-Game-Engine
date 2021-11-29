@@ -31,7 +31,6 @@ void Animation::Init()
 
 void Animation::SetupAnimation()
 {
-
 	for (int row = myRowStart; row <= myRowNumber; ++row)
 	{
 		for (int col = 1; col <= myColumnNumber; ++col)
@@ -85,7 +84,6 @@ void Animator::Draw()
 void Animator::Update()
 {
 	transform = &entity->GetComponent<Transform>();
-	//std::cout << currentAnimation->myTextureID << std::endl;
 	if(currentAnimation != nullptr)
 	{ 
 		if (isActive)
@@ -99,11 +97,8 @@ void Animator::Update()
 			}
 
 			currentFrame = currentAnimation->frames.at(currentAnimation->frameIndex);
-			//std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
-
 		}	
 	}
-	//std::cout << animationsQueue.size()<<std::endl;
 }
 
 void Animator::AddAnimation(std::string name, Animation* newAnimation)

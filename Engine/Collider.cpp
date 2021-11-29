@@ -21,15 +21,30 @@ void Collider::Update()
 	transform = &entity->GetComponent<Transform>();
 }
 
-void Collider::AddAttributes(float objectLocationX, float objectLocationY, float colliderWidth, float colliderHeight, float gravity)
+void Collider::AddAttributes(std::string id, Entity* entity, BodyType bodyType, float objectLocationX, float objectLocationY, float colliderWidth, float colliderHeight, bool isBullet, float gravity)
 {
-	//Define the dynamic body. We set its position and call the body factory.
+	colliderId = id;
 
 	b2BodyDef objectBodyDef;
-	objectBodyDef.type = b2_dynamicBody;
+
+	switch (bodyType)
+	{
+		case (BodyType::dynamicBody):
+			objectBodyDef.type = b2_dynamicBody;
+			break;
+
+		case(BodyType::kinematicBody):
+			objectBodyDef.type = b2_kinematicBody;
+			break;
+
+		case(BodyType::staticBody):
+			objectBodyDef.type = b2_staticBody;
+			break;
+	}
+
 	objectBodyDef.position.Set(objectLocationX, objectLocationY);
-	objectBodyDef.userData.pointer = (uintptr_t)this;
-	objectBodyDef.bullet = true;
+	objectBodyDef.userData.pointer = (uintptr_t)entity;
+	objectBodyDef.bullet = isBullet;
 
 	body = GameEngine::GetInstance()->GetWorld()->CreateBody(&objectBodyDef);
 
@@ -45,7 +60,6 @@ void Collider::AddAttributes(float objectLocationX, float objectLocationY, float
 	fixtureDef.isSensor = true;
 
 	body->CreateFixture(&fixtureDef);
-	//body->SetLinearVelocity(b2Vec2(0, -80.0f));
 	body->SetGravityScale(gravity);
 }
 
@@ -65,13 +79,20 @@ void Collider::SetVelocity(Vector2D newVelocity)
 	body->SetLinearVelocity(newVel);
 }
 
+void Collider::SetBullet(bool isBullet)
+{
+	//body->SetBullet(isBullet);
+	body->SetEnabled(isBullet);
+	//GameEngine::GetInstance()->GetWorld()->DestroyBody(body);
+}
+
 Vector2D Collider::GetPosition()
 {
 	Vector2D returnPosition;
 	b2Vec2 bodyPos;
-	bodyPos = body->GetPosition(),
+	bodyPos = body->GetPosition();
 
-		returnPosition.X = bodyPos.x - colliderHalfWidth;
+	returnPosition.X = bodyPos.x - colliderHalfWidth;
 	returnPosition.Y = bodyPos.y - colliderHalfHeight;
 
 	return returnPosition;

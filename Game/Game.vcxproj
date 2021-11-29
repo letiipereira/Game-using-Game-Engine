@@ -156,6 +156,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameInput.cpp" />
     <ClCompile Include="Loner.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Rusher.cpp" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameInput.h" />
     <ClInclude Include="Loner.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Rusher.h" />

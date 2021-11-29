@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-class GameEngine //should be the only one -> make sure of it
+class GameEngine
 {
 public:
 	void init(std::string windowTitle, int windowWidth, int windowHeight);

@@ -1,5 +1,6 @@
 #include "Spaceship.h"
 #include "Bullet.h"
+#include "GameInput.h"
 
 Spaceship::Spaceship()
 {
@@ -13,110 +14,376 @@ Spaceship::Spaceship()
 	GetComponent<Animator>().AddAnimation("moveRight", moveRight);
 	GetComponent<Animator>().AddAnimation("moveLeft", moveLeft);
 	GetComponent<Animator>().AddAnimation("idle", idle);
+
+	KeyboardKeystate = GameInput::GetInstance()->GetKeyState();
+	GamepadButtonstate = GameInput::GetInstance()->GetButtonState();
 }
+
 void Spaceship::Init()
 {
 	Pawn::Init();
 	
 	GetComponent<Animator>().PlayFromStart("idle", false, false);
 
-	GetComponent<Transform>().myPosition.X = 100;
-	GetComponent<Transform>().myPosition.Y = 100;
+	GetComponent<Transform>().myPosition.X = 300;
+	GetComponent<Transform>().myPosition.Y = 350;
 
-	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+	AddComponent<Collider>().AddAttributes("Spaceship", this, Collider::BodyType::dynamicBody,
+									       GetComponent<Transform>().myPosition.X,
 									       GetComponent<Transform>().myPosition.Y,
 										   GetComponent<Animator>().GetAnimationByName("idle")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, 0.0f);
+										   GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, true, 0.0f);
 }
 
-void Spaceship::Move(MovementType movement)
+
+
+void Spaceship::OnKeyDown(std::string key)
 {
-	/*float x{};
-	float y{};*/
+	std::map<std::string, bool>::iterator it;
 
-	switch (movement)
+	for (it = KeyboardKeystate.begin(); it != KeyboardKeystate.end(); it++)
 	{
-		case (MovementType::move_left):
+		if (it->first == key)
 		{
-			if (GetComponent<Transform>().myPosition.X > 0)
+			if (it->second != true)
 			{
-				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+				it->second = true;
 
-				//GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
-				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
-
-				GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
-
-				if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
-				{
-					GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
-				}
+				break;
 			}
-			break;
 		}
-		case (MovementType::move_right):
+	}
+}
+
+void Spaceship::OnKeyUp(std::string key)
+{
+	std::map<std::string, bool>::iterator it;
+
+	for (it = KeyboardKeystate.begin(); it != KeyboardKeystate.end(); it++)
+	{
+		if (it->first == key)
 		{
-			if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64))
+			if (it->second != false)
+			{
+				it->second = false;
+
+				break;
+			}
+		}
+	}
+}
+
+void Spaceship::OnButtonDown(std::string button)
+{
+	std::map<std::string, bool>::iterator it;
+
+	for (it = GamepadButtonstate.begin(); it != GamepadButtonstate.end(); it++)
+	{
+		if (it->first == button)
+		{
+			if (it->second != true)
+			{
+				it->second = true;
+
+				break;
+			}
+		}
+	}
+}
+
+void Spaceship::OnButtonUp(std::string button)
+{
+	std::map<std::string, bool>::iterator it;
+
+	for (it = GamepadButtonstate.begin(); it != GamepadButtonstate.end(); it++)
+	{
+		if (it->first == button)
+		{
+			if (it->second != false)
+			{
+				it->second = false;
+
+				break;
+			}
+		}
+	}
+}
+
+void Spaceship::Move()
+{
+	if (KeyboardKeystate["Up"] == true && KeyboardKeystate["Left"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X > 0 && GetComponent<Transform>().myPosition.Y > 0)
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+			}
+		}
+	}
+	else if (KeyboardKeystate["Up"] == true && KeyboardKeystate["Right"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64) && GetComponent<Transform>().myPosition.Y > 0)
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+			}
+		}
+	}
+	else if (KeyboardKeystate["Down"] == true && KeyboardKeystate["Left"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X > 0 && GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+			}
+		}
+	}
+	else if (KeyboardKeystate["Down"] == true && KeyboardKeystate["Right"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64) && GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+		{
+			if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64) && GetComponent<Transform>().myPosition.Y > 0)
 			{
 				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
 
-				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
 
-				GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+				GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
 
 				if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
 				{
 					GetComponent<Animator>().PlayFromStart("moveRight", false, true);
 				}
 			}
-			break;
 		}
-		case (MovementType::move_up):
+	}
+	
+	if (KeyboardKeystate["Left"] == true && KeyboardKeystate["Up"] == false && KeyboardKeystate["Down"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.X > 0)
 		{
-			if (GetComponent<Transform>().myPosition.Y > 0)
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+
+			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
 			{
-				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
-
-				GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
 			}
-			break;
 		}
-		case (MovementType::move_down):
+	}
+	
+	if (KeyboardKeystate["Right"] == true && KeyboardKeystate["Up"] == false && KeyboardKeystate["Down"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64))
 		{
-			if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+
+			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
 			{
-				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
-
-				GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+				GetComponent<Animator>().PlayFromStart("moveRight", false, true);
 			}
-			break;
 		}
+	}
+	
+	if (KeyboardKeystate["Up"] == true && KeyboardKeystate["Left"] == false && KeyboardKeystate["Right"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.Y > 0)
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
 
-	//spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
 
+			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+		}
 	}
 
-	//Vector2D add{ x,y };
-	//add.NormalizeVector();
-	//std::cout << static_cast<int>(movement) << std::endl;
-	//GetComponent<Transform>().myPosition.X += add.X * moveSpeed;
-	//GetComponent<Transform>().myPosition.Y += add.Y * moveSpeed;
+	if (KeyboardKeystate["Down"] == true && KeyboardKeystate["Left"] == false && KeyboardKeystate["Right"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
 
-	//spaceshipXDir = GetComponent<Transform>().myPosition.X - posX;
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+		}
+	}
+}
+
+void Spaceship::ControllerMove()
+{
+	if (GamepadButtonstate["Joystick_YAxis_Up"] == true && GamepadButtonstate["Joystick_XAxis_Left"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X > 0 && GetComponent<Transform>().myPosition.Y > 0)
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+			}
+		}
+	}
+	else if (GamepadButtonstate["Joystick_YAxis_Up"] == true && GamepadButtonstate["Joystick_XAxis_Right"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64) && GetComponent<Transform>().myPosition.Y > 0)
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+			}
+		}
+	}
+	else if (GamepadButtonstate["Joystick_YAxis_Down"] == true && GamepadButtonstate["Joystick_XAxis_Left"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X > 0 && GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+			}
+		}
+	}
+	else if (GamepadButtonstate["Joystick_YAxis_Down"] == true && GamepadButtonstate["Joystick_XAxis_Right"] == true)
+	{
+		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64) && GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+		{
+			if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64) && GetComponent<Transform>().myPosition.Y > 0)
+			{
+				GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+				GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+				GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+
+				if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+				{
+					GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+				}
+			}
+		}
+	}
+	
+	if (GamepadButtonstate["Joystick_XAxis_Left"] == true && GamepadButtonstate["Joystick_YAxis_Up"] == false && GamepadButtonstate["Joystick_YAxis_Down"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.X > 0)
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+
+			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
+			}
+		}
+	}
+	
+	if (GamepadButtonstate["Joystick_XAxis_Right"] == true && GamepadButtonstate["Joystick_YAxis_Up"] == false && GamepadButtonstate["Joystick_YAxis_Down"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64))
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+
+			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+
+			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveRight"))
+			{
+				GetComponent<Animator>().PlayFromStart("moveRight", false, true);
+			}
+		}
+	}
+	
+	if (GamepadButtonstate["Joystick_YAxis_Up"] == true && GamepadButtonstate["Joystick_XAxis_Left"] == false && GamepadButtonstate["Joystick_XAxis_Right"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.Y > 0)
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+		}
+	}
+	
+	if (GamepadButtonstate["Joystick_YAxis_Down"] == true && GamepadButtonstate["Joystick_XAxis_Left"] == false && GamepadButtonstate["Joystick_XAxis_Right"] == false)
+	{
+		if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+		{
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+
+			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+		}
+	}
 }
 
 void Spaceship::Attack()
 {
-	if (bulletDeltaTime > bulletCoolDown)
+	if (KeyboardKeystate["Space"] == true || GamepadButtonstate["SDL_CONTROLLER_BUTTON_A"] == true)
 	{
-		Bullet* bullet = new Bullet(GetComponent<Transform>().myPosition.X + 24, GetComponent<Transform>().myPosition.Y + 0);
-		bulletDeltaTime = 0;
+		if (bulletDeltaTime > bulletCoolDown)
+		{
+			Bullet* bullet = new Bullet(GetComponent<Transform>().myPosition.X + 24, GetComponent<Transform>().myPosition.Y - 20);
+			bulletDeltaTime = 0;
+		}
 	}
-	
+}
+
+void Spaceship::CheckKeyState()
+{
+	Move();
+	Attack();
+	ControllerMove();
 }
 
 void Spaceship::Update()
@@ -134,11 +401,7 @@ void Spaceship::Update()
 	lastPosX = GetComponent<Transform>().myPosition.X;
 	
 	ShipAnimation();
-
-
 }
-
-
 
 void Spaceship::ShipAnimation()
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Component.h"
 
 class Enemy : public Entity
 {
@@ -10,14 +11,14 @@ public:
 
 	void Update() override;
 	void Init() override;
+	void WasHit(Entity* collidedObject) override;
 
-	void ApplyDamage(float demage);
+	void ApplyDamage(float damage);
 
 protected: 
-
-	float health{10};
+	float health{5};
 	Animation* die{ nullptr };
 	float time{};
-	float loseDemageRate{1};
+	float loseDamageRate{1};
 };
 

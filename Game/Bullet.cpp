@@ -12,12 +12,12 @@ Bullet::Bullet(int posX, int posY)
 Bullet::~Bullet()
 {
 	Entity::~Entity();
-	//animation being destroyed by animator
 }
 
 void Bullet::Update()
 {
 	GetComponent<Transform>().myPosition.Y -= 5;
+	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 
 	if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht()) + 10) ||
 		GetComponent<Transform>().myPosition.X < -10)
@@ -29,7 +29,6 @@ void Bullet::Update()
 	{
 		Destroy();
 	}
-
 }
 
 void Bullet::Init()
@@ -38,8 +37,16 @@ void Bullet::Init()
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
 
 
-	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+	AddComponent<Collider>().AddAttributes("Bullet", this, Collider::BodyType::dynamicBody,
+									       GetComponent<Transform>().myPosition.X,
 										   GetComponent<Transform>().myPosition.Y,
 										   GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameHeight, 0.0f);
+										   GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameHeight, true, 0.0f);
+
+}
+
+void Bullet::WasHit(Entity* collidedObject)
+{
+	if (collidedObject->GetComponent<Collider>().GetId() != GetComponent<Collider>().GetId())
+	Destroy();
 }

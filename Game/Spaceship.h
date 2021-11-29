@@ -6,7 +6,7 @@ class Spaceship : public Pawn
 {
 public:
 	Spaceship();
-	~Spaceship(){}
+	~Spaceship() {};
 
 private:
 	float moveSpeed = 300.0f;
@@ -15,8 +15,7 @@ private:
 	float lastPosX{};
 	float time{};
 	float bulletDeltaTime{0.1};
-	float bulletCoolDown{0.1};
-
+	float bulletCoolDown{0.15};
 
 	int animDir{ 0 };
 	class Animator myAnimator{};
@@ -24,11 +23,20 @@ private:
 	Animation* moveLeft{};
 	Animation* idle{};
 
-	void Move(MovementType movement) override;
-	void Attack() override;
+	void OnKeyDown(std::string keycode) override;
+	void OnKeyUp(std::string key) override;
+	void OnButtonDown(std::string button) override;
+	void OnButtonUp(std::string button) override;
+	void Move();
+	void ControllerMove();
+	void Attack();
+	void CheckKeyState() override;
+
 	void Update() override final;
 	void Init() override final;
 	void ShipAnimation();
 
+	std::map<std::string, bool> KeyboardKeystate;
+	std::map<std::string, bool> GamepadButtonstate;
 };
 #pragma once

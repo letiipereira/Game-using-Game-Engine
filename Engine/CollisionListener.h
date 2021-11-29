@@ -7,7 +7,7 @@
 class CollisionListener : public b2ContactListener
 {
 public:
-    CollisionListener();
+    CollisionListener() {};
 
     // Create a singleton
     static CollisionListener* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new CollisionListener(); }
