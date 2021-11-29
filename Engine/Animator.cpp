@@ -56,7 +56,6 @@ void Animation::SetupAnimation()
 
 Animator::~Animator()
 {
-	//std::cout << " DESTROY ANIMATOR " << std::endl;
 	if (animations.size() > 0)
 	{
 		std::map<std::string, Animation*>::iterator it;

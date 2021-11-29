@@ -45,7 +45,6 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 	}
 
 	world->SetContactListener(CollisionListener::GetInstance());
-	//Texture* background= TextureManager::GetInstance()->LoadTexture("background", "assets/galaxy2.bmp");
 }
 
 void GameEngine::start()

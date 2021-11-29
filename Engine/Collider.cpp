@@ -7,7 +7,6 @@
 Collider::~Collider()
 {
 	GameEngine::GetInstance()->GetWorld()->DestroyBody(body);
-	//std::cout << "DESTROY COLIDER" << std::endl;
 }
 
 bool Collider::Init()

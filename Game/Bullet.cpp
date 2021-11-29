@@ -36,4 +36,10 @@ void Bullet::Init()
 {
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
+
+
+	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+										   GetComponent<Transform>().myPosition.Y,
+										   GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameWidth,
+										   GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameHeight, 0.0f);
 }

@@ -13,23 +13,10 @@ Rusher::Rusher(int posX, int posY, Spawner* spawner)
 
 	GetComponent<Animator>().AddAnimation("idleRusher", idleRusher);
 
-	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
-									  	   GetComponent<Transform>().myPosition.Y,
-										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameHeight, 0.0f);
-
 	health = 5;
 }
 
 Rusher::~Rusher() {}
-
-void Rusher::Init()
-{
-	Enemy::Init();
-	GetComponent<Transform>().myPosition.X = spawnPosX;
-	GetComponent<Transform>().myPosition.Y = spawnPosY;
-	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
-}
 
 void Rusher::Update()
 {
@@ -62,3 +49,16 @@ void Rusher::Update()
 	//std::cout << currentFrame.first << " " << currentFrame.second << std::endl;
 }
 
+void Rusher::Init()
+{
+	Enemy::Init();
+	GetComponent<Transform>().myPosition.X = spawnPosX;
+	GetComponent<Transform>().myPosition.Y = spawnPosY;
+	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
+
+
+	AddComponent<Collider>().AddAttributes(GetComponent<Transform>().myPosition.X,
+										   GetComponent<Transform>().myPosition.Y,
+										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameWidth,
+										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameHeight, 0.0f);
+}
