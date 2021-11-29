@@ -47,7 +47,7 @@ void Loner::Update()
 
 	if (missileDeltaTime > missileCoolDown && health > 0)
 	{
-		//Attack();
+		Attack();
 	}
 
 	if (spawnPosX < (GameEngine::GetInstance()->GameWindowWidht() / 2))

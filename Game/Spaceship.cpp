@@ -51,14 +51,14 @@ void Spaceship::OnKeyUp(std::string key)
 
 void Spaceship::OnButtonDown(std::string button)
 {
-	if (KeyboardKeystate[button] != true)
-		KeyboardKeystate[button] = true;
+	if (GamepadButtonstate[button] != true)
+		GamepadButtonstate[button] = true;
 }
 
 void Spaceship::OnButtonUp(std::string button)
 {
-	if (KeyboardKeystate[button] != false)
-		KeyboardKeystate[button] = false;
+	if (GamepadButtonstate[button] != false)
+		GamepadButtonstate[button] = false;
 }
 
 void Spaceship::Move()
@@ -112,55 +112,6 @@ void Spaceship::Move()
 
 
 }
-
-//void Spaceship::ControllerMove()
-//{
-//	Vector2D movement{};
-//
-//	//std::cout << movement.X << " " << movement.Y << std::endl;
-//
-//	bool up{ false };
-//	bool down{ false };
-//	bool left{ false };
-//	bool right{ false };
-//
-//	if ( GamepadButtonstate["Joystick_YAxis_Up"] && !up)
-//	{
-//		if (GetComponent<Transform>().myPosition.Y > 0)
-//			movement.Y -= 1;
-//		up = true;
-//	}
-//	if (GamepadButtonstate["Joystick_YAxis_Down"] && !down)
-//	{
-//		if (GetComponent<Transform>().myPosition.Y < GameEngine::GetInstance()->GameWindowHeight() - 64)
-//			movement.Y += 1;
-//		down = true;
-//	}
-//	if (GamepadButtonstate["Joystick_XAxis_Left"] && !left)
-//	{
-//		if (GetComponent<Transform>().myPosition.X > 0)
-//			movement.X -= 1;
-//		left = true;
-//	}
-//	if (GamepadButtonstate["Joystick_XAxis_Right"] && !right)
-//	{
-//		if (GetComponent<Transform>().myPosition.X < GameEngine::GetInstance()->GameWindowWidht() - 64)
-//			movement.X += 1;
-//		right = true;
-//	}
-//
-//	movement.NormalizeVector();
-//	//std::cout << movement.X << " " << movement.Y << std::endl;
-//
-//	if (HasComponent<Collider>())
-//	{
-//		GetComponent<Collider>().SetVelocity(moveSpeed);
-//		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X + movement.X * moveSpeed * GameEngine::GetInstance()->GetDeltatime(),
-//			GetComponent<Transform>().myPosition.Y + movement.Y * moveSpeed * GameEngine::GetInstance()->GetDeltatime());
-//
-//		GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
-//	}
-//}
 
 void Spaceship::Attack()
 {

@@ -16,8 +16,11 @@ Bullet::~Bullet()
 
 void Bullet::Update()
 {
+
 	GetComponent<Transform>().myPosition.Y -= 5;
+	GetComponent<Collider>().SetVelocity(5/ GameEngine::GetInstance()->GetDeltatime());
 	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+
 
 	if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht()) + 10) ||
 		GetComponent<Transform>().myPosition.X < -10)
@@ -47,6 +50,7 @@ void Bullet::Init()
 
 void Bullet::WasHit(Entity* collidedObject)
 {
+
 	if (collidedObject->GetComponent<Collider>().GetId() != GetComponent<Collider>().GetId())
-	Destroy();
+		Destroy();
 }
