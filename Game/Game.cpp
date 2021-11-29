@@ -17,6 +17,7 @@ int main(int argc, char** argv)
 
     Entity newEnt2;
     newEnt2.AddComponent<SpriteComponent>("logo", "assets/logo.bmp", 1);
+    newEnt2.AddComponent<Collider>().AddAttributes(newEnt2.GetComponent<Transform>().myPosition.X, newEnt2.GetComponent<Transform>().myPosition.Y, 100.0f, 100.0f, 0.0f);
     //newEnt->AddGroup(GameEngine::GetInstance()->groupMap);
 
     //Entity gAster;
@@ -39,8 +40,13 @@ int main(int argc, char** argv)
     currentPlayer.GetComponent<Animator>().AddAnimation("moveLeft", moveLeft);
     currentPlayer.GetComponent<Animator>().AddAnimation("idle",idle);
 
-    currentPlayer.GetComponent<Transform>().myPosition.X = 100;
-    currentPlayer.GetComponent<Transform>().myPosition.Y = 100;
+    currentPlayer.GetComponent<Transform>().myPosition.X = 200;
+    currentPlayer.GetComponent<Transform>().myPosition.Y = 200;
+
+    currentPlayer.AddComponent<Collider>().AddAttributes(currentPlayer.GetComponent<Transform>().myPosition.X, currentPlayer.GetComponent<Transform>().myPosition.Y, currentPlayer.GetComponent<Animator>().GetAnimationByName("idle")->frameWidth, currentPlayer.GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, 0.0f);
+
+
+    // maybe we could have this code in the player init function 
 
     //newEnt2->AddGroup(GameEngine::GetInstance()->groupUI);
 

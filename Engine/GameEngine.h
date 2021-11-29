@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-class GameEngine //should be the only one -> make sure of it
+class GameEngine
 {
 public:
 	void init(std::string windowTitle, int windowWidth, int windowHeight);
@@ -21,6 +21,8 @@ public:
 	void DeleteLevelByName(std::string levelName);
 	class Level* GetLevelByName(std::string levelName);
 	float GetDeltatime() { return deltaTime; }
+
+	class b2World* GetWorld();
 
 	/*enum groupLabels : std::size_t
 	{
@@ -40,6 +42,8 @@ private:
 	int prevTime;
 	int currentTime;
 	float deltaTime;
+	class b2World* world;
+	class b2World* world2;
 	static GameEngine* instance;
 	class TextureManager* textureManager{ nullptr };
 	class SDLWrapper* sdl{ nullptr };
@@ -47,6 +51,7 @@ private:
 	class Level* currentLevel{ nullptr };
 	class Level* defaultLevel{ nullptr };
 	std::map<std::string, class Level*> levelMap;
+	class Temp* tempListener;
 };
 
 #endif //

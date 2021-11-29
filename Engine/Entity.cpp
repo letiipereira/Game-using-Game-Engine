@@ -1,8 +1,6 @@
 #include "Entity.h"
 #include "Level.h"
 
-
-
 Entity::Entity()
 {
 	level = GameEngine::GetInstance()->GetActiveLevel();
@@ -32,4 +30,10 @@ void Entity::Update()
 		comp->Update();
 	}
 }
+
+//void Entity::Destroy()
+//{
+//	std::cout << "Collide" << std::endl;
+//	delete this;
+//}
 

@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include "SDLWrapper.h"
 #include "Window.h"
+#include "CollisionListener.h"
 #include "TextureManager.h"
 #include "InputManager.h"
 #include "Texture.h"
@@ -16,6 +17,9 @@ GameEngine::GameEngine()
 	prevTime = 0;
 	currentTime = 0;
 	deltaTime = 0;
+
+	b2Vec2 gravity (0.0f, -10.0f);
+	world = new b2World(gravity);
 }
 
 void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight)
@@ -38,6 +42,8 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 		currentLevel = defaultLevel;
 	}
 
+	world->SetContactListener(CollisionListener::GetInstance());
+
 	//Texture* background= TextureManager::GetInstance()->LoadTexture("background", "assets/galaxy2.bmp");
 }
 
@@ -46,11 +52,76 @@ void GameEngine::start()
 	bool isRunning = true;
 	SDL_Event ev;
 
+	float timeStep = 1.0f / 60.0f;
+	int32 velocityIterations = 6;
+	int32 positionIterations = 2;
+
+	////World::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	//// Define the gravity vector. 
+	//b2Vec2 gravity(0.0f, -10.0f);
+	//// Construct a world object, which will hold and simulate the rigid bodies. 
+	//b2World world(gravity);
+	//CollisionListener tempListener;
+	//world.SetContactListener(&tempListener);
+
+	////Ground Body
+	//b2BodyDef groundBodyDef;
+	//groundBodyDef.position.Set(0.0f, -10.0f);
+	//groundBodyDef.type = b2_staticBody;
+	//// Call the body factory which allocates memory for the ground body 
+	//// from a pool and creates the ground box shape (also from a pool). 
+	//// The body is also added to the world. 
+	//b2Body* groundBody = world.CreateBody(&groundBodyDef);
+
+	//b2PolygonShape groundBox;
+	//groundBox.SetAsBox(50.0f, 10.0f);
+
+	//b2FixtureDef fixtureDef2;
+	//fixtureDef2.shape = &groundBox;
+	//fixtureDef2.isSensor = true;
+	//groundBody->CreateFixture(&fixtureDef2);
+
+	////Dynamic
+	//b2BodyDef bodyDef;
+	//bodyDef.type = b2_dynamicBody;
+	//bodyDef.position.Set(0.0f, 4.0f);
+	//b2Body* body = world.CreateBody(&bodyDef);
+
+	//b2PolygonShape dynamicBox;
+	//dynamicBox.SetAsBox(1.0f, 1.0f);
+
+	//b2FixtureDef fixtureDef;
+	//fixtureDef.shape = &dynamicBox;
+	//fixtureDef.density = 1.0f;
+	//fixtureDef.friction = 0.3f;
+	//body->CreateFixture(&fixtureDef);
+
+	//// This is our little game loop. 
+	//for (int32 i = 0; i < 60; ++i)
+	//{
+	//	// Instruct the world to perform a single step of simulation. 
+	//	// It is generally best to keep the time step and iterations fixed. 
+	//	world.Step(timeStep, velocityIterations, positionIterations);
+
+	//	// Now print the position and angle of the body. 
+	//	b2Vec2 position = body->GetPosition();
+	//	float angle = body->GetAngle();
+
+	//	//printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+	//}
+
 	while (isRunning)
 	{
+		// Now print the position and angle of the body. 
+		//b2Vec2 position = groundBody->GetPosition();
+
+		//printf("%4.2f %4.2f %4.2f\n", position.x, position.y);
+
 		prevTime = currentTime;
 		currentTime = SDL_GetTicks();
 		deltaTime = (currentTime - prevTime) / 1000.0f;
+
+		world->Step(timeStep, velocityIterations, positionIterations);
 
 		while (SDL_PollEvent(&ev) != 0)
 		{
@@ -116,7 +187,6 @@ void GameEngine::start()
 							{
 								it->second = SDL_GameControllerOpen(ev.cdevice.which);
 								std::cout << "Found a pawn! " << std::endl;
-								std::cout << SDL_GameControllerNameForIndex(ev.cdevice.which) << " pawn: " << it->first << std::endl;
 								InputManager::GetInstance()->UpdateController(pawnController);
 								break;
 							}
@@ -195,7 +265,7 @@ GameEngine* GameEngine::GetInstance()
 
 void GameEngine::ActivateLevelByName(std::string levelName)
 {
-	currentLevel = levelMap[levelName];
+	currentLevel = levelMap[levelName];	
 }
 
 InputManager* GameEngine::GetInputManager()
@@ -223,6 +293,11 @@ void GameEngine::DeleteLevelByName(std::string levelName)
 class Level* GameEngine::GetLevelByName(std::string levelName)
 {
 	return levelMap[levelName];
+}
+
+b2World* GameEngine::GetWorld()
+{
+	return world;
 }
 
 GameEngine::~GameEngine()

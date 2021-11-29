@@ -1,9 +1,10 @@
 #include "Level.h"
 #include <memory>
 #include "SpriteComponent.h"
+#include "TextureManager.h"
+#include "Collider.h"
 #include <vector>
 #include <map>
-#include "TextureManager.h"
 
 void Level::Draw()
 {

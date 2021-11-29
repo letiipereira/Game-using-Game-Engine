@@ -10,16 +10,6 @@ InputManager::InputManager()
 	class Pawn* pawn = nullptr;
 	numControllers = 0;
 	keyState = SDL_GetKeyboardState(NULL);
-
-	KeyboardKeys.insert({ "SPACE", SDL_SCANCODE_SPACE });
-	KeyboardKeys.insert({ "RIGHT", SDL_SCANCODE_RIGHT });
-	KeyboardKeys.insert({ "LEFT", SDL_SCANCODE_LEFT });
-	KeyboardKeys.insert({ "UP", SDL_SCANCODE_UP });
-	KeyboardKeys.insert({ "DOWN", SDL_SCANCODE_DOWN });
-	KeyboardKeys.insert({ "D", SDL_SCANCODE_D });
-	KeyboardKeys.insert({ "A", SDL_SCANCODE_A });
-	KeyboardKeys.insert({ "W", SDL_SCANCODE_W });
-	KeyboardKeys.insert({ "S", SDL_SCANCODE_S });
 }
 
 void InputManager::AddPawn(Pawn* pawn)
@@ -41,7 +31,8 @@ void InputManager::MapNewController(int controllerIndex)
 		SDL_free(mapping);
 		SDL_GameControllerUpdate();
 	}
-	else {
+	else
+	{
 		std::cout << "Index '" << controllerIndex << "' is not a compatible controller." << std::endl;
 	}
 }
@@ -51,7 +42,6 @@ void InputManager::CheckKeyboardInput(SDL_Event gamepadEvent, class Pawn* curren
 	if (keyState[SDL_SCANCODE_RIGHT])
 	{
 		currentPlayer->Move(Pawn::MovementType::move_right);
-		std::cout << "Right" << std::endl;
 	}
 
 	if (keyState[SDL_SCANCODE_LEFT])
@@ -100,14 +90,12 @@ void InputManager::CheckControllerInput(SDL_Event gamepadEvent)
 				if (gamepadEvent.jaxis.value < -joystickDeadZone)
 				{
 					currentPlayer->Move(Pawn::MovementType::move_left);
-					std::cout << "Left" << std::endl;
 				}
 
 				//if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
 				if (gamepadEvent.jaxis.value > joystickDeadZone)
 				{
 					currentPlayer->Move(Pawn::MovementType::move_right);
-					std::cout << "Right" << std::endl;
 				}
 			}
 
@@ -144,7 +132,6 @@ void InputManager::CheckControllerInput(SDL_Event gamepadEvent)
 		if (gamepadEvent.cbutton.button == SDL_CONTROLLER_BUTTON_A && currentPlayer != nullptr)
 		{
 			currentPlayer->Attack();
-			std::cout << "Attack" << std::endl;
 		}
 	}
 }

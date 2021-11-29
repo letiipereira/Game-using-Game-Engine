@@ -1,10 +1,10 @@
 #pragma once
 #include "GameEngine.h"
+#include <box2d/box2d.h>
 #include <vector>
 #include "Entity.h"
 
-
-class Level
+class Level : public b2ContactListener
 {
 public:
 
@@ -26,6 +26,7 @@ public:
 
 	void AddEntity(Entity* entity);
 	void EraseEntity(Entity* entity);
+
 	//void AddToGroup(Entity* mEntity, Group mGroup);
 	//std::vector<Entity*>& GetGroup(Group mGroup);
 

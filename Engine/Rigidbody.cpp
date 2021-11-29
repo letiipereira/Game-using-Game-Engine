@@ -15,6 +15,4 @@ void Rigidbody::Update() // pess on the delta time?
     transform->myPosition.Y += myVelocity.Y;
     // myVelocitty = myAcceleration*dt;
     // myPosition = myVelocity*dt;
-
-
 }

@@ -53,6 +53,4 @@ private:
 	//drag
 	//vector 2D force
 	//velocity
-
-	
 };

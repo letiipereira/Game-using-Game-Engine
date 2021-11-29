@@ -7,7 +7,6 @@
 #include <iostream>
 #include "SDL.h"
 
-
 void Animation::Init()
 {
 	texture = TextureManager::GetInstance()->LoadTexture(myTextureID, myFilePath);
@@ -23,7 +22,6 @@ void Animation::Init()
 		frameIndex = (frames.size() - 1);
 
 }
-
 
 void Animation::SetupAnimation()
 {

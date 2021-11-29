@@ -11,7 +11,13 @@ void Spaceship::Move(MovementType movement)
 	{
 		case (MovementType::move_left):
 		{
-			GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
+
+			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
+			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
+
+			//GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+
 			if (GetComponent<Animator>().GetCurrentAnimation() != GetComponent<Animator>().GetAnimationByName("moveLeft"))
 			{
 				GetComponent<Animator>().PlayFromStart("moveLeft", false, false);
@@ -59,7 +65,6 @@ void Spaceship::Update()
 		time = 0;
 	}
 	spaceshipXDir = GetComponent<Transform>().myPosition.X - lastPosX;
-	std::cout << spaceshipXDir << std::endl;
 
 	if (spaceshipXDir > 0)
 	{
