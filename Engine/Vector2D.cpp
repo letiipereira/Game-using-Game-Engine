@@ -30,8 +30,12 @@ double Vector2D::GetDir()
 }
 void Vector2D::NormalizeVector()
 {
-	double mag = GetMag();
-	X = static_cast<float>(X / mag);
-	Y = static_cast<float>(Y / mag);
+	if(GetMag() > 0 )
+	{
+		double mag = GetMag();
+		X = static_cast<float>(X / mag);
+		Y = static_cast<float>(Y / mag);
+	}
+		
 };
 

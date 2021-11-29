@@ -30,7 +30,7 @@ private:
 	void OnButtonDown(std::string button) override;
 	void OnButtonUp(std::string button) override;
 	void Move();
-	void ControllerMove();
+	//void ControllerMove();
 	void Attack();
 	void CheckKeyState() override;
 
