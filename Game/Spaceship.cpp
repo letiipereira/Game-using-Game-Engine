@@ -39,78 +39,59 @@ void Spaceship::Init()
 
 void Spaceship::OnKeyDown(std::string key)
 {
-	std::map<std::string, bool>::iterator it;
-
-	for (it = KeyboardKeystate.begin(); it != KeyboardKeystate.end(); it++)
-	{
-		if (it->first == key)
-		{
-			if (it->second != true)
-			{
-				it->second = true;
-
-				break;
-			}
-		}
-	}
+	if (KeyboardKeystate[key] != true)
+		KeyboardKeystate[key] = true;
 }
 
 void Spaceship::OnKeyUp(std::string key)
 {
-	std::map<std::string, bool>::iterator it;
-
-	for (it = KeyboardKeystate.begin(); it != KeyboardKeystate.end(); it++)
-	{
-		if (it->first == key)
-		{
-			if (it->second != false)
-			{
-				it->second = false;
-
-				break;
-			}
-		}
-	}
+	if (KeyboardKeystate[key] != false)
+		KeyboardKeystate[key] = false;
 }
 
 void Spaceship::OnButtonDown(std::string button)
 {
-	std::map<std::string, bool>::iterator it;
-
-	for (it = GamepadButtonstate.begin(); it != GamepadButtonstate.end(); it++)
-	{
-		if (it->first == button)
-		{
-			if (it->second != true)
-			{
-				it->second = true;
-
-				break;
-			}
-		}
-	}
+	if (KeyboardKeystate[button] != true)
+		KeyboardKeystate[button] = true;
 }
 
 void Spaceship::OnButtonUp(std::string button)
 {
-	std::map<std::string, bool>::iterator it;
-
-	for (it = GamepadButtonstate.begin(); it != GamepadButtonstate.end(); it++)
-	{
-		if (it->first == button)
-		{
-			if (it->second != false)
-			{
-				it->second = false;
-
-				break;
-			}
-		}
-	}
+	if (KeyboardKeystate[button] != false)
+		KeyboardKeystate[button] = false;
 }
 
 void Spaceship::Move()
 {
+	//Vector2D movement;
+
+	//if (GetComponent<Transform>().myPosition.X > 0 && GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64) &&
+	//	GetComponent<Transform>().myPosition.Y > 0 && GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
+	//{
+	//	if (KeyboardKeystate["Left"] == true)
+	//	{
+	//		movement.X -= 1;
+	//	}
+	//	else if (KeyboardKeystate["Right"] == true)
+	//	{
+	//		movement.X += 1;
+	//	}
+	//	else if (KeyboardKeystate["Up"] == true)
+	//	{
+	//		movement.Y -= 1;
+	//	}
+	//	else if (KeyboardKeystate["Down"] == true)
+	//	{
+	//		movement.Y += 1;
+	//	}
+	//}
+
+	//movement.NormalizeVector();
+
+	//GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * movement.X), GetComponent<Transform>().myPosition.Y += (moveSpeed * movement.Y));
+
+	//GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+	
 	if (KeyboardKeystate["Up"] == true && KeyboardKeystate["Left"] == true)
 	{
 		if (GetComponent<Transform>().myPosition.X > 0 && GetComponent<Transform>().myPosition.Y > 0)

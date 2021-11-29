@@ -8,6 +8,8 @@ public:
 	Spaceship();
 	~Spaceship() {};
 
+	enum Movement { move_right, move_left, move_up, move_down };
+
 private:
 	float moveSpeed = 300.0f;
 	float uniform = 0.7071f;
