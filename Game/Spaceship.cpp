@@ -164,9 +164,7 @@ void Spaceship::Move()
 	{
 		if (GetComponent<Transform>().myPosition.X > 0)
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime()), GetComponent<Transform>().myPosition.Y);
 
 			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
 
@@ -181,9 +179,7 @@ void Spaceship::Move()
 	{
 		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64))
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime()), GetComponent<Transform>().myPosition.Y);
 
 			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
 
@@ -198,9 +194,7 @@ void Spaceship::Move()
 	{
 		if (GetComponent<Transform>().myPosition.Y > 0)
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime()));
 
 			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
 		}
@@ -210,9 +204,7 @@ void Spaceship::Move()
 	{
 		if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime()));
 
 			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
 		}
@@ -293,9 +285,7 @@ void Spaceship::ControllerMove()
 	{
 		if (GetComponent<Transform>().myPosition.X > 0)
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime()), GetComponent<Transform>().myPosition.Y);
 
 			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
 
@@ -310,9 +300,7 @@ void Spaceship::ControllerMove()
 	{
 		if (GetComponent<Transform>().myPosition.X < (GameEngine::GetInstance()->GameWindowWidht() - 64))
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform), GetComponent<Transform>().myPosition.Y);
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime()), GetComponent<Transform>().myPosition.Y);
 
 			GetComponent<Transform>().myPosition.X = GetComponent<Collider>().GetPosition().X;
 
@@ -327,9 +315,7 @@ void Spaceship::ControllerMove()
 	{
 		if (GetComponent<Transform>().myPosition.Y > 0)
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime()));
 
 			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
 		}
@@ -339,9 +325,7 @@ void Spaceship::ControllerMove()
 	{
 		if (GetComponent<Transform>().myPosition.Y < (GameEngine::GetInstance()->GameWindowHeight() - 64))
 		{
-			GetComponent<Collider>().SetVelocity(moveSpeed * uniform);
-
-			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform));
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime()));
 
 			GetComponent<Transform>().myPosition.Y = GetComponent<Collider>().GetPosition().Y;
 		}
