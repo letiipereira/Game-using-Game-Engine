@@ -77,33 +77,25 @@ void Level::Update()
 
 void Level::Refresh()
 {
-	//for (auto i(0u); i < maxGroups; 
-	// )
-	//{
-	//	auto& v(groupedEntities[i]);
-	//	v.erase(
-	//		std::remove_if(std::begin(v), std::end(v), [i](Entity* mEntity)
-	//			{
-	//				return !mEntity->IsActive() || mEntity->HasGroup(i);
-	//			}),
-	//		std::end(v));
-	//}
+	std::vector<Entity*> entitiesToDelete;
 
-	//std::cout << levelEntities.size()<< std::endl;
-
-	for (int i = 0; i < levelEntities.size(); i++)
 	{
 		if (!levelEntities[i]->IsActive())
 		{
 			Entity* thisEntity = levelEntities[i];
-			levelEntities.erase(levelEntities.begin()+i);
 			delete thisEntity;
+			entitiesToDelete.push_back(thisEntity);
+			levelEntities.erase(levelEntities.begin() + i);
+			std::cout << levelEntities.size() << std::endl;
 		}
-
 	}
 
-	//std::cout << levelEntities.size() << std::endl;
-
+	
+	for (Entity* ent : entitiesToDelete)
+	{
+		delete ent;
+	}
+	
 	for (Entity* ent : entitiesToAdd)
 	{
 		levelEntities.push_back(ent);

@@ -13,29 +13,24 @@ class TextureManager {
 
 public:
 
+	TextureManager();
 	~TextureManager();
 
 	static TextureManager* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new TextureManager(); }
 
-	bool DrawTexture(std::string id, Transform* transform, bool flipHor = false);
+	void DrawTexture(std::string id, Transform* transform, bool flipHor = false);
 	void Render();
 	void Clear();
 	void DropTexture(std::string id);
-	void DrawFrame(std::string id, Transform* transform, int width, int height, double angle, int row, int frame, bool flipHor = false);
+	void DrawFrame(std::string id, Transform* transform, int rowCurrent = 1, int frameCurrent = 1, int rowTotal = 1, int frameTotal = 1, double angle = 0, bool flipHor = false);
 	Texture* GetTexture(std::string id);
 	Texture* LoadTexture(std::string id, std::string filePath);
 	
 
 private:
 
-	TextureManager()
-	{
-		renderTarget = SDL_CreateRenderer(GameEngine::GetInstance()->GetWindow()->GetSDLWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	};
-
 	static TextureManager* sInstance;
 	std::map<std::string, Texture*> textureMap{};
-	SDL_Renderer* renderTarget{ nullptr };
 	
 };
 

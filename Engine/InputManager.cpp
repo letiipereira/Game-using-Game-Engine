@@ -199,12 +199,15 @@ InputManager::~InputManager()
 	std::map<Pawn*, SDL_GameController*>::iterator it;
 	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
 	{
+		delete it->second;
+		delete it->first;
 		ControlledPawn.erase(it);
 	}
 
 	std::map<int, SDL_GameController*>::iterator it2;
 	for (it2 = ControllerIndex.begin(); it2 != ControllerIndex.end(); it2++)
 	{
+		delete it->second;
 		ControllerIndex.erase(it2);
 	}
 }

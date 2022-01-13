@@ -44,7 +44,7 @@ struct Animation
 	int myFramesPerSeconds{};
 	int textureWidth{}, textureHeight{};
 	int frameWidth{}, frameHeight{};
-	int frameIndex{ 0 };
+	int frameIndex{ 1 };
 	std::vector<std::pair<int, int>> frames{};
 
 	bool foward{ true };

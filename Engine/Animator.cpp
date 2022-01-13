@@ -15,9 +15,8 @@ void Animation::Init()
 	else
 		texture = TextureManager::GetInstance()->GetTexture(myTextureID);
 
-	SDL_QueryTexture(texture->GetSDLTexture(), NULL, NULL, &textureWidth, &textureHeight);
-	frameWidth = static_cast<int>(textureWidth / myColumnNumber);
-	frameHeight = static_cast<int>(textureHeight / myRowNumber);
+	frameWidth = static_cast<int>(texture->GetWidth() / myColumnNumber);
+	frameHeight = static_cast<int>(texture->GetHeight() / myRowNumber);
 	currentColumn = myColunmStart;
 	currentRow = myRowStart;
 
@@ -77,7 +76,7 @@ bool Animator::Init()
 
 void Animator::Draw()
 {
-	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform,  currentAnimation->frameWidth, currentAnimation->frameHeight, transform->myRotation, currentFrame.first, currentFrame.second, currentAnimation->flip);
+	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform, currentFrame.first, currentFrame.second, currentAnimation->myRowNumber, currentAnimation->myColumnNumber, transform->myRotation, currentAnimation->flip);
 }
 
 

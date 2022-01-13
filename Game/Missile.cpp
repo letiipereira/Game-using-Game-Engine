@@ -28,6 +28,7 @@ void Missile::Update()
 	{
 		GetComponent<Transform>().myPosition.X += (missileMovX * speed);
 		GetComponent<Transform>().myPosition.Y += (missileMovY * speed);
+
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}
 	else
