@@ -23,5 +23,7 @@ private:
 
 	float missileDeltaTime{0};
 	float missileCoolDown{1};
+
+	Vector2D playerPosition = (0.0f, 0.0f);
 };
 

@@ -31,6 +31,11 @@ public:
 	{
 		return X * v2.X + Y * v2.Y;
 	}
+
+	inline bool operator<(const Vector2D& v2) const
+	{
+		return (X * X + Y * Y) < (v2.X * v2.X + v2.Y * v2.Y);
+	}
 	
 	double GetMag();
 	double GetDir();

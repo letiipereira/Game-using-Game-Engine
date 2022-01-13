@@ -1,13 +1,17 @@
 #include "Missile.h"
+#include "Spaceship.h"
+#include "Companion.h"
 
-Missile::Missile(int posX, int posY)
+Missile::Missile(int posX, int posY, float movementX, float movementY)
 {
 	AddComponent<Animator>();
 	missileEnAnim = new Animation("missileEnAnim", "assets/EnWeap6.bmp", 1, 8, 1, 8, 1, 1, 4, false, 8, true, true, true);
-	die = new Animation("missileExplode", "assets/explode64.bmp", 2, 5, 2, 5, 1, 1, 8, false, 2, false, true, true);
+	die = new Animation("missileExplode", "assets/explode64.bmp", 2, 5, 2, 5, 1, 1, 15, false, 2, false, true, true);
 	GetComponent<Animator>().AddAnimation("missileEnAnim", missileEnAnim);
 	spawnPosX = posX;
 	spawnPosY = posY;
+	missileMovX = movementX;
+	missileMovY = movementY;
 	hasCollided = false;
 }
 
@@ -22,8 +26,18 @@ void Missile::Update()
 
 	if (!hasCollided)
 	{
-		GetComponent<Transform>().myPosition.Y += 5;
+		GetComponent<Transform>().myPosition.X += (missileMovX * speed);
+		GetComponent<Transform>().myPosition.Y += (missileMovY * speed);
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+	}
+	else
+	{
+		if (!GetComponent<Animator>().AnimationIsPlaying())
+		{
+			Destroy();
+		}
+
+		GetComponent<Collider>().SetBullet(false);
 	}
 	
 	if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht()) + 10) ||
@@ -39,15 +53,6 @@ void Missile::Update()
 
 	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 
-	if (hasCollided)
-	{
-		if (!GetComponent<Animator>().AnimationIsPlaying())
-		{
-			Destroy();
-		}
-
-		GetComponent<Collider>().SetBullet(false);
-	}
 }
 
 void Missile::Init()
@@ -68,10 +73,35 @@ void Missile::Init()
 
 void Missile::WasHit(Entity* collidedObject)
 {
-	if (collidedObject->GetComponent<Collider>().GetId() != "Enemy")
+	if (collidedObject->GetComponent<Collider>().GetId() == "Spaceship" ||
+		collidedObject->GetComponent<Collider>().GetId() == "Companion" ||
+		collidedObject->GetComponent<Collider>().GetId() == "Bullet")
 	{
-		hasCollided = true;
+		if (collidedObject->GetComponent<Collider>().GetId() == "Bullet")
+		{
+			hasCollided = true;
+		}
 
+		if (collidedObject->GetComponent<Collider>().GetId() == "Spaceship")
+		{
+			hasCollided = true;
+			Spaceship* currentPlayer = static_cast<Spaceship*>(collidedObject);
+			currentPlayer->ChangeBulletLevel(false);
+			currentPlayer->ApplyDamage(20);
+		}
+		
+		if (collidedObject->GetComponent<Collider>().GetId() == "Companion")
+		{
+			Companion* playerCompanion = static_cast<Companion*>(collidedObject);
+
+			if (playerCompanion->IsTaken())
+			{
+				hasCollided = true;
+				playerCompanion->ChangeBulletLevel(false);
+				playerCompanion->ApplyDamage(20);
+			}
+		}
+		
 		if (HasComponent<Animator>())
 			GetComponent<Animator>().PlayFromStart("missileExplode", false, true);
 	}

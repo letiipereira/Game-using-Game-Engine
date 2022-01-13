@@ -15,8 +15,6 @@ public:
 
 	std::map<std::string, std::string> KeyMapping{};
 
-	//std::map<Uint8, std::string> ButtonMapping{};
-
 	std::map<std::string, bool> KeyState{};
 
 	std::map<std::string, bool> ButtonState{};

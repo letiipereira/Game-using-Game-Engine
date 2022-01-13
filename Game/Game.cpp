@@ -13,7 +13,6 @@
 int main(int argc, char** argv)
 {
     GameEngine::GetInstance()->init("Xennon Clone.", 640, 480);
-
     //set up do level
 
     Entity newEnt;
@@ -21,12 +20,13 @@ int main(int argc, char** argv)
 
     Spawner spawner;
     Spaceship currentPlayer;
+    spawner.SetPlayerReference(&currentPlayer);
 
     //newEnt2->AddGroup(GameEngine::GetInstance()->groupUI);
 
     GameEngine::GetInstance()->start();
 
     // game logic
-
+    delete GameEngine::GetInstance();
     return 0;
 }

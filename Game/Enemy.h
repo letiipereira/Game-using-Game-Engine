@@ -5,7 +5,6 @@
 class Enemy : public Entity
 {
 public:
-
 	Enemy();
 	~Enemy() override;
 
@@ -16,8 +15,8 @@ public:
 	void ApplyDamage(float damage);
 
 protected: 
-	float health{5};
-	Animation* die{ nullptr };
+	Animation* die{nullptr};
+	float health{50};
 	float time{};
 	float loseDamageRate{1};
 };

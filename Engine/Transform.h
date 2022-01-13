@@ -4,7 +4,6 @@
 
 struct Transform : public Component {
 
-	
 	Transform(float posX = 0, float posY = 0, float sclX = 1, float sclY = 1, float rotation = 0)
 	{
 		myPosition.X = posX;

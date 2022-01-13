@@ -91,7 +91,6 @@ void GameEngine::start()
 							// If a controller was removed and there is a free index
 							if (it->second == nullptr)
 							{
-								//it->second = SDL_GameControllerFromInstanceID(ev.cdevice.which);
 								it->second = SDL_GameControllerOpen(ev.cdevice.which);
 								controllerIndex = it->first;
 								InputManager::GetInstance()->UpdateControllerIndex(temporaryControllerIndexMap);

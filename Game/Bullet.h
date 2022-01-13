@@ -4,7 +4,7 @@
 class Bullet :  public Entity
 {
 public:
-	Bullet(int posX, int posY);
+	Bullet(int posX, int posY, int currentBulletLevel);
 	~Bullet() override;
 
 	void Update() override;
@@ -15,5 +15,6 @@ private:
 	Animation* bulletAnim{ nullptr };
 	int spawnPosX{};
 	int spawnPosY{};
+	float firePower;
 };
 

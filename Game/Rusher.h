@@ -9,9 +9,7 @@ public:
 	~Rusher() override final;
 
 	void Update() override final;
-	void Init() override final;
-
-	
+	void Init() override final;	
 
 private:
 	Spawner* mySpawner{ nullptr };
@@ -20,6 +18,5 @@ private:
 	int spawnPosY{};
 	float moveSpeed{ 100.0f };
 	float uniform{ 0.7071f };
-	
 };
 

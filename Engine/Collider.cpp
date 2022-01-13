@@ -81,9 +81,7 @@ void Collider::SetVelocity(Vector2D newVelocity)
 
 void Collider::SetBullet(bool isBullet)
 {
-	//body->SetBullet(isBullet);
 	body->SetEnabled(isBullet);
-	//GameEngine::GetInstance()->GetWorld()->DestroyBody(body);
 }
 
 Vector2D Collider::GetPosition()

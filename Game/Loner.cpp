@@ -1,5 +1,4 @@
 #include "Loner.h"
-#include "Spawner.h";
 #include "Missile.h"
 
 Loner::Loner(int posX, int posY, Spawner* spawner)
@@ -8,6 +7,7 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 	mySpawner = spawner;
 	spawnPosX = posX;
 	spawnPosY = posY;
+
 	if(spawnPosX < (GameEngine::GetInstance()->GameWindowWidht() / 2))
 		idleLoner = new Animation("idleLoner", "assets/LonerA.bmp", 4, 4, 4, 4, 1, 1, 8, true, 2, true, true, true);
 	else
@@ -21,13 +21,12 @@ Loner::Loner(int posX, int posY, Spawner* spawner)
 										   GetComponent<Animator>().GetAnimationByName("idle")->frameWidth,
 										   GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, true, 0.0f);
 	
-	health = 5;
+	health = 10;
 }
 
 Loner::~Loner()
 {
 	Enemy::~Enemy();
-	//std::cout << "DESTROY";
 }
 
 void Loner::Init()
@@ -50,14 +49,15 @@ void Loner::Update()
 		Attack();
 	}
 
-	if (spawnPosX < (GameEngine::GetInstance()->GameWindowWidht() / 2))
+	if (spawnPosY > (GameEngine::GetInstance()->GameWindowHeight() / 2))
 	{
 		if (health > 0)
 		{
-			GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			GetComponent<Transform>().myPosition.Y -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 		}
-		
-		if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht())+10))
+
+		if (GetComponent<Transform>().myPosition.Y < -64)
 		{
 			mySpawner->RemoveEnemy(this);
 			Destroy();
@@ -67,11 +67,11 @@ void Loner::Update()
 	{
 		if (health > 0)
 		{
-			GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
+			GetComponent<Transform>().myPosition.Y += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 		}
 
-		if (GetComponent<Transform>().myPosition.X < -75)
+		if (GetComponent<Transform>().myPosition.Y > GameEngine::GetInstance()->GameWindowHeight() + 64)
 		{
 			mySpawner->RemoveEnemy(this);
 			Destroy();
@@ -86,6 +86,14 @@ void Loner::Attack()
 	x = GetComponent<Transform>().myPosition.X + 32;
 	y = GetComponent<Transform>().myPosition.Y + 64;
 
-	Missile* missile = new Missile(x,y);
+	playerPosition = mySpawner->GetPlayerPosition();
+
+	Vector2D missileMovement{};
+	missileMovement.X = playerPosition.X - GetComponent<Transform>().myPosition.X;
+	missileMovement.Y = (playerPosition.Y - 20.0f) - GetComponent<Transform>().myPosition.Y;
+
+	missileMovement.NormalizeVector();
+
+	Missile* missile = new Missile(x, y, missileMovement.X, missileMovement.Y);
 	missileDeltaTime = 0;
 }

@@ -77,7 +77,8 @@ void Level::Update()
 
 void Level::Refresh()
 {
-	//for (auto i(0u); i < maxGroups; i++)
+	//for (auto i(0u); i < maxGroups; 
+	// )
 	//{
 	//	auto& v(groupedEntities[i]);
 	//	v.erase(
