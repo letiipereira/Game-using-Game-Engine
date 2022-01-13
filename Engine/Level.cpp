@@ -79,17 +79,16 @@ void Level::Refresh()
 {
 	std::vector<Entity*> entitiesToDelete;
 
+	for (int i = 0; i < levelEntities.size(); i++) // MEMORY LEAK?
 	{
 		if (!levelEntities[i]->IsActive())
 		{
 			Entity* thisEntity = levelEntities[i];
-			delete thisEntity;
 			entitiesToDelete.push_back(thisEntity);
 			levelEntities.erase(levelEntities.begin() + i);
 			std::cout << levelEntities.size() << std::endl;
 		}
 	}
-
 	
 	for (Entity* ent : entitiesToDelete)
 	{
