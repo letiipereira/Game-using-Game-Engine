@@ -83,8 +83,8 @@ void Loner::Update()
 void Loner::Attack()
 {
 	int x, y{};
-	x = GetComponent<Transform>().myPosition.X + 32;
-	y = GetComponent<Transform>().myPosition.Y + 64;
+	x = GetComponent<Transform>().myPosition.X;
+	y = GetComponent<Transform>().myPosition.Y - 40;
 
 	Missile* missile = new Missile(x,y);
 	missileDeltaTime = 0;

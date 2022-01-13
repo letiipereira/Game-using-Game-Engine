@@ -17,7 +17,7 @@ Bullet::~Bullet()
 void Bullet::Update()
 {
 
-	GetComponent<Transform>().myPosition.Y -= 5;
+	GetComponent<Transform>().myPosition.Y += 5;
 	GetComponent<Collider>().SetVelocity(5/ GameEngine::GetInstance()->GetDeltatime());
 	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 

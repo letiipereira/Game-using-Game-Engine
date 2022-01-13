@@ -14,7 +14,7 @@ public:
 	{
 		for (Entity* ent : levelEntities)
 		{
-			delete ent;
+				delete ent;
 		}
 
 		levelEntities.clear();

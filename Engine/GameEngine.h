@@ -19,7 +19,7 @@ public:
 	void ActivateLevelByName(std::string levelName);
 	class Level* GetActiveLevel();
 	class InputManager* GetInputManager();
-	void CreateNewLevel(std::string levelName);
+	class Level* CreateNewLevel(std::string levelName);
 	void DeleteLevelByName(std::string levelName);
 	class Level* GetLevelByName(std::string levelName);
 	inline float GetDeltatime() { return deltaTime; }

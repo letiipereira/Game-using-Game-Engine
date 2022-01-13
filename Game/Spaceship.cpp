@@ -75,27 +75,39 @@ void Spaceship::Move()
 
 	if ((KeyboardKeystate["Up"] || GamepadButtonstate["Joystick_YAxis_Up"]) && !up )
 	{
-		if(GetComponent<Transform>().myPosition.Y > 0)
-			movement.Y -= 1;
+		if (GetComponent<Transform>().myPosition.Y > 0 + 32)
+		{
+			movement.Y += 1;
 			up = true;
+		}
+			
 	}
 	if ((KeyboardKeystate["Down"] || GamepadButtonstate["Joystick_YAxis_Down"]) && !down)
 	{
-		if(GetComponent<Transform>().myPosition.Y < GameEngine::GetInstance()->GameWindowHeight() - 64)
-			movement.Y += 1;
+		if (GetComponent<Transform>().myPosition.Y < GameEngine::GetInstance()->GameWindowHeight() + 32)
+		{
+			movement.Y -= 1;
 			down = true;
+		}
+			
 	}
 	if ((KeyboardKeystate["Left"] || GamepadButtonstate["Joystick_XAxis_Left"]) && !left)
 	{
-		if(GetComponent<Transform>().myPosition.X > 0)
+		if (GetComponent<Transform>().myPosition.X > 0)
+		{
 			movement.X -= 1;
 			left = true;
+		}
+			
 	}
 	if ((KeyboardKeystate["Right"] || GamepadButtonstate["Joystick_XAxis_Right"]) && !right)
 	{
-		if(GetComponent<Transform>().myPosition.X < GameEngine::GetInstance()->GameWindowWidht() - 64)
+		if (GetComponent<Transform>().myPosition.X < GameEngine::GetInstance()->GameWindowWidht() - 32)
+		{
 			movement.X += 1;
 			right = true;
+		}
+			
 	}
 
 	movement.NormalizeVector();
@@ -119,7 +131,7 @@ void Spaceship::Attack()
 	{
 		if (bulletDeltaTime > bulletCoolDown)
 		{
-			Bullet* bullet = new Bullet(GetComponent<Transform>().myPosition.X + 24, GetComponent<Transform>().myPosition.Y - 20);
+			Bullet* bullet = new Bullet(GetComponent<Transform>().myPosition.X - 24, GetComponent<Transform>().myPosition.Y + 20);
 			bulletDeltaTime = 0;
 		}
 	}

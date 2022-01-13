@@ -1,4 +1,5 @@
 #pragma once
+
 #include <SDL.h>
 #include "Window.h"
 #include <iostream>
@@ -8,22 +9,23 @@ class Texture
 {
 public:
 
-	Texture(SDL_Surface* surface, SDL_Renderer* targetRederer) 
-	{
-		textureSDL = SDL_CreateTextureFromSurface(targetRederer, surface);
-		std::cout << SDL_GetError() << std::endl;
-	};
+	Texture(const std::string& path);
+	~Texture();
 
-	SDL_Texture* GetSDLTexture();
 
-	~Texture() 
-	{
-		SDL_DestroyTexture(textureSDL);
-	};
+	void Bind(unsigned int slot = 0); //slot is a way of bind more than one texture in one surface
+	void Unbind();
+
+	inline int GetWidth() const { return width; }
+	inline int GetHeight() const { return height; }
 
 
 private:
 
-	SDL_Texture* textureSDL;
+	unsigned int rendererID;
+	std::string filePath;
+	unsigned char* localBuffer;
+	int width, height, bpp;
+	//SDL_Texture* textureSDL;
 
 };

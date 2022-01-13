@@ -22,7 +22,7 @@ void Missile::Update()
 
 	if (!hasCollided)
 	{
-		GetComponent<Transform>().myPosition.Y += 5;
+		GetComponent<Transform>().myPosition.Y -= 2;
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}
 	

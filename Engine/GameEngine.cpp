@@ -3,11 +3,12 @@
 #include "Window.h"
 #include "CollisionListener.h"
 #include "TextureManager.h"
+#include "Renderer.h"
 #include "InputManager.h"
 #include "Texture.h"
 #include "Level.h"
 #include "Pawn.h"
-#include <map>
+
 #include <iostream>
 
 GameEngine* GameEngine::instance = nullptr;
@@ -33,8 +34,14 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 		SDL_Quit();
 	}
 
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
 	window = new Window(windowTitle, windowWidth, windowHeight);
-	defaultLevel = new Level("defaultLevel");
+
+	defaultLevel = CreateNewLevel("defaultLevel");
 	myWindowWidth = windowWidth;
 	myWindowHeigth = windowHeight;
 
@@ -48,7 +55,7 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 }
 
 void GameEngine::start()
-{
+{                          
 	currentLevel->Init();
 
 	float timeStep = 1.0f / 60.0f;
@@ -211,7 +218,7 @@ void GameEngine::start()
 		currentLevel->Update();
 		currentLevel->Draw();
 		currentLevel->Refresh();
-		//window->updateSurface();
+		window->Update();
 	}
 }
 
@@ -224,7 +231,7 @@ Window* GameEngine::GetWindow()
 GameEngine* GameEngine::GetInstance()
 {
 	if (instance == nullptr)
-		instance = new GameEngine();
+		instance = new GameEngine(); // delete that later
 
 	return instance;
 }
@@ -255,10 +262,11 @@ Level* GameEngine::GetActiveLevel()
 	return currentLevel;
 }
 
-void GameEngine::CreateNewLevel(std::string levelName)
+Level* GameEngine::CreateNewLevel(std::string levelName)
 {
 	Level* newLevel = new Level(levelName);
 	levelMap[levelName] = newLevel;
+	return newLevel;
 }
 
 void GameEngine::DeleteLevelByName(std::string levelName)
@@ -279,17 +287,22 @@ b2World* GameEngine::GetWorld()
 
 GameEngine::~GameEngine()
 {
-	delete currentLevel;
-	delete defaultLevel;
-	delete window;
-	delete sdl;
-	delete textureManager;
-	delete instance;
+	isRunning = false; 
+
+	if (window != nullptr)
+		delete window;
+
+	if (sdl != nullptr)
+		delete sdl;
+
+	if (textureManager != nullptr)
+		delete textureManager;
 
 	std::map<std::string, Level*>::iterator it;
 	for (it = levelMap.begin(); it != levelMap.end(); it++)
 	{
-		delete it->second;
+		if(it->second != nullptr)
+			delete it->second;
 	}
 	levelMap.clear();
 }

@@ -10,18 +10,15 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	for (auto& comp : components)
+	/*for (auto& comp : components)
 	{
 		comp->~Component();
 		comp.release();
-	}
-}
+	}*/
 
-//void Entity::AddGroup(Group mGroup)
-//{
-//	groupBitset[mGroup] = true;
-//	level->AddToGroup(this, mGroup);
-//}
+	/*não é preciso deletar os componente são unique pointer 
+	então ja estão a ser chamados aoutomaticamente*/
+}
 
 
 void Entity::Draw()
