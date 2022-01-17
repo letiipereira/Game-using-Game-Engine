@@ -42,6 +42,8 @@ private:
 	float time{};
 	float bulletDeltaTime{0.1f};
 	float bulletCoolDown{0.15f};
+	float colliderHeight{};
+	float colliderWidth{};
 
 	int maxLifes{};
 	int currentLifes{};

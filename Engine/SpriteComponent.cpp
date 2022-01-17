@@ -30,7 +30,26 @@ void SpriteComponent::Draw()
 	}
 	else
 	{
-		TextureManager::GetInstance()->DrawFrame(textureID, transform, rowCurrent, colCurrent, rowTotal, colTotal, 0, false);
+		std::string newTextureID{};
+
+		if (TextureManager::GetInstance()->GetTexture(textureID) != nullptr)
+		{
+			int count = 1;
+			newTextureID = textureID + "." + std::to_string(count);
+
+			while (TextureManager::GetInstance()->GetTexture(textureID) != nullptr)
+			{
+				++count;
+				newTextureID = textureID + "." + std::to_string(count);
+			}
+		}
+		else
+		{
+			newTextureID = textureID;
+		}
+
+		std::cout << TextureManager::GetInstance()->GetTexture(newTextureID) << std::endl;
+		TextureManager::GetInstance()->DrawFrame(newTextureID, transform, rowCurrent, colCurrent, rowTotal, colTotal, 0, false);
 	}
 	
 }

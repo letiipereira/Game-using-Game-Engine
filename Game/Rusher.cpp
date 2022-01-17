@@ -9,7 +9,7 @@ Rusher::Rusher(float posX, float posY, Spawner* spawner)
 	spawnPosY = posY;
 	idleRusher = new Animation("idleRusher", "assets/rusher.bmp", 6, 4, 6, 4, 1, 1, 24, false, 3, true, true, true);
 
-	if (spawnPosX > (GameEngine::GetInstance()->GameWindowWidht() / 2))
+	if (spawnPosX > static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2))
 		GetComponent<Transform>().myRotation = -90.f;
 	else
 		GetComponent<Transform>().myRotation = 90.f;

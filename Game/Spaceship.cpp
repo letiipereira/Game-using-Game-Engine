@@ -14,7 +14,6 @@ Spaceship::Spaceship()
 	bulletMinLevel = 1;
 	bulletMaxLevel = 3;
 	AddComponent<Animator>();
-	GetComponent<Transform>().myRotation = -90.0f;
 
 	moveDown = new Animation("moveUp", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 14, false, 6, false, true, false);
 	moveUp = new Animation("moveDown", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 14, false, 6, false, false, false);
@@ -41,17 +40,14 @@ void Spaceship::Init()
 
 	GetComponent<Animator>().PlayFromStart("idle", false, false);
 
-	/*GetComponent<Transform>().myPosition.X = 50;
-	GetComponent<Transform>().myPosition.Y = 220;*/
+	GetComponent<Transform>().myRotation = -90.0f;
 
-	GetComponent<Transform>().myRotation = 90.0f;
-
-	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameHeight);
-	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameWidth);
+	colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameHeight);
+	colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameWidth);
 
 	AddComponent<Collider>().AddAttributes("Spaceship", this, Collider::BodyType::dynamicBody,
 									       GetComponent<Transform>().myPosition.X,
-									       GetComponent<Transform>().myPosition.Y, 
+									       GetComponent<Transform>().myPosition.Y,
 											colliderWidth, colliderHeight, true, 0.0f);
 }
 
@@ -171,15 +167,6 @@ void Spaceship::Attack()
 
 		if (companionPos2.second != nullptr)
 			companionPos2.second->Attack();
-		/*std::map<int, Companion*>::iterator it;
-
-		for (it = companionList.begin(); it != companionList.end(); it++)
-		{
-			if (it->second != nullptr && it->second->IsActive())
-			{
-				it->second->Attack();
-			}
-		}*/
 	}
 }
 

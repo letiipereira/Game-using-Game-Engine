@@ -32,10 +32,10 @@ int main(int argc, char** argv)
 
     spawner->SetPlayerReference(currentPlayer);
     
-    
     //não é necessario dar delete dos "Enities" criados. O nível cuida disto :)
 
-
+    UIManager::GetInstance()->DrawText("Bonjour Madame Bonjour", CharacterType::big, 300.0f, 300.0f, 10);
+    UIManager::GetInstance()->DrawText("kermit", CharacterType::small, 100.0f, 100.0f, 10);
     //newEnt2->AddGroup(GameEngine::GetInstance()->groupUI);
 
     GameEngine::GetInstance()->start();

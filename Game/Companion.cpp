@@ -61,8 +61,8 @@ void Companion::Update()
 	}
 	else
 	{
-		GetComponent<Transform>().myPosition.X = currentPlayer->GetComponent<Transform>().myPosition.X + displacementX;
-		GetComponent<Transform>().myPosition.Y = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementY;
+		GetComponent<Transform>().myPosition.X = currentPlayer->GetComponent<Transform>().myPosition.X + displacementY;
+		GetComponent<Transform>().myPosition.Y = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementX;
 
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}

@@ -10,15 +10,17 @@ UIManager* UIManager::sInstance{ nullptr };
 UIManager::UIManager()
 {
     int count = 0;
-    int bigCharCurrentRow = 12;
+    //int bigCharCurrentRow = 12;
+    int bigCharCurrentRow = 1;
     int bigCharCurrentCol = 1;
 
-    int smallCharCurrentRow = 16;
+    //int smallCharCurrentRow = 16;
+    int smallCharCurrentRow = 1;
     int smallCharCurrentCol = 1;
 
     for (int character = 0; character < characters.size(); character++)
     {
-        Character newSmallCharacter = {
+        Character newSmallCharacter ={
             characters[character],
             16,
             8,
@@ -26,8 +28,6 @@ UIManager::UIManager()
             smallCharCurrentCol,
             16
         };
-
-        std::cout << "characters[character] " << characters[character] << std::endl;
 
         Character newBigCharacter = {
             characters[character],
@@ -38,21 +38,21 @@ UIManager::UIManager()
             16
         };
 
-        smallCharacters.insert(std::pair<char, Character>(character, newSmallCharacter));
-        bigCharacters.insert(std::pair<char, Character>(character, newBigCharacter));
+        smallCharacters.insert(std::pair<char, Character>(characters[character], newSmallCharacter));
+        bigCharacters.insert(std::pair<char, Character>(characters[character], newBigCharacter));
 
         if (bigCharCurrentCol < 8 || smallCharCurrentCol < 8)
         {
             bigCharCurrentCol++;
             smallCharCurrentCol++;
         }
-        else
+        else if (bigCharCurrentCol >= 8 || smallCharCurrentCol >= 8)
         {
             bigCharCurrentCol = 1;
             smallCharCurrentCol = 1;
 
-           bigCharCurrentRow--;
-            smallCharCurrentRow--;
+            bigCharCurrentRow++;
+            smallCharCurrentRow++;
         }
     }
 }
@@ -70,11 +70,11 @@ void UIManager::DrawText(std::string text, CharacterType type, float x, float y,
             std::string textureID = std::to_string(character);
 
             Letter* newLetter = new Letter(textureID, "assets/font8x8.bmp", x, y, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
-
+            
             // now advance cursors for the next character
             x += ch.Advance;
 
-            std::cout << character << std::endl;
+            std::cout << "piqueno" << std::endl;
         }
 
         break;
@@ -91,8 +91,6 @@ void UIManager::DrawText(std::string text, CharacterType type, float x, float y,
 
             // now advance cursors for the next character
             x += ch.Advance;
-
-            std::cout << character << std::endl;
         }
 
         break;

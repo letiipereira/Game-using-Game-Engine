@@ -9,11 +9,12 @@ Drone::Drone(float posX, float posY, Spawner* spawner)
 	spawnPosX = posX;
 	spawnPosY = posY;
 	idleDrone = new Animation("idleDrone", "assets/drone.bmp", 2, 8, 2, 8, 1, 1, 24, false, 3, true, true, true);
+	GetComponent<Transform>().myRotation = 0;
 
-	if (spawnPosX > static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2))
+	/*if (spawnPosX > static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2))
 		GetComponent<Transform>().myRotation = 90.f;
 	else
-		GetComponent<Transform>().myRotation = -90.f;
+		GetComponent<Transform>().myRotation = -90.f;*/
 
 	GetComponent<Animator>().AddAnimation("idleDrone", idleDrone);
 
