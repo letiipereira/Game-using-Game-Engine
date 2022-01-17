@@ -24,6 +24,8 @@ void Animation::Init()
 
 	if (!foward)
 		frameIndex = (static_cast<int>(frames.size()) - 1);
+	else
+		frameIndex = 0;
 
 }
 
@@ -47,7 +49,9 @@ void Animation::SetupAnimation()
 				continue;
 			}
 			std::pair<int, int> newFrame{ row, col };
+		
 			frames.push_back(newFrame);
+			//std::cout << "row " << newFrame.first << " column " << newFrame.second << std::endl;
 		}
 	}
 }
@@ -77,6 +81,7 @@ bool Animator::Init()
 void Animator::Draw()
 {
 	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform, currentFrame.first, currentFrame.second, currentAnimation->myRowNumber, currentAnimation->myColumnNumber, transform->myRotation, currentAnimation->flip);
+	//std::cout << "row " << currentFrame.first << " column " << currentFrame.second <<std::endl;
 }
 
 
@@ -91,6 +96,7 @@ void Animator::Update()
 			
 			if (time > (1.0f / currentAnimation->myFramesPerSeconds))
 			{
+				
 				PlayFoward();
 				time = 0;
 			}
@@ -106,16 +112,19 @@ void Animator::AddAnimation(std::string name, Animation* newAnimation)
 	animations[name]->Init();
 
 	if (animations.size() == 1)
-		currentAnimation = animations[name];
+   		currentAnimation = animations[name];
 }
 
 void Animator::PlayFoward()
 {
 	if (currentAnimation->foward)
 	{
+
 		if (currentAnimation->frameIndex < (currentAnimation->frames.size() - 1))
 		{
 			++currentAnimation->frameIndex;
+
+			
 		}
 		else
 		{

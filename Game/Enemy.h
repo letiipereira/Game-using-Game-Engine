@@ -15,9 +15,13 @@ public:
 	void ApplyDamage(float damage);
 
 protected: 
+
 	Animation* die{nullptr};
+
+	bool canReceiveDemage{ true };
 	float health{50};
 	float time{};
 	float loseDamageRate{1};
+	class Spawner* mySpawner = nullptr;
 };
 

@@ -52,6 +52,7 @@ void GameEngine::init(std::string windowTitle, int windowWidth, int windowHeight
 	}
 
 	world->SetContactListener(CollisionListener::GetInstance());
+	textureManager = TextureManager::GetInstance();
 }
 
 void GameEngine::start()
@@ -218,6 +219,7 @@ void GameEngine::start()
 		currentLevel->Draw();
 		currentLevel->Refresh();
 		window->Update();
+		
 	}
 }
 
@@ -270,8 +272,9 @@ Level* GameEngine::CreateNewLevel(std::string levelName)
 
 void GameEngine::DeleteLevelByName(std::string levelName)
 {
+	levelMap[levelName]->ClearLevel();
 	delete levelMap[levelName];
-	levelMap.erase(levelName);
+	
 }
 
 class Level* GameEngine::GetLevelByName(std::string levelName)
@@ -286,7 +289,8 @@ b2World* GameEngine::GetWorld()
 
 GameEngine::~GameEngine()
 {
-	isRunning = false; 
+	delete InputManager::GetInstance();
+	delete textureManager;
 
 	if (window != nullptr)
 		delete window;
@@ -294,14 +298,15 @@ GameEngine::~GameEngine()
 	if (sdl != nullptr)
 		delete sdl;
 
-	if (textureManager != nullptr)
-		delete textureManager;
-
 	std::map<std::string, Level*>::iterator it;
+	int count{ 0 };
 	for (it = levelMap.begin(); it != levelMap.end(); it++)
 	{
 		if(it->second != nullptr)
 			delete it->second;
 	}
 	levelMap.clear();
+
+	delete CollisionListener::GetInstance();
+
 }

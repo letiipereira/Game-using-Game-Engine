@@ -16,12 +16,14 @@ public:
 	int GameWindowWidht();
 	int GameWindowHeight();
 
+	class InputManager* GetInputManager();
+	 
 	void ActivateLevelByName(std::string levelName);
 	class Level* GetActiveLevel();
-	class InputManager* GetInputManager();
 	class Level* CreateNewLevel(std::string levelName);
 	void DeleteLevelByName(std::string levelName);
 	class Level* GetLevelByName(std::string levelName);
+
 	inline float GetDeltatime() { return deltaTime; }
 	inline bool IsRunning(){ return isRunning; }
 
@@ -48,7 +50,7 @@ private:
 	bool isRunning{ false };
 	int myWindowWidth{};
 	int myWindowHeigth{};
-
+	
 	static GameEngine* instance;
 	class TextureManager* textureManager{ nullptr };
 	class SDLWrapper* sdl{ nullptr };

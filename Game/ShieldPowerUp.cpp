@@ -1,7 +1,8 @@
 #include "ShieldPowerUp.h"
 
-ShieldPowerUp::ShieldPowerUp(int posX, int posY, Spawner* spawner)
+ShieldPowerUp::ShieldPowerUp(float posX, float posY, Spawner* spawner)
 {
+	
 	AddComponent<Animator>();
 	mySpawner = spawner;
 	spawnPosX = posX;
@@ -11,16 +12,18 @@ ShieldPowerUp::ShieldPowerUp(int posX, int posY, Spawner* spawner)
 
 	GetComponent<Animator>().AddAnimation("idle", idlePowerUp);
 
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameHeight);
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameWidth);
+
 	AddComponent<Collider>().AddAttributes("PowerUp", this, Collider::BodyType::dynamicBody,
 		GetComponent<Transform>().myPosition.X,
 		GetComponent<Transform>().myPosition.Y,
-		GetComponent<Animator>().GetAnimationByName("idle")->frameWidth,
-		GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, true, 0.0f);
+		colliderWidth, colliderHeight, true, 0.0f);
 }
 
 ShieldPowerUp::~ShieldPowerUp()
 {
-	PowerUp::~PowerUp();
+	//PowerUp::~PowerUp();
 }
 
 void ShieldPowerUp::Init()
@@ -38,7 +41,7 @@ void ShieldPowerUp::WasHit(Entity* collidedObject)
 	{
 		Spaceship* currentPlayer = static_cast<Spaceship*>(collidedObject);
 		currentPlayer->ApplyShield(20);
-
+		mySpawner->RemovePowerUp(this);
 		Destroy();
 	}
 
@@ -46,7 +49,7 @@ void ShieldPowerUp::WasHit(Entity* collidedObject)
 	{
 		Companion* playerCompanion = static_cast<Companion*>(collidedObject);
 		playerCompanion->ApplyShield(20);
-
+		mySpawner->RemovePowerUp(this);
 		Destroy();
 	}
 }

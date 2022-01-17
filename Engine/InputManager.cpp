@@ -194,20 +194,16 @@ void InputManager::OnAxisMotion(SDL_Event gamepadEvent)
 
 InputManager::~InputManager()
 {
-	delete sInstance;
-
+	
 	std::map<Pawn*, SDL_GameController*>::iterator it;
 	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
 	{
-		delete it->second;
-		delete it->first;
-		ControlledPawn.erase(it);
+		SDL_GameControllerClose(it->second);
 	}
 
 	std::map<int, SDL_GameController*>::iterator it2;
 	for (it2 = ControllerIndex.begin(); it2 != ControllerIndex.end(); it2++)
 	{
-		delete it->second;
-		ControllerIndex.erase(it2);
+		SDL_GameControllerClose(it2->second);
 	}
 }

@@ -5,6 +5,25 @@
 #include "TextureManager.h"
 #include <algorithm>
 
+Level::~Level()
+{
+	
+	for (Entity* ent : levelEntities)
+	{
+		delete ent;
+	}
+
+	if (entitiesToAdd.size() > 0)
+	{
+		for (Entity* ent : entitiesToAdd)
+		{
+			delete ent;
+		}
+	}
+
+	
+}
+
 void Level::Draw()
 {
 	TextureManager::GetInstance()->Clear();
@@ -55,15 +74,14 @@ void Level::EraseEntity(Entity* entity)
 	//
 }
 
-//void Level::AddToGroup(Entity* mEntity, Group mGroup)
-//{
-//	groupedEntities[mGroup].emplace_back(mEntity);
-//}
-//
-//std::vector<Entity*>& Level::GetGroup(Group mGroup)
-//{
-//	return groupedEntities[mGroup];
-//}
+void Level::ClearLevel()
+{
+	for (Entity* ent : levelEntities)
+	{
+		ent->Destroy();
+	}
+
+}
 
 void Level::Update()
 {
@@ -86,7 +104,6 @@ void Level::Refresh()
 			Entity* thisEntity = levelEntities[i];
 			entitiesToDelete.push_back(thisEntity);
 			levelEntities.erase(levelEntities.begin() + i);
-			std::cout << levelEntities.size() << std::endl;
 		}
 	}
 	

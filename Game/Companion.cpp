@@ -2,7 +2,7 @@
 #include "Spaceship.h"
 #include "Bullet.h"
 
-Companion::Companion(int posX, int posY, Spawner* spawner)
+Companion::Companion(float posX, float posY, Spawner* spawner)
 {
 	AddComponent<Animator>();
 	maxHealth = 50;
@@ -20,7 +20,7 @@ Companion::Companion(int posX, int posY, Spawner* spawner)
 
 Companion::~Companion()
 {
-	Entity::~Entity();
+	//Entity::~Entity();
 }
 
 Spawner* Companion::GetSpawner()
@@ -38,11 +38,13 @@ void Companion::Init()
 
 	GetComponent<Animator>().PlayFromStart("companionIdle", true, true);
 
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight) + 10;
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth) + 10;
+
 	AddComponent<Collider>().AddAttributes("Companion", this, Collider::BodyType::dynamicBody,
 		GetComponent<Transform>().myPosition.X,
 		GetComponent<Transform>().myPosition.Y,
-		GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth + 10,
-		GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight + 10, true, 0.0f);
+		colliderWidth, colliderHeight, true, 0.0f);
 }
 
 void Companion::Update()
@@ -92,14 +94,15 @@ void Companion::ApplyDamage(int damageReceived)
 
 	if (health <= 0)
 	{
-		currentPlayer->RemoveCompanion(this);
+		std::cout << "posx: " << displacementX << "posy: " << displacementY << std::endl;
+		currentPlayer->RemoveCompanion(static_cast<float>(displacementX), static_cast<float>(displacementY), this);
 	}
 }
 
 void Companion::SetDisplacement(Vector2D displacementVector)
 {
-	displacementX = displacementVector.X;
-	displacementY = displacementVector.Y;
+	displacementX = static_cast<int>(displacementVector.X);
+	displacementY = static_cast<int>(displacementVector.Y);
 }
 
 void Companion::ChangeBulletLevel(bool willIncrease)

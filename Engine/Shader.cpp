@@ -16,6 +16,7 @@ Shader::Shader(const std::string& myFilepath) : filepath(myFilepath), rendererID
 Shader::~Shader()
 {
 	GLCall(glDeleteProgram(rendererID));
+
 }
 
 void Shader::Bind() const
@@ -83,6 +84,7 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
 		GLCall(glGetShaderInfoLog(id, lenght, &lenght, message));
 		std::cout << "Failed to compite " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << std::endl;
 		std::cout << message << std::endl;
+		free(message);
 		GLCall(glDeleteShader(id));
 		return 0;
 

@@ -6,13 +6,13 @@
 
 Collider::~Collider()
 {
-	GameEngine::GetInstance()->GetWorld()->DestroyBody(body);
+	world->DestroyBody(body);
 }
 
 bool Collider::Init()
 {
 	transform = &entity->GetComponent<Transform>();
-
+	world = GameEngine::GetInstance()->GetWorld();
 	return true;
 }
 

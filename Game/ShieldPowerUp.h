@@ -1,12 +1,12 @@
 #pragma once
 #include "Entity.h"
 #include "PowerUp.h"
-#include "Spawner.h";
+#include "Spawner.h"
 
 class ShieldPowerUp : public PowerUp
 {
 public:
-	ShieldPowerUp(int posX, int posY, Spawner* spawner);
+	ShieldPowerUp(float posX, float posY, Spawner* spawner);
 	~ShieldPowerUp() override final;
 
 	void Update() override final;

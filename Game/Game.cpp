@@ -17,30 +17,31 @@ int main(int argc, char** argv)
 
     //set up do level
 
-    Entity newEnt;
-    newEnt.AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0);
+    Entity* newEnt = new Entity;
+    newEnt->AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0);
+    newEnt->GetComponent<Transform>().myPosition.X = static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2);
+    newEnt->GetComponent<Transform>().myPosition.Y = static_cast<float>(GameEngine::GetInstance()->GameWindowHeight() / 2);
+
+
+    Spawner* spawner = new Spawner;
+
+    Spaceship* currentPlayer = new Spaceship;
+    currentPlayer->GetComponent<Transform>().myPosition.X = static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2);
+    currentPlayer->GetComponent<Transform>().myPosition.Y = static_cast<float>(GameEngine::GetInstance()->GameWindowHeight() / 2);
+
+    spawner->SetPlayerReference(currentPlayer);
     
-    newEnt.GetComponent<Transform>().myPosition.X = GameEngine::GetInstance()->GameWindowWidht() / 2;
-    newEnt.GetComponent<Transform>().myPosition.Y = GameEngine::GetInstance()->GameWindowHeight() / 2;
+    
+    //não é necessario dar delete dos "Enities" criados. O nível cuida disto :)
 
-    /*Entity newEnt2;
-    newEnt2.AddComponent<Animator>();
-    Animation* anim = new Animation("idleLoner", "assets/LonerA.bmp", 4, 4, 4, 4, 1, 1, 4, false, 2, true, true, true);
-    newEnt2.GetComponent<Animator>().AddAnimation("idleLoner", anim);
-
-    newEnt2.GetComponent<Transform>().myPosition.X = GameEngine::GetInstance()->GameWindowWidht() / 2;
-    newEnt2.GetComponent<Transform>().myPosition.Y = GameEngine::GetInstance()->GameWindowHeight() / 2;*/
-
-    Spawner spawner;
-    Spaceship currentPlayer;
-    spawner.SetPlayerReference(&currentPlayer);
 
     //newEnt2->AddGroup(GameEngine::GetInstance()->groupUI);
 
     GameEngine::GetInstance()->start();
 
     // game logic
-    delete GameEngine::GetInstance();
 
+    delete GameEngine::GetInstance();
+    
     return 0;
 }

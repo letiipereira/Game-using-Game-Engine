@@ -4,7 +4,7 @@
 class Companion : public Entity
 {
 public:
-	Companion(int posX, int posY, class Spawner* spawner);
+	Companion(float posX, float posY, class Spawner* spawner);
 	~Companion();
 
 	class Spawner* companionSpawner{ nullptr };
@@ -28,14 +28,14 @@ private:
 	int bulletLevel{};
 	int bulletMinLevel{};
 	int bulletMaxLevel{};
-	int spawnPosX{};
-	int spawnPosY{};
+	float spawnPosX;
+	float spawnPosY;
 	int displacementX{0};
 	int displacementY{0};
 	bool isTaken{ false };
 	float moveSpeed{-0.8f};
-	float bulletDeltaTime{ 0.1 };
-	float bulletCoolDown{ 0.15 };
+	float bulletDeltaTime{ 0.1f };
+	float bulletCoolDown{ 0.15f };
 	Animation* companionIdle{ nullptr };
 	class Spaceship* currentPlayer{};
 };

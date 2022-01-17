@@ -3,7 +3,7 @@
 
 PowerUp::~PowerUp()
 {
-	Entity::~Entity();
+	//Entity::~Entity();
 }
 
 void PowerUp::Update()

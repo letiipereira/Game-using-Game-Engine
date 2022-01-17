@@ -24,9 +24,7 @@ TextureManager::~TextureManager()
     }
 
     textureMap.clear();
-    delete sInstance;
-    //delete renderTarget;
-    
+        
 }
 
 void TextureManager::DrawTexture(std::string id, Transform* transform, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
@@ -83,8 +81,8 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
 
         return;
     }
-
-    Renderer::GetInstance()->Draw(transform, current, frameCurrent, rowCurrent, frameTotal, rowTotal);
+    
+    Renderer::GetInstance()->Draw(transform, current, static_cast<float>(frameCurrent), static_cast<float>(rowCurrent), static_cast<float>(frameTotal), static_cast<float>(rowTotal));
 }
 
 Texture* TextureManager::GetTexture(std::string id)
