@@ -27,6 +27,7 @@ private:
 	std::string myFilePath{};
 	Transform* transform{ nullptr };
 	std::string textureID{};
+	std::string newTextureID{};
 	class Texture* texture{ nullptr };
 	
 	int width{0};

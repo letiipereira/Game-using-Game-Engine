@@ -18,7 +18,11 @@ SpriteComponent::SpriteComponent(std::string textureid, std::string filePath, fl
 bool SpriteComponent::Init()
 {
 	transform = &entity->GetComponent<Transform>();
+
+	newTextureID = textureID;
+
 	texture = TextureManager::GetInstance()->LoadTexture(textureID, myFilePath);
+
 	return true;
 }
 
@@ -30,26 +34,7 @@ void SpriteComponent::Draw()
 	}
 	else
 	{
-		std::string newTextureID{};
-
-		if (TextureManager::GetInstance()->GetTexture(textureID) != nullptr)
-		{
-			int count = 1;
-			newTextureID = textureID + "." + std::to_string(count);
-
-			while (TextureManager::GetInstance()->GetTexture(textureID) != nullptr)
-			{
-				++count;
-				newTextureID = textureID + "." + std::to_string(count);
-			}
-		}
-		else
-		{
-			newTextureID = textureID;
-		}
-
-		std::cout << TextureManager::GetInstance()->GetTexture(newTextureID) << std::endl;
-		TextureManager::GetInstance()->DrawFrame(newTextureID, transform, rowCurrent, colCurrent, rowTotal, colTotal, 0, false);
+		TextureManager::GetInstance()->DrawFrame(textureID, transform, rowCurrent, colCurrent, rowTotal, colTotal, 0, false);
 	}
 	
 }

@@ -66,7 +66,6 @@ void Companion::Update()
 
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}
-	
 }
 
 void Companion::Attack()

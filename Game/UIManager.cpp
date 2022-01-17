@@ -10,11 +10,10 @@ UIManager* UIManager::sInstance{ nullptr };
 UIManager::UIManager()
 {
     int count = 0;
-    //int bigCharCurrentRow = 12;
+
     int bigCharCurrentRow = 1;
     int bigCharCurrentCol = 1;
 
-    //int smallCharCurrentRow = 16;
     int smallCharCurrentRow = 1;
     int smallCharCurrentCol = 1;
 
@@ -73,8 +72,6 @@ void UIManager::DrawText(std::string text, CharacterType type, float x, float y,
             
             // now advance cursors for the next character
             x += ch.Advance;
-
-            std::cout << "piqueno" << std::endl;
         }
 
         break;
