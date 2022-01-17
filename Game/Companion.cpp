@@ -91,7 +91,7 @@ void Companion::ApplyDamage(int damageReceived)
 {
 	health -= damageReceived;
 
-	if (health <= 0)
+	if (health <= 0 && isTaken)
 	{
 		std::cout << "posx: " << displacementX << "posy: " << displacementY << std::endl;
 		currentPlayer->RemoveCompanion(static_cast<float>(displacementX), static_cast<float>(displacementY), this);

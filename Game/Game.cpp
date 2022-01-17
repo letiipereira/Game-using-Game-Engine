@@ -10,6 +10,7 @@
 #include "loner.h"
 #include "rusher.h"
 #include "UIManager.h"
+#include "BackGround.h"
 
 int main(int argc, char** argv)
 {
@@ -18,10 +19,11 @@ int main(int argc, char** argv)
 
     //set up do level
 
-    Entity* newEnt = new Entity;
-    newEnt->AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0);
-    newEnt->GetComponent<Transform>().myPosition.X = static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2);
-    newEnt->GetComponent<Transform>().myPosition.Y = static_cast<float>(GameEngine::GetInstance()->GameWindowHeight() / 2);
+    Animation* anim1 = new Animation("background", "assets/galaxy2.bmp", 1, 1, 1, 1, 1, 1, 2, false, 1, false);
+    Animation* anim2 = new Animation("background2", "assets/galaxy2.bmp", 1, 1, 1, 1, 1, 1, 2, true, 1, false);
+
+    BackGround* bg1 = new BackGround(anim1,"background", - static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2), static_cast<float>(GameEngine::GetInstance()->GameWindowHeight() / 2), 1);
+    BackGround* bg2 = new BackGround(anim2,"background2", static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2), static_cast<float>(GameEngine::GetInstance()->GameWindowHeight() / 2), 1);
 
 
     Spawner* spawner = new Spawner;
