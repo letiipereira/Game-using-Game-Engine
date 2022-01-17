@@ -24,6 +24,9 @@ void Animation::Init()
 
 	if (!foward)
 		frameIndex = (static_cast<int>(frames.size()) - 1);
+	else
+		frameIndex = 0;
+
 }
 
 void Animation::SetupAnimation()
@@ -45,7 +48,9 @@ void Animation::SetupAnimation()
 				continue;
 			}
 			std::pair<int, int> newFrame{ row, col };
+		
 			frames.push_back(newFrame);
+			//std::cout << "row " << newFrame.first << " column " << newFrame.second << std::endl;
 		}
 	}
 }
@@ -103,7 +108,7 @@ void Animator::AddAnimation(std::string name, Animation* newAnimation)
 	animations[name]->Init();
 
 	if (animations.size() == 1)
-		currentAnimation = animations[name];
+   		currentAnimation = animations[name];
 }
 
 void Animator::PlayFoward()

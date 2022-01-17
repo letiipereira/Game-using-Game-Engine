@@ -80,7 +80,6 @@ public:
 
 	virtual void WasHit(Entity* collidedObject) {};
 
-
 private:
 
 	class Level* level{ nullptr };

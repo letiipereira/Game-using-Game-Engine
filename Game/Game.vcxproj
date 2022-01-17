@@ -155,11 +155,13 @@
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Companion.cpp" />
+    <ClCompile Include="Drone.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInput.cpp" />
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="Loner.cpp" />
+    <ClCompile Include="MetalAster.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Rusher.cpp" />
@@ -167,6 +169,7 @@
     <ClCompile Include="Spaceship.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="StoneAster.cpp" />
     <ClCompile Include="WeaponPowerUp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,16 +180,19 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Companion.h" />
+    <ClInclude Include="Drone.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameInput.h" />
     <ClInclude Include="Letter.h" />
     <ClInclude Include="Loner.h" />
+    <ClInclude Include="MetalAster.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Rusher.h" />
     <ClInclude Include="ShieldPowerUp.h" />
     <ClInclude Include="Spaceship.h" />
     <ClInclude Include="Spawner.h" />
+    <ClInclude Include="StoneAster.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="WeaponPowerUp.h" />
   </ItemGroup>

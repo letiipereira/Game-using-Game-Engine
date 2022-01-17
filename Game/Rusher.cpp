@@ -1,7 +1,8 @@
 #include "Rusher.h"
 
-Rusher::Rusher(int posX, int posY, Spawner* spawner)
+Rusher::Rusher(float posX, float posY, Spawner* spawner)
 {
+	
 	AddComponent<Animator>();
 	mySpawner = spawner;
 	spawnPosX = posX;
@@ -24,18 +25,12 @@ void Rusher::Update()
 {
 	Enemy::Update();
 
-	if (spawnPosX < (GameEngine::GetInstance()->GameWindowWidht() / 2))
+	if (spawnPosX < static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2))
 	{
 		if (health > 0)
 		{
 			GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
-		}
-
-		if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht()) + 10))
-		{
-			mySpawner->RemoveEnemy(this);
-			Destroy();
 		}
 	}
 	else
@@ -44,12 +39,6 @@ void Rusher::Update()
 		{
 			GetComponent<Transform>().myPosition.X -= (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 			GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
-		}
-
-		if (GetComponent<Transform>().myPosition.X < -75)
-		{
-			mySpawner->RemoveEnemy(this);
-			Destroy();
 		}
 	}
 }
@@ -60,9 +49,11 @@ void Rusher::Init()
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
 
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idleRusher")->frameHeight);
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idleRusher")->frameWidth);
+
 	AddComponent<Collider>().AddAttributes("Enemy", this, Collider::BodyType::dynamicBody,
 										   GetComponent<Transform>().myPosition.X,
 										   GetComponent<Transform>().myPosition.Y,
-										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("idleRusher")->frameHeight, true, 0.0f);
+										   colliderWidth, colliderHeight, true, 0.0f);
 }

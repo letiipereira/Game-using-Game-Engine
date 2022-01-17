@@ -1,11 +1,9 @@
 #include "Enemy.h"
 #include "Spaceship.h"
 #include "Companion.h"
+#include "Spawner.h"
 
-Enemy::~Enemy()
-{
-	Entity::~Entity();
-}
+Enemy::~Enemy(){}
 
 Enemy::Enemy()
 {
@@ -16,20 +14,34 @@ void Enemy::Update()
 {
 	Entity::Update();
 	
-	if (health <= 0 && !GetComponent<Animator>().AnimationIsPlaying())
-	{
-		Destroy();
-	}
 
 	if (health <= 0)
 	{
 		if (!GetComponent<Animator>().AnimationIsPlaying())
 		{
+			mySpawner->RemoveEnemy(this);
 			Destroy();
 		}
 
 		GetComponent<Collider>().SetBullet(false);
 	}
+	else 
+	{
+		if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht()) + 64) ||
+			GetComponent<Transform>().myPosition.X < -64)
+		{
+			mySpawner->RemoveEnemy(this);
+			Destroy();
+		}
+
+		if (GetComponent<Transform>().myPosition.Y > ((GameEngine::GetInstance()->GameWindowHeight()) + 64) ||
+			GetComponent<Transform>().myPosition.Y < -64)
+		{
+			mySpawner->RemoveEnemy(this);
+			Destroy();
+		}
+	}
+
 }
 
 void Enemy::Init()
@@ -60,8 +72,11 @@ void Enemy::WasHit(Entity* collidedObject)
 
 void Enemy::ApplyDamage(float damage)
 {
-	health -= damage;
-
+	if (canReceiveDemage)
+	{
+		health -= damage;
+	}
+		
 	if (health <= 0)
 	{
 		if (HasComponent<Animator>())

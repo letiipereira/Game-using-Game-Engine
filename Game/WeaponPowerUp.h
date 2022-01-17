@@ -1,13 +1,13 @@
 #pragma once
 #include "Entity.h"
 #include "PowerUp.h"
-#include "Spawner.h";
+#include "Spawner.h"
 #include "Component.h"
 
 class WeaponPowerUp : public PowerUp
 {
 public:
-	WeaponPowerUp(int posX, int posY, Spawner* spawner);
+	WeaponPowerUp(float posX, float posY, Spawner* spawner);
 	~WeaponPowerUp() override final;
 
 	void Update() override final;

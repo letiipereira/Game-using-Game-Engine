@@ -9,6 +9,7 @@ class GameInput
 {
 public:
 	GameInput();
+	~GameInput();
 
 	// Create a singleton
 	static GameInput* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new GameInput(); }
@@ -24,8 +25,7 @@ public:
 	std::map<std::string, bool> GetButtonState() { return ButtonState; }
 
 private:
-	~GameInput();
-
+	
 	static GameInput* sInstance;
 };
 

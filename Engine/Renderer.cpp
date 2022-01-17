@@ -30,8 +30,8 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 Renderer::Renderer()
 {
-	float windowHeight = GameEngine::GetInstance()->GameWindowHeight();
-	float windowWidth = GameEngine::GetInstance()->GameWindowWidht();
+	float windowHeight = static_cast<float>(GameEngine::GetInstance()->GameWindowHeight());
+	float windowWidth = static_cast<float>(GameEngine::GetInstance()->GameWindowWidht());
 
 	proj = glm::ortho(0.0f, windowWidth, 0.0f, windowHeight, -1.0f, 1.0f);
 	view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
@@ -57,10 +57,10 @@ void Renderer::Draw(Transform* transform, Texture* texture, float angle, float c
 
 	
 	float positions[] = {
-			-w * sizeX , -h * sizeY ,	(col-1) / totalColunm  , (lines-1)/ totalLines ,		//0
-			w * sizeX , -h * sizeY,		col  / totalColunm , (lines - 1)/ totalLines,	//1
-			w * sizeX , h * sizeY,		col / totalColunm, lines/ totalLines,			//2
-			-w * sizeX , h* sizeY,		(col-1) / totalColunm, lines / totalLines		//3
+			-w * sizeX , -h * sizeY ,	left  , top ,		//0
+			w * sizeX , -h * sizeY,		right , top,	//1
+			w * sizeX , h * sizeY,		right, botton,			//2
+			-w * sizeX , h* sizeY,		left, botton 		//3
 	};
 
 	unsigned int indices[] = {

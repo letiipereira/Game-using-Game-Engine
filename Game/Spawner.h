@@ -11,14 +11,26 @@ public:
 	Spawner();
 	~Spawner();
 
-	void Update() override final;
 	void Init() override final;
+	void Update() override final;
+	
+	void SpawnLoner();
+	void SpawnRusher();
+	void SpawnDrone();
 
-	void SpawnLoner(int spawnPosX, int spawnPosY);
-	void SpawnRusher(int spawnPosX, int spawnPosY);
-	void SpawnWeaponPU(int spawnPosX, int spawnPosY);
-	void SpawnShieldPU(int spawnPosX, int spawnPosY);
-	void SpawnCompanion(int spawnPosX, int spawnPosY);
+	void SpawnStoneAsteroid(int size);
+	void SpawnMetalAsteroid(int size);
+
+	void SpawnShieldPowerUp();
+	void SpawnWeaponPowerUp();
+	void SpawnCompanion();
+
+	int ChooseAsterSize();
+
+	std::pair<float,float> SpawnPosAlongX(bool shouldSpawnUp, bool shouldSpawnDown);
+	std::pair<float,float> SpawnPosAlongY(bool shouldSpawnRight, bool shouldSpawnLeft);
+	
+
 	void CompanionNecessity(bool needCompanion);
 	void RemoveEnemy(Enemy* enemy);
 	void RemovePowerUp(Entity* powerUp);
@@ -28,28 +40,60 @@ public:
 
 private:
 
-	float lonerSpawnRate{4};
-	float rusherSpawnRate{3};
+	// window dimentions
 
-	/*float weaponPUSpawnRate{20};
-	float shieldPUSpawnRate{20};
-	float companionSpawnRate{25};*/
-	float weaponPUSpawnRate{ 2 };
-	float shieldPUSpawnRate{ 2 };
-	float companionSpawnRate{ 5 };
-
-	float lonerDeltaTime{0};
-	float rusherDeltaTime{0};
-	float weaponPUDeltaTime{3};
-	float shieldPUDeltaTime{1};
-	float companionDeltaTime{5};
 	int windowWidth{};
 	int windowHeight{};
+
+	// enemy spawn rates 
+
+	float lonerSpawnRate{8};
+	float rusherSpawnRate{3};
+	float stoneAsterSpawnRate{6};
+	float metalAsterSpawnRate{10};
+	float droneSpawnRate{ 5 };
+	float droneSpawnRateLong{ 10 };
+	float droneSpawnRateShort{ 0.4f };
+
+	// enemy delta time 
+
+	float lonerDeltaTime{ 2 };
+	float droneDeltaTime{ 5 };
+	float rusherDeltaTime{ 1 };
+	float stoneAsterDeltaTime{ 2 };
+	float metalAsterDeltaTime{ 2 };
+
+	// power up spawn rates
+
+	float weaponPUSpawnRate{15};
+	float shieldPUSpawnRate{10};
+	float companionSpawnRate{10};
+
+	// power up delta time 
+
+	float weaponPUDeltaTime{ 3 };
+	float shieldPUDeltaTime{ 7 };
+	float companionDeltaTime{ 5 };
+
+	//drone auxiliar
+
+	bool spawningDronePack{ false };
+	int droneCount{ 0 };
+	int dronePackNumber{ 8 };
+	std::pair<float, float> dronePackSpawnPoint = std::pair<float, float>( 0.0f, 0.0f );
+
+	//companion auxiliar
+
 	bool needCompanion = true;
 
+	// player reference
+
 	Spaceship* playerReference{nullptr};
+
+	// object spawned storages 
 
 	std::vector<Enemy*> levelEnemies{};
 	std::vector<Entity*> levelPowerUps{};
 };
+
 

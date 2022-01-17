@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 
-Bullet::Bullet(int posX, int posY, int currentBulletLevel)
+Bullet::Bullet(float posX, float posY, int currentBulletLevel)
 {
 	AddComponent<Animator>();
 	GetComponent<Transform>().myRotation = -90.0f;
@@ -31,6 +31,14 @@ Bullet::Bullet(int posX, int posY, int currentBulletLevel)
 			firePower = 50.0f;
 			break;
 		}
+
+		default:
+		{
+			bulletAnim = new Animation("bulletAnim", "assets/missile.bmp", 3, 2, 1, 2, 1, 1, 4, false, 3, true, true, true);
+			GetComponent<Animator>().AddAnimation("bulletAnim", bulletAnim);
+			firePower = 10.0f;
+		}
+			break;
 	}
 
 	spawnPosX = posX;
@@ -39,14 +47,16 @@ Bullet::Bullet(int posX, int posY, int currentBulletLevel)
 
 Bullet::~Bullet()
 {
-	Entity::~Entity();
+	//Entity::~Entity();
 }
 
 void Bullet::Update()
 {
-	GetComponent<Transform>().myPosition.X += 5;
+	Entity::Update();
 
-	GetComponent<Collider>().SetVelocity(5/ GameEngine::GetInstance()->GetDeltatime());
+	GetComponent<Transform>().myPosition.X += 7;
+
+	GetComponent<Collider>().SetVelocity(7/ GameEngine::GetInstance()->GetDeltatime());
 	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 
 
@@ -60,18 +70,24 @@ void Bullet::Update()
 	{
 		Destroy();
 	}
+
 }
 
 void Bullet::Init()
 {
+	Entity::Init();
+
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
+
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameHeight);
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameWidth);
 
 	AddComponent<Collider>().AddAttributes("Bullet", this, Collider::BodyType::dynamicBody,
 									       GetComponent<Transform>().myPosition.X,
 										   GetComponent<Transform>().myPosition.Y,
-										   GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("bulletAnim")->frameHeight, true, 0.0f);
+											colliderWidth, colliderHeight, true, 0.0f);
+
 
 }
 

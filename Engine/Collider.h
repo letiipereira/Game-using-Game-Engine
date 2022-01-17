@@ -37,5 +37,6 @@ public:
 private:
 	std::string colliderId {};;
 	class b2Body* body {};
+	class b2World* world{};
 	Transform* transform{ nullptr };
 };

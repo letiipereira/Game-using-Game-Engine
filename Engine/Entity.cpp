@@ -6,34 +6,39 @@ Entity::Entity()
 	level = GameEngine::GetInstance()->GetActiveLevel();
 	level->AddEntity(this);
 	this->AddComponent<Transform>();
+	
 }
 
 Entity::~Entity()
 {
-	/*for (auto& comp : components)
-	{
-		comp->~Component();
-		comp.release();
-	}*/
-
-	/*não é preciso deletar os componente são unique pointer 
-	então ja estão a ser chamados aoutomaticamente*/
+	
 }
 
 
 void Entity::Draw()
 {
-	for (auto& comp : components)
+	if (IsActive())
 	{
+		for (auto& comp : components)
+		{
 			comp->Draw();
+		}
 	}
+	else
+		return;
+	
 }
 
 void Entity::Update()
 {
-	for (auto& comp : components)
+	if (IsActive())
 	{
-		comp->Update();
+		for (auto& comp : components)
+		{
+			comp->Update();
+		}
 	}
+	else
+		return;
 }
 

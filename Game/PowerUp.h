@@ -13,6 +13,6 @@ public:
 	virtual void WasHit(Entity* collidedObject) {};
 
 	float moveSpeed{};
-	int spawnPosX{};
-	int spawnPosY{};
+	float spawnPosX{};
+	float spawnPosY{};
 };

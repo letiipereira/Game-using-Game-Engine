@@ -24,13 +24,15 @@ Spaceship::Spaceship()
 	GetComponent<Animator>().AddAnimation("moveDown", moveDown);
 	GetComponent<Animator>().AddAnimation("idle", idle);
 
-	companionList.insert({ {10.0f, 70.0f} , nullptr });
-	companionList.insert({ {11.0f, -70.0f} , nullptr });
+	companionPos1 = std::pair<Vector2D, Companion*>((-51.0f, 80.0f), nullptr);
+	companionPos2 = std::pair<Vector2D, Companion*>((50.0f, -81.0f), nullptr);
 
-	maxCompanions = companionList.size();
+	maxCompanions = 2;
 
-	KeyboardKeystate = GameInput::GetInstance()->GetKeyState();
-	GamepadButtonstate = GameInput::GetInstance()->GetButtonState();
+	gameInput = GameInput::GetInstance();
+
+	KeyboardKeystate = gameInput->GetKeyState();
+	GamepadButtonstate = gameInput->GetButtonState();
 }
 
 void Spaceship::Init()
@@ -39,14 +41,18 @@ void Spaceship::Init()
 
 	GetComponent<Animator>().PlayFromStart("idle", false, false);
 
-	GetComponent<Transform>().myPosition.X = 50;
-	GetComponent<Transform>().myPosition.Y = 220;
+	/*GetComponent<Transform>().myPosition.X = 50;
+	GetComponent<Transform>().myPosition.Y = 220;*/
+
+	GetComponent<Transform>().myRotation = 90.0f;
+
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameHeight);
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameWidth);
 
 	AddComponent<Collider>().AddAttributes("Spaceship", this, Collider::BodyType::dynamicBody,
 									       GetComponent<Transform>().myPosition.X,
-									       GetComponent<Transform>().myPosition.Y,
-										   GetComponent<Animator>().GetAnimationByName("idle")->frameWidth,
-										   GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, true, 0.0f);
+									       GetComponent<Transform>().myPosition.Y, 
+											colliderWidth, colliderHeight, true, 0.0f);
 }
 
 void Spaceship::Update()
@@ -63,7 +69,7 @@ void Spaceship::Update()
 	}
 	lastPosY = GetComponent<Transform>().myPosition.Y;
 
-	ShipAnimation();
+	//ShipAnimation();
 }
 
 void Spaceship::OnKeyDown(std::string key)
@@ -103,7 +109,7 @@ void Spaceship::Move()
 
 	if ((KeyboardKeystate["Up"] || GamepadButtonstate["Joystick_YAxis_Up"]) && !up )
 	{
-		if (GetComponent<Transform>().myPosition.Y < GameEngine::GetInstance()->GameWindowHeight() - 32)
+		if (GetComponent<Transform>().myPosition.Y <= GameEngine::GetInstance()->GameWindowHeight() - 32)
 		{
 			movement.Y += 1;
 			up = true;
@@ -112,7 +118,7 @@ void Spaceship::Move()
 
 	if ((KeyboardKeystate["Down"] || GamepadButtonstate["Joystick_YAxis_Down"]) && !down)
 	{
-		if (GetComponent<Transform>().myPosition.Y > 32)
+		if (GetComponent<Transform>().myPosition.Y >=  32)
 		{
 			movement.Y -= 1;
 			down = true;
@@ -160,7 +166,12 @@ void Spaceship::Attack()
 			bulletDeltaTime = 0;
 		}
 
-		std::map<Vector2D, Companion*, Vector2DCompare>::iterator it;
+		if (companionPos1.second != nullptr)
+			companionPos1.second->Attack();
+
+		if (companionPos2.second != nullptr)
+			companionPos2.second->Attack();
+		/*std::map<int, Companion*>::iterator it;
 
 		for (it = companionList.begin(); it != companionList.end(); it++)
 		{
@@ -168,7 +179,7 @@ void Spaceship::Attack()
 			{
 				it->second->Attack();
 			}
-		}
+		}*/
 	}
 }
 
@@ -180,12 +191,20 @@ void Spaceship::CheckKeyState()
 
 void Spaceship::IncreaseCompanionCount()
 {
-	currentCompanions++;
+	++currentCompanions;
+
+	std::cout << " companion count " << currentCompanions << std::endl;
+	std::cout << " companion max " << maxCompanions << std::endl;
+	std::cout << std::endl;
 }
 
 void Spaceship::DecreaseCompanionCount()
 {
-	currentCompanions--;
+	--currentCompanions;
+
+	std::cout << " companion count " << currentCompanions << std::endl;
+	std::cout << " companion max " << maxCompanions << std::endl;
+	std::cout << std::endl;
 }
 
 bool Spaceship::HasMaxCompanions()
@@ -262,34 +281,39 @@ void Spaceship::ChangeBulletLevel(bool willIncrease)
 	{
 		if (bulletLevel != bulletMaxLevel)
 		{
-			bulletLevel++;
+			++bulletLevel;
 		}
 	}
 	else if (!willIncrease)
 	{
 		if (bulletLevel != bulletMinLevel)
 		{
-			bulletLevel--;
+			--bulletLevel;
 		}
 	}
 }
 
-void Spaceship::RemoveCompanion(Companion* companion)
+void Spaceship::RemoveCompanion(float posX, float posY, Companion* companion)
 {
-	std::map<Vector2D, Companion*, Vector2DCompare>::iterator itr;
-
-	for (itr = companionList.begin(); itr != companionList.end(); itr++)
+	if (companion != nullptr)
 	{
-		if (itr->second == companion)
+		if (companionPos1.second == companion)
 		{
 			DecreaseCompanionCount();
-			itr->second->GetSpawner()->CompanionNecessity(true);
-			itr->second->Destroy();
-			itr->second = nullptr;
-			
-			break;
+			companionPos1.second->GetSpawner()->CompanionNecessity(true);
+			companionPos1.second->Destroy();
+			companionPos1.second = nullptr;
+		}
+		else if (companionPos2.second == companion)
+		{
+			DecreaseCompanionCount();
+			companionPos2.second->GetSpawner()->CompanionNecessity(true);
+			companionPos2.second->Destroy();
+			companionPos2.second = nullptr;
 		}
 	}
+	
+	
 }
 
 void Spaceship::WasHit(Entity* collidedObject)
@@ -298,14 +322,44 @@ void Spaceship::WasHit(Entity* collidedObject)
 	{
 		Companion* collidedCompanion = static_cast<Companion*>(collidedObject);
 
-		std::map<Vector2D, Companion*, Vector2DCompare>::iterator itr;
+		
+		if (!HasMaxCompanions() && !collidedCompanion->IsTaken())
+		{
+			if (companionPos1.second == nullptr)
+			{
+				collidedCompanion->SetDisplacement(companionPos1.first);
+				companionPos1.second = collidedCompanion;
+				
+			}
+			else if (companionPos2.second == nullptr)
+			{
+				collidedCompanion->SetDisplacement(companionPos2.first);
+				companionPos2.second = collidedCompanion;
+			}
+
+			if (companionPos1.second != nullptr)
+			{
+				collidedCompanion->SetPlayerReference(this);
+				collidedCompanion->TakeCompanion(true);
+				IncreaseCompanionCount();
+				if (HasMaxCompanions())
+				{
+					collidedCompanion->GetSpawner()->CompanionNecessity(false);
+				}
+
+			}
+			
+		}
+		
+
+		/*std::map<int, Companion*>::iterator itr;
 
 		for (itr = companionList.begin(); itr != companionList.end(); itr++)
 		{
 			if (itr->second == nullptr && !HasMaxCompanions())
 			{
 				itr->second = collidedCompanion;
-				collidedCompanion->SetDisplacement(itr->first);
+				collidedCompanion->SetDisplacement(companionPos[itr->first]);
 				collidedCompanion->SetPlayerReference(this);
 				collidedCompanion->TakeCompanion(true);
 
@@ -318,7 +372,7 @@ void Spaceship::WasHit(Entity* collidedObject)
 
 				break;
 			}
-		}
+		}*/
 	}
 }
 

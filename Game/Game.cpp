@@ -18,19 +18,23 @@ int main(int argc, char** argv)
 
     //set up do level
 
-    Entity newEnt;
-    newEnt.AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0, 0);
+    Entity* newEnt = new Entity;
+    newEnt->AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0);
+    newEnt->GetComponent<Transform>().myPosition.X = static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2);
+    newEnt->GetComponent<Transform>().myPosition.Y = static_cast<float>(GameEngine::GetInstance()->GameWindowHeight() / 2);
+
+
+    Spawner* spawner = new Spawner;
+
+    Spaceship* currentPlayer = new Spaceship;
+    currentPlayer->GetComponent<Transform>().myPosition.X = static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2);
+    currentPlayer->GetComponent<Transform>().myPosition.Y = static_cast<float>(GameEngine::GetInstance()->GameWindowHeight() / 2);
+
+    spawner->SetPlayerReference(currentPlayer);
     
-    newEnt.GetComponent<Transform>().myPosition.X = GameEngine::GetInstance()->GameWindowWidht() / 2;
-    newEnt.GetComponent<Transform>().myPosition.Y = GameEngine::GetInstance()->GameWindowHeight() / 2;
+    
+    //não é necessario dar delete dos "Enities" criados. O nível cuida disto :)
 
-
-    UIManager::GetInstance()->DrawText("NEW SCORE0123", CharacterType::big, 300.f, 300.f, 10);
-    UIManager::GetInstance()->DrawText("MIAU", CharacterType::small, 100.f, 100.f, 10);
-
-    Spawner spawner;
-    Spaceship currentPlayer;
-    spawner.SetPlayerReference(&currentPlayer);
 
     //newEnt2->AddGroup(GameEngine::GetInstance()->groupUI);
 
@@ -39,6 +43,6 @@ int main(int argc, char** argv)
     // game logic
     delete UIManager::GetInstance();
     delete GameEngine::GetInstance();
-
+    
     return 0;
 }

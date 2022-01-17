@@ -1,6 +1,6 @@
 #include "WeaponPowerUp.h"
 
-WeaponPowerUp::WeaponPowerUp(int posX, int posY, Spawner* spawner)
+WeaponPowerUp::WeaponPowerUp(float posX, float posY, Spawner* spawner)
 {
 	AddComponent<Animator>();
 	mySpawner = spawner;
@@ -11,16 +11,18 @@ WeaponPowerUp::WeaponPowerUp(int posX, int posY, Spawner* spawner)
 
 	GetComponent<Animator>().AddAnimation("idle", idlePowerUp);
 
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameHeight);
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("idle")->frameWidth);
+
 	AddComponent<Collider>().AddAttributes("PowerUp", this, Collider::BodyType::dynamicBody,
 		GetComponent<Transform>().myPosition.X,
 		GetComponent<Transform>().myPosition.Y,
-		GetComponent<Animator>().GetAnimationByName("idle")->frameWidth,
-		GetComponent<Animator>().GetAnimationByName("idle")->frameHeight, true, 0.0f);
+		colliderWidth, colliderHeight, true, 0.0f);
 }
 
 WeaponPowerUp::~WeaponPowerUp()
 {
-	PowerUp::~PowerUp();
+	//PowerUp::~PowerUp();
 }
 
 void WeaponPowerUp::Init()
@@ -57,7 +59,7 @@ void WeaponPowerUp::Update()
 
 	if (GetComponent<Transform>().myPosition.X < -75)
 	{
-		mySpawner->RemovePowerUp(this);
+		//mySpawner->RemovePowerUp(this);
 		Destroy();
 	}
 }

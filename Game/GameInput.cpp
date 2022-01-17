@@ -30,7 +30,7 @@ GameInput::GameInput()
 
 GameInput::~GameInput()
 {
-	std::map<std::string, std::string>::iterator it;
+	/*std::map<std::string, std::string>::iterator it;
 	for (it = KeyMapping.begin(); it != KeyMapping.end(); it++)
 	{
 		KeyMapping.erase(it);
@@ -40,5 +40,5 @@ GameInput::~GameInput()
 	for (it2 = KeyState.begin(); it2 != KeyState.end(); it2++)
 	{
 		KeyState.erase(it2);
-	}
+	}*/
 }

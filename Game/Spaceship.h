@@ -5,19 +5,22 @@
 #include <unordered_map>
 #include "Companion.h"
 
-struct Vector2DCompare
-{
-	bool operator() (const Vector2D& lhs, const Vector2D& rhs) const
-	{
-		return lhs.Y < rhs.Y;
-	}
-};
+//struct Vector2DCompare
+//{
+//	bool operator() (const Vector2D& lhs, const Vector2D& rhs) const
+//	{
+//		return lhs.Y < rhs.Y;
+//	}
+//};
 
 class Spaceship : public Pawn
 {
 public:
 	Spaceship();
-	~Spaceship() {};
+	~Spaceship() 
+	{
+			delete gameInput;
+	};
 
 	enum Movement { move_right, move_left, move_up, move_down };
 
@@ -26,21 +29,19 @@ public:
 	void ApplyShield(int shieldValue);
 	void ApplyDamage(int damageReceived);
 	void ChangeBulletLevel(bool willIncrease);
-	void RemoveCompanion(Companion* companion);
+	void RemoveCompanion(float posX, float posY, Companion* companion);
 
 	void WasHit(Entity* collidedObject) override;
 
-	std::map<Vector2D, Companion*, Vector2DCompare> GetCompanionList() { return companionList; }
-	
 
 private:
-	float moveSpeed = 300.0f;
-	float uniform = 0.7071f;
+	float moveSpeed{ 300.0f };
+	float uniform{ 0.7071f };
 	float spaceshipXDir{};
 	float lastPosY{};
 	float time{};
-	float bulletDeltaTime{0.1};
-	float bulletCoolDown{0.15};
+	float bulletDeltaTime{0.1f};
+	float bulletCoolDown{0.15f};
 
 	int maxLifes{};
 	int currentLifes{};
@@ -57,6 +58,10 @@ private:
 	Animation* moveDown{};
 	Animation* idle{};
 
+	
+
+	class GameInput* gameInput;
+
 	void OnKeyDown(std::string keycode) override;
 	void OnKeyUp(std::string key) override;
 	void OnButtonDown(std::string button) override;
@@ -72,8 +77,9 @@ private:
 
 	void ShipAnimation();
 
+	std::pair<Vector2D, Companion*> companionPos1{};
+	std::pair<Vector2D, Companion*> companionPos2{};
+
 	std::map<std::string, bool> KeyboardKeystate;
 	std::map<std::string, bool> GamepadButtonstate;
-	std::map<Vector2D, Companion*, Vector2DCompare> companionList{};
 };
-#pragma once

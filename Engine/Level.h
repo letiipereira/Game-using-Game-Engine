@@ -9,15 +9,8 @@ public:
 
 	Level(std::string levelName) {};
 
-	~Level() 
-	{
-		for (Entity* ent : levelEntities)
-		{
-				delete ent;
-		}
-
-		levelEntities.clear();
-	};
+	~Level();
+	
 
 	void Draw();
 	void Update();
@@ -26,6 +19,7 @@ public:
 
 	void AddEntity(Entity* entity);
 	void EraseEntity(Entity* entity);
+	void ClearLevel();
 	std::vector<std::pair<int, Entity*>> renderOrder;
 	//void AddToGroup(Entity* mEntity, Group mGroup);
 	//std::vector<Entity*>& GetGroup(Group mGroup):

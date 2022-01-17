@@ -1,9 +1,8 @@
 #include "Companion.h"
 #include "Spaceship.h"
 #include "Bullet.h"
-#include "Spawner.h"
 
-Companion::Companion(int posX, int posY, Spawner* spawner)
+Companion::Companion(float posX, float posY, Spawner* spawner)
 {
 	AddComponent<Animator>();
 	maxHealth = 50;
@@ -14,7 +13,7 @@ Companion::Companion(int posX, int posY, Spawner* spawner)
 	spawnPosX = posX;
 	spawnPosY = posY;
 	companionSpawner = spawner;
-	companionIdle = new Animation("companionIdle", "assets/clone.bmp", 5, 4, 5, 4, 2, 1, 10, false, 3, true, true, true);
+	companionIdle = new Animation("companionIdle", "assets/clone.bmp", 5, 4, 4, 4, 1, 1, 10, false, 3, true, true, true);
 
 	GetComponent<Transform>().myRotation = -90.0f;
 	GetComponent<Animator>().AddAnimation("companionIdle", companionIdle);
@@ -22,7 +21,7 @@ Companion::Companion(int posX, int posY, Spawner* spawner)
 
 Companion::~Companion()
 {
-	Entity::~Entity();
+	//Entity::~Entity();
 }
 
 Spawner* Companion::GetSpawner()
@@ -39,11 +38,13 @@ void Companion::Init()
 
 	GetComponent<Animator>().PlayFromStart("companionIdle", true, true);
 
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight) + 10;
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth) + 10;
+
 	AddComponent<Collider>().AddAttributes("Companion", this, Collider::BodyType::dynamicBody,
 		GetComponent<Transform>().myPosition.X,
 		GetComponent<Transform>().myPosition.Y,
-		GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth + 10,
-		GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight + 10, true, 0.0f);
+		colliderWidth, colliderHeight, true, 0.0f);
 }
 
 void Companion::Update()
@@ -66,11 +67,6 @@ void Companion::Update()
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}
 	
-	if (GetComponent<Transform>().myPosition.X < -75)
-	{
-		companionSpawner->RemovePowerUp(this);
-		Destroy();
-	}
 }
 
 void Companion::Attack()
@@ -98,15 +94,15 @@ void Companion::ApplyDamage(int damageReceived)
 
 	if (health <= 0)
 	{
-		currentPlayer->RemoveCompanion(this);
+		std::cout << "posx: " << displacementX << "posy: " << displacementY << std::endl;
+		currentPlayer->RemoveCompanion(static_cast<float>(displacementX), static_cast<float>(displacementY), this);
 	}
 }
 
 void Companion::SetDisplacement(Vector2D displacementVector)
 {
-	displacementX = displacementVector.X;
-	displacementY = displacementVector.Y;
-
+	displacementX = static_cast<int>(displacementVector.X);
+	displacementY = static_cast<int>(displacementVector.Y);
 }
 
 void Companion::ChangeBulletLevel(bool willIncrease)

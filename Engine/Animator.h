@@ -44,7 +44,7 @@ struct Animation
 	int myFramesPerSeconds{};
 	int textureWidth{}, textureHeight{};
 	int frameWidth{}, frameHeight{};
-	int frameIndex{ 1 };
+	int frameIndex{ 0 };
 	std::vector<std::pair<int, int>> frames{};
 
 	bool foward{ true };
@@ -73,6 +73,10 @@ public:
 	inline Animation* GetAnimationByName(std::string name) { return animations[name]; }
 	inline Animation* GetCurrentAnimation() { return currentAnimation; }
 	inline int GetLayer(){	return currentAnimation->myLayer;}
+	
+	inline std::pair<int, int> Getframe(){	return currentFrame;}
+
+	
 
 private:
 

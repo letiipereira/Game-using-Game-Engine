@@ -5,7 +5,7 @@ class Missile :  public Entity
 {
 
 public:
-	Missile(int posX, int posY, float movementX, float movementY);
+	Missile(float posX, float posY, float movementX, float movementY);
 	~Missile() override;
 
 	void Update() override;
@@ -15,8 +15,8 @@ public:
 private:
 	Animation* missileEnAnim{ nullptr };
 	Animation* die{ nullptr };
-	int spawnPosX{};
-	int spawnPosY{};
+	float spawnPosX{};
+	float spawnPosY{};
 	float missileMovX{};
 	float missileMovY{};
 	float speed = 5.0f;

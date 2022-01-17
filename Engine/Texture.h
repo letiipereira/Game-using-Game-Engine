@@ -4,7 +4,6 @@
 #include <iostream>
 
 class Texture
-
 {
 public:
 
@@ -17,7 +16,6 @@ public:
 
 	inline int GetWidth() const { return width; }
 	inline int GetHeight() const { return height; }
-
 
 private:
 

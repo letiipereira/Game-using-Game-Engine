@@ -60,6 +60,15 @@
     <ClCompile Include="Letter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StoneAster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Drone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MetalAster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spaceship.h">
@@ -102,6 +111,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Letter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StoneAster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Drone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MetalAster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
