@@ -9,9 +9,9 @@ Rusher::Rusher(int posX, int posY, Spawner* spawner)
 	idleRusher = new Animation("idleRusher", "assets/rusher.bmp", 6, 4, 6, 4, 1, 1, 24, false, 3, true, true, true);
 
 	if (spawnPosX > (GameEngine::GetInstance()->GameWindowWidht() / 2))
-		GetComponent<Transform>().myRotation = 90.f;
-	else
 		GetComponent<Transform>().myRotation = -90.f;
+	else
+		GetComponent<Transform>().myRotation = 90.f;
 
 	GetComponent<Animator>().AddAnimation("idleRusher", idleRusher);
 
@@ -59,7 +59,6 @@ void Rusher::Init()
 	Enemy::Init();
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
-	GetComponent<Animator>().PlayFromStart("idleRusher", true, true);
 
 	AddComponent<Collider>().AddAttributes("Enemy", this, Collider::BodyType::dynamicBody,
 										   GetComponent<Transform>().myPosition.X,

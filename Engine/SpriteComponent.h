@@ -9,7 +9,7 @@
 class SpriteComponent : public Component
 {
 public:
-	SpriteComponent(std::string textureid, std::string filePath, int layer = 0);
+	SpriteComponent(std::string textureid, std::string filePath, float spriteRotation, int layer = 0, bool needsCut = false, int currentRow = 1, int currentCol = 1, int totalRows = 1, int totalCol = 1);
 	~SpriteComponent() override {};
 
 	bool Init() override final;
@@ -32,10 +32,13 @@ private:
 	int width{0};
 	int height{0};
 
+	float rotation{0};
+
 	int myLayer{0};
 	bool flip{ false };
-	int frame{1};
-	int frameCount{1};
-	int row{1};
-	int rowCount{1};
+	bool willBeCut{ false };
+	int colCurrent{1};
+	int colTotal{1};
+	int rowCurrent{1};
+	int rowTotal{1};
 };

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <SDL.h>
 #include "Window.h"
 #include <iostream>
@@ -26,6 +25,5 @@ private:
 	std::string filePath;
 	unsigned char* localBuffer;
 	int width, height, bpp;
-	//SDL_Texture* textureSDL;
 
 };

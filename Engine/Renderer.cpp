@@ -35,21 +35,17 @@ Renderer::Renderer()
 
 	proj = glm::ortho(0.0f, windowWidth, 0.0f, windowHeight, -1.0f, 1.0f);
 	view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-
 }
 
 void Renderer::Init()
 {
-	
 	//shader->SetUniform4f("u_Color", 0.2f, 0.5f, 0.8f, 1.0f);
 }
 
-void Renderer::Draw(Transform* transform, Texture* texture, float col, float lines, float totalColunm, float totalLines) 
+void Renderer::Draw(Transform* transform, Texture* texture, float angle, float col, float lines, float totalColunm, float totalLines)
 {
 	float h = texture->GetHeight()/(2*totalLines);
 	float w = texture->GetWidth()/(2*totalColunm);
-	/*float h = texture->GetHeight()/(2*lines);
-	float w = texture->GetWidth()/(2*col);*/
 
 	float sizeX = transform->myScale.X;
 	float sizeY = transform->myScale.Y;
@@ -60,7 +56,6 @@ void Renderer::Draw(Transform* transform, Texture* texture, float col, float lin
 	float top = lines / totalLines;
 
 	
-
 	float positions[] = {
 			-w * sizeX , -h * sizeY ,	(col-1) / totalColunm  , (lines-1)/ totalLines ,		//0
 			w * sizeX , -h * sizeY,		col  / totalColunm , (lines - 1)/ totalLines,	//1
@@ -89,8 +84,23 @@ void Renderer::Draw(Transform* transform, Texture* texture, float col, float lin
 	Shader shader{ "../Engine/basic.shader" };
 
 	glm::vec3 translation{ transform->myPosition.X, transform->myPosition.Y , 0};
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-	glm::mat4 mvp = proj * view * model;
+
+	// Since it is a 2D texture, if we need to rotate it we need to do it around the Z axis
+	if (angle != 0)
+	{
+		glm::vec3 Zaxis{ 0.0f, 0.0f, 1.0f };
+
+		translationMatrix = glm::translate(glm::mat4(1.0f), translation);
+		rotationMatrixZ = glm::rotate(glm::mat4(1.0f), glm::radians(angle), Zaxis);
+
+		mvp = proj * view * translationMatrix * rotationMatrixZ;
+	}
+	else
+	{
+		translationMatrix = glm::translate(glm::mat4(1.0f), translation);
+
+		mvp = proj * view * translationMatrix;
+	}
 
 	shader.Bind();
 	texture->Bind();

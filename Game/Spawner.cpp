@@ -94,7 +94,7 @@ void Spawner::RemoveEnemy(Enemy* enemy)
 	}
 }
 
-void Spawner::RemovePowerUp(PowerUp* powerUp)
+void Spawner::RemovePowerUp(Entity* powerUp)
 {
 	for (int i = 0; i < levelPowerUps.size(); i++)
 	{

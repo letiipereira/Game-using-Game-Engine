@@ -16,6 +16,7 @@ private:
 	Animation* idleRusher{ nullptr };
 	int spawnPosX{};
 	int spawnPosY{};
+	float textureRotation{ 0 };
 	float moveSpeed{ 100.0f };
 	float uniform{ 0.7071f };
 };

@@ -17,7 +17,6 @@ TextureManager::~TextureManager()
 {
 
     std::map<std::string, Texture*>::iterator it;
-
     for (it = textureMap.begin(); it != textureMap.end(); it++)
     {
         delete it->second;
@@ -29,9 +28,8 @@ TextureManager::~TextureManager()
     
 }
 
-void TextureManager::DrawTexture(std::string id, Transform* transform, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
+void TextureManager::DrawTexture(std::string id, Transform* transform, float angle, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
 {
-
     Texture* current = GetTexture(id);
 
     if (current == nullptr)
@@ -53,12 +51,7 @@ void TextureManager::DrawTexture(std::string id, Transform* transform, bool flip
     //dstRect.h = static_cast<int>(height * transform->myScale.Y);
 
     
-    Renderer::GetInstance()->Draw(transform, current);
-    
-}
-
-void TextureManager::Render()
-{
+    Renderer::GetInstance()->Draw(transform, current, angle);
     
 }
 
@@ -73,7 +66,7 @@ void TextureManager::DropTexture(std::string id)
     textureMap.erase(id);
 }
 
-void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurrent, int frameCurrent, int rowTotal, int frameTotal, double angle, bool flipHor)
+void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurrent, int colCurrent, int rowTotal, int colTotal, float angle, bool flipHor)
 {
     Texture* current = GetTexture(id);
 
@@ -84,7 +77,7 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
         return;
     }
 
-    Renderer::GetInstance()->Draw(transform, current, frameCurrent, rowCurrent, frameTotal, rowTotal);
+    Renderer::GetInstance()->Draw(transform, current, angle, colCurrent, rowCurrent, colTotal, rowTotal);
 }
 
 Texture* TextureManager::GetTexture(std::string id)
@@ -101,7 +94,7 @@ Texture* TextureManager::LoadTexture(std::string id, std::string filePath)
         newTexture = new Texture(filePath);
         textureMap[id] = newTexture; // problemas de overwrite (?)
         if (newTexture == nullptr)
-            std::cout << "Error creating texture from surface" << std::endl;
+        std::cout << "Error creating texture from surface" << std::endl;
     }
     else
         std::cout << "Error Id already exists" << std::endl;

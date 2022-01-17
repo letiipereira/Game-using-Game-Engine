@@ -9,6 +9,7 @@
 #include "level.h"
 #include "loner.h"
 #include "rusher.h"
+#include "UIManager.h"
 
 int main(int argc, char** argv)
 {
@@ -18,18 +19,14 @@ int main(int argc, char** argv)
     //set up do level
 
     Entity newEnt;
-    newEnt.AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0);
+    newEnt.AddComponent<SpriteComponent>("background", "assets/galaxy2.bmp", 0, 0);
     
     newEnt.GetComponent<Transform>().myPosition.X = GameEngine::GetInstance()->GameWindowWidht() / 2;
     newEnt.GetComponent<Transform>().myPosition.Y = GameEngine::GetInstance()->GameWindowHeight() / 2;
 
-    /*Entity newEnt2;
-    newEnt2.AddComponent<Animator>();
-    Animation* anim = new Animation("idleLoner", "assets/LonerA.bmp", 4, 4, 4, 4, 1, 1, 4, false, 2, true, true, true);
-    newEnt2.GetComponent<Animator>().AddAnimation("idleLoner", anim);
 
-    newEnt2.GetComponent<Transform>().myPosition.X = GameEngine::GetInstance()->GameWindowWidht() / 2;
-    newEnt2.GetComponent<Transform>().myPosition.Y = GameEngine::GetInstance()->GameWindowHeight() / 2;*/
+    UIManager::GetInstance()->DrawText("NEW SCORE0123", CharacterType::big, 300.f, 300.f, 10);
+    UIManager::GetInstance()->DrawText("MIAU", CharacterType::small, 100.f, 100.f, 10);
 
     Spawner spawner;
     Spaceship currentPlayer;
@@ -40,6 +37,7 @@ int main(int argc, char** argv)
     GameEngine::GetInstance()->start();
 
     // game logic
+    delete UIManager::GetInstance();
     delete GameEngine::GetInstance();
 
     return 0;

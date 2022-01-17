@@ -82,7 +82,7 @@ void Loner::Update()
 
 void Loner::Attack()
 {
-	int x, y{};
+	float x, y{};
 	x = GetComponent<Transform>().myPosition.X;
 	y = GetComponent<Transform>().myPosition.Y - 40;
 
@@ -90,7 +90,7 @@ void Loner::Attack()
 
 	Vector2D missileMovement{};
 	missileMovement.X = playerPosition.X - GetComponent<Transform>().myPosition.X;
-	missileMovement.Y = (playerPosition.Y - 20.0f) - GetComponent<Transform>().myPosition.Y;
+	missileMovement.Y = (playerPosition.Y + 20.0f) - GetComponent<Transform>().myPosition.Y;
 
 	missileMovement.NormalizeVector();
 

@@ -38,8 +38,6 @@ void Level::Draw()
 	{
 		ent.first->Draw();
 	}
-
-	TextureManager::GetInstance()->Render();
 }
 
 void Level::AddEntity(Entity* entity)
@@ -86,7 +84,6 @@ void Level::Refresh()
 			Entity* thisEntity = levelEntities[i];
 			entitiesToDelete.push_back(thisEntity);
 			levelEntities.erase(levelEntities.begin() + i);
-			std::cout << levelEntities.size() << std::endl;
 		}
 	}
 	

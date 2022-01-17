@@ -74,36 +74,36 @@ void Missile::Init()
 
 void Missile::WasHit(Entity* collidedObject)
 {
-	if (collidedObject->GetComponent<Collider>().GetId() == "Spaceship" ||
-		collidedObject->GetComponent<Collider>().GetId() == "Companion" ||
-		collidedObject->GetComponent<Collider>().GetId() == "Bullet")
+	if (collidedObject->GetComponent<Collider>().GetId() == "Bullet")
 	{
-		if (collidedObject->GetComponent<Collider>().GetId() == "Bullet")
-		{
-			hasCollided = true;
-		}
-
-		if (collidedObject->GetComponent<Collider>().GetId() == "Spaceship")
-		{
-			hasCollided = true;
-			Spaceship* currentPlayer = static_cast<Spaceship*>(collidedObject);
-			currentPlayer->ChangeBulletLevel(false);
-			currentPlayer->ApplyDamage(20);
-		}
-		
-		if (collidedObject->GetComponent<Collider>().GetId() == "Companion")
-		{
-			Companion* playerCompanion = static_cast<Companion*>(collidedObject);
-
-			if (playerCompanion->IsTaken())
-			{
-				hasCollided = true;
-				playerCompanion->ChangeBulletLevel(false);
-				playerCompanion->ApplyDamage(20);
-			}
-		}
-		
+		hasCollided = true;
 		if (HasComponent<Animator>())
 			GetComponent<Animator>().PlayFromStart("missileExplode", false, true);
+	}
+
+	if (collidedObject->GetComponent<Collider>().GetId() == "Spaceship")
+	{
+		hasCollided = true;
+		Spaceship* currentPlayer = static_cast<Spaceship*>(collidedObject);
+		currentPlayer->ChangeBulletLevel(false);
+		currentPlayer->ApplyDamage(20);
+
+		if (HasComponent<Animator>())
+			GetComponent<Animator>().PlayFromStart("missileExplode", false, true);
+	}
+
+	if (collidedObject->GetComponent<Collider>().GetId() == "Companion")
+	{
+		Companion* playerCompanion = static_cast<Companion*>(collidedObject);
+
+		if (playerCompanion->IsTaken())
+		{
+			hasCollided = true;
+			playerCompanion->ChangeBulletLevel(false);
+			playerCompanion->ApplyDamage(20);
+
+			if (HasComponent<Animator>())
+				GetComponent<Animator>().PlayFromStart("missileExplode", false, true);
+		}
 	}
 }

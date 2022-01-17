@@ -30,8 +30,8 @@ private:
 	int bulletMaxLevel{};
 	int spawnPosX{};
 	int spawnPosY{};
-	int displacementX{0};
-	int displacementY{0};
+	float displacementX{0};
+	float displacementY{0};
 	bool isTaken{ false };
 	float moveSpeed{-0.8f};
 	float bulletDeltaTime{ 0.1 };

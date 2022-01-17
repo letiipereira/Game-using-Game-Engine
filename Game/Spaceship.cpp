@@ -5,6 +5,8 @@
 
 Spaceship::Spaceship()
 {
+	maxLifes = 2;
+	currentLifes = maxLifes;
 	maxHealth = 100;
 	health = maxHealth;
 	currentCompanions = 0;
@@ -12,6 +14,7 @@ Spaceship::Spaceship()
 	bulletMinLevel = 1;
 	bulletMaxLevel = 3;
 	AddComponent<Animator>();
+	GetComponent<Transform>().myRotation = -90.0f;
 
 	moveDown = new Animation("moveUp", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 14, false, 6, false, true, false);
 	moveUp = new Animation("moveDown", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 14, false, 6, false, false, false);
@@ -21,8 +24,8 @@ Spaceship::Spaceship()
 	GetComponent<Animator>().AddAnimation("moveDown", moveDown);
 	GetComponent<Animator>().AddAnimation("idle", idle);
 
-	companionList.insert({ (-60.0f, 80.0f) , nullptr });
-	companionList.insert({ (-80.0f, -60.0f) , nullptr });
+	companionList.insert({ {10.0f, 70.0f} , nullptr });
+	companionList.insert({ {11.0f, -70.0f} , nullptr });
 
 	maxCompanions = companionList.size();
 
@@ -38,8 +41,6 @@ void Spaceship::Init()
 
 	GetComponent<Transform>().myPosition.X = 50;
 	GetComponent<Transform>().myPosition.Y = 220;
-
-	GetComponent<Transform>().myRotation = 90.0f;
 
 	AddComponent<Collider>().AddAttributes("Spaceship", this, Collider::BodyType::dynamicBody,
 									       GetComponent<Transform>().myPosition.X,
@@ -102,31 +103,31 @@ void Spaceship::Move()
 
 	if ((KeyboardKeystate["Up"] || GamepadButtonstate["Joystick_YAxis_Up"]) && !up )
 	{
-		if (GetComponent<Transform>().myPosition.Y > 0 + 32)
+		if (GetComponent<Transform>().myPosition.Y < GameEngine::GetInstance()->GameWindowHeight() - 32)
 		{
 			movement.Y += 1;
 			up = true;
-		}
-			
+		}	
 	}
+
 	if ((KeyboardKeystate["Down"] || GamepadButtonstate["Joystick_YAxis_Down"]) && !down)
 	{
-		if (GetComponent<Transform>().myPosition.Y < GameEngine::GetInstance()->GameWindowHeight() + 32)
+		if (GetComponent<Transform>().myPosition.Y > 32)
 		{
 			movement.Y -= 1;
 			down = true;
 		}
-			
 	}
+
 	if ((KeyboardKeystate["Left"] || GamepadButtonstate["Joystick_XAxis_Left"]) && !left)
 	{
-		if (GetComponent<Transform>().myPosition.X > 0)
+		if (GetComponent<Transform>().myPosition.X > 32)
 		{
 			movement.X -= 1;
 			left = true;
 		}
-			
 	}
+
 	if ((KeyboardKeystate["Right"] || GamepadButtonstate["Joystick_XAxis_Right"]) && !right)
 	{
 		if (GetComponent<Transform>().myPosition.X < GameEngine::GetInstance()->GameWindowWidht() - 32)
@@ -134,7 +135,6 @@ void Spaceship::Move()
 			movement.X += 1;
 			right = true;
 		}
-			
 	}
 
 	movement.NormalizeVector();
@@ -156,7 +156,7 @@ void Spaceship::Attack()
 	{
 		if (bulletDeltaTime > bulletCoolDown)
 		{
-			Bullet* bullet = new Bullet(GetComponent<Transform>().myPosition.X + 75, GetComponent<Transform>().myPosition.Y + 25, bulletLevel);
+			Bullet* bullet = new Bullet(GetComponent<Transform>().myPosition.X + 55, GetComponent<Transform>().myPosition.Y, bulletLevel);
 			bulletDeltaTime = 0;
 		}
 
@@ -338,6 +338,14 @@ void Spaceship::ApplyDamage(int damageReceived)
 
 	if (health <= 0)
 	{
-		// lost
+		if (currentLifes != 0)
+		{
+			currentLifes--;
+			health = maxHealth;
+		}
+		else
+		{
+			// quit
+		}		
 	}
 }

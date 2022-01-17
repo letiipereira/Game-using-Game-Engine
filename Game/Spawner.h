@@ -21,7 +21,7 @@ public:
 	void SpawnCompanion(int spawnPosX, int spawnPosY);
 	void CompanionNecessity(bool needCompanion);
 	void RemoveEnemy(Enemy* enemy);
-	void RemovePowerUp(PowerUp* powerUp);
+	void RemovePowerUp(Entity* powerUp);
 
 	void SetPlayerReference(Spaceship* player);
 	Vector2D GetPlayerPosition();

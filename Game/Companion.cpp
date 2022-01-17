@@ -1,6 +1,7 @@
 #include "Companion.h"
 #include "Spaceship.h"
 #include "Bullet.h"
+#include "Spawner.h"
 
 Companion::Companion(int posX, int posY, Spawner* spawner)
 {
@@ -13,8 +14,9 @@ Companion::Companion(int posX, int posY, Spawner* spawner)
 	spawnPosX = posX;
 	spawnPosY = posY;
 	companionSpawner = spawner;
-	companionIdle = new Animation("companionIdle", "assets/clone.bmp", 5, 4, 4, 4, 1, 1, 10, false, 3, true, true, true);
+	companionIdle = new Animation("companionIdle", "assets/clone.bmp", 5, 4, 5, 4, 2, 1, 10, false, 3, true, true, true);
 
+	GetComponent<Transform>().myRotation = -90.0f;
 	GetComponent<Animator>().AddAnimation("companionIdle", companionIdle);
 }
 
@@ -34,7 +36,6 @@ void Companion::Init()
 
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
-	GetComponent<Transform>().myRotation = 90.0f;
 
 	GetComponent<Animator>().PlayFromStart("companionIdle", true, true);
 
@@ -59,12 +60,17 @@ void Companion::Update()
 	}
 	else
 	{
-		GetComponent<Transform>().myPosition.X = currentPlayer->GetComponent<Transform>().myPosition.X + displacementY;
-		GetComponent<Transform>().myPosition.Y = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementX;
+		GetComponent<Transform>().myPosition.X = currentPlayer->GetComponent<Transform>().myPosition.X + displacementX;
+		GetComponent<Transform>().myPosition.Y = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementY;
 
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}
 	
+	if (GetComponent<Transform>().myPosition.X < -75)
+	{
+		companionSpawner->RemovePowerUp(this);
+		Destroy();
+	}
 }
 
 void Companion::Attack()
@@ -100,6 +106,7 @@ void Companion::SetDisplacement(Vector2D displacementVector)
 {
 	displacementX = displacementVector.X;
 	displacementY = displacementVector.Y;
+
 }
 
 void Companion::ChangeBulletLevel(bool willIncrease)

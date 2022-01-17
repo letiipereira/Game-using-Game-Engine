@@ -24,9 +24,7 @@ void Animation::Init()
 
 	if (!foward)
 		frameIndex = (static_cast<int>(frames.size()) - 1);
-
 }
-
 
 void Animation::SetupAnimation()
 {
@@ -71,7 +69,6 @@ bool Animator::Init()
 	transform = &entity->GetComponent<Transform>();
 
 	return true;
-		
 }
 
 void Animator::Draw()

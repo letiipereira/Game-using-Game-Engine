@@ -1,13 +1,15 @@
 #pragma once
 #include "GameEngine.h"
 #include "Pawn.h"
+#include <vector>
+#include <unordered_map>
 #include "Companion.h"
 
 struct Vector2DCompare
 {
 	bool operator() (const Vector2D& lhs, const Vector2D& rhs) const
 	{
-		return lhs.operator<(rhs);
+		return lhs.Y < rhs.Y;
 	}
 };
 
@@ -28,7 +30,8 @@ public:
 
 	void WasHit(Entity* collidedObject) override;
 
-	std::map<Vector2D, Companion*, Vector2DCompare> companionList{};
+	std::map<Vector2D, Companion*, Vector2DCompare> GetCompanionList() { return companionList; }
+	
 
 private:
 	float moveSpeed = 300.0f;
@@ -39,6 +42,8 @@ private:
 	float bulletDeltaTime{0.1};
 	float bulletCoolDown{0.15};
 
+	int maxLifes{};
+	int currentLifes{};
 	int health{};
 	int currentCompanions{};
 	int maxCompanions{};
@@ -69,5 +74,6 @@ private:
 
 	std::map<std::string, bool> KeyboardKeystate;
 	std::map<std::string, bool> GamepadButtonstate;
+	std::map<Vector2D, Companion*, Vector2DCompare> companionList{};
 };
 #pragma once

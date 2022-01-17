@@ -4,12 +4,12 @@
 Bullet::Bullet(int posX, int posY, int currentBulletLevel)
 {
 	AddComponent<Animator>();
+	GetComponent<Transform>().myRotation = -90.0f;
 
 	switch (currentBulletLevel)
 	{
 		case (1):
 		{
-			bulletAnim = new Animation("bulletAnim", "assets/missile.bmp", 3, 2, 3, 2, 3, 1, 4, false, 3, true, true, true);
 			bulletAnim = new Animation("bulletAnim", "assets/missile.bmp", 3, 2, 1, 2, 1, 1, 4, false, 3, true, true, true);
 			GetComponent<Animator>().AddAnimation("bulletAnim", bulletAnim);
 			firePower = 10.0f;
@@ -66,7 +66,6 @@ void Bullet::Init()
 {
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
-	GetComponent<Transform>().myRotation = -90.0f;
 
 	AddComponent<Collider>().AddAttributes("Bullet", this, Collider::BodyType::dynamicBody,
 									       GetComponent<Transform>().myPosition.X,

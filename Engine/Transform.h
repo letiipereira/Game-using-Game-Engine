@@ -16,6 +16,6 @@ struct Transform : public Component {
 
 	Vector2D myPosition{};
 	Vector2D myScale{};
-	double myRotation{};
+	float myRotation{};
 
 };
