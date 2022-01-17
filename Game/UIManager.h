@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "Letter.h"
 
 struct Character {
 	char letter;		   // Letter to render
@@ -25,8 +26,13 @@ public:
 	UIManager();
 	~UIManager() {};
 
+	void DrawUI();
+	//void UpdateScore(int newScore);
+	//void UpdateHealth(int health);
+	//void UpdateLifes(int lifeNumber);
+
 	static UIManager* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new UIManager(); }
-	void DrawText(std::string text, CharacterType type, float x, float y, int layer);
+	void DrawText(std::string textToRender, CharacterType type, float x, float y, int layer, bool isStatic, std::vector<Letter*> letters);
 
 private:
 
@@ -47,24 +53,20 @@ private:
 	'x', 'y', 'z', '{', '╎', '}', '~', '¤'
 	};
 
-	//std::vector<char> characters
-	//{
-	//	'x', 'y', 'z', '{', '╎', '}', '—', '~',
-	//	'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-	//	'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-	//	'`', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
-	//	'X', 'Y', 'Z', '[', ' ', ']', '^', '_',
-	//	'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-	//	'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-	//	'©', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
-	//	'8', '9', ':', ';', '<', '=', '>', '?',
-	//	'0', '1', '2', '3', '4', '5', '6', '7',
-	//	'(', ')', '*', '+', ',', '-', '.', '/',
-	//	' ', '!', '"', '#', '$', '%', '&', 'ˈ'
-	//};
+	int scorePosX = {};
+	int scorePosY = {};
+	int hiScorePosX = {};
+	int hiScorePosY = {};
+
+	void DrawScore();
+	void DrawHighScore();
+	void DrawLifes();
+	void DrawHealthBar();
 
 	std::map<char, Character> smallCharacters{};
 	std::map<char, Character> bigCharacters{};
+	std::vector<Letter*> score{};
+	std::vector<Letter*> highScore{};
 };
 
 //#endif // UIMANAGER_M
