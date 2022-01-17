@@ -190,20 +190,20 @@ void Spaceship::CheckKeyState()
 
 void Spaceship::IncreaseCompanionCount()
 {
+	++currentCompanions;
+
 	std::cout << " companion count " << currentCompanions << std::endl;
 	std::cout << " companion max " << maxCompanions << std::endl;
 	std::cout << std::endl;
-
-	currentCompanions++;
 }
 
 void Spaceship::DecreaseCompanionCount()
 {
+	--currentCompanions;
+
 	std::cout << " companion count " << currentCompanions << std::endl;
 	std::cout << " companion max " << maxCompanions << std::endl;
-	std::cout <<  std::endl;
-
-	currentCompanions--;
+	std::cout << std::endl;
 }
 
 bool Spaceship::HasMaxCompanions()
@@ -280,14 +280,14 @@ void Spaceship::ChangeBulletLevel(bool willIncrease)
 	{
 		if (bulletLevel != bulletMaxLevel)
 		{
-			bulletLevel++;
+			++bulletLevel;
 		}
 	}
 	else if (!willIncrease)
 	{
 		if (bulletLevel != bulletMinLevel)
 		{
-			bulletLevel--;
+			--bulletLevel;
 		}
 	}
 }
@@ -324,22 +324,19 @@ void Spaceship::WasHit(Entity* collidedObject)
 		
 		if (!HasMaxCompanions() && !collidedCompanion->IsTaken())
 		{
-			bool foundPlace{ false };
-
 			if (companionPos1.second == nullptr)
 			{
 				collidedCompanion->SetDisplacement(companionPos1.first);
 				companionPos1.second = collidedCompanion;
-				foundPlace = true;
+				
 			}
-			else if (companionPos2.second == nullptr && foundPlace == false)
+			else if (companionPos2.second == nullptr)
 			{
 				collidedCompanion->SetDisplacement(companionPos2.first);
 				companionPos2.second = collidedCompanion;
-				foundPlace = true;
 			}
 
-			if (foundPlace)
+			if (companionPos1.second != nullptr)
 			{
 				collidedCompanion->SetPlayerReference(this);
 				collidedCompanion->TakeCompanion(true);
