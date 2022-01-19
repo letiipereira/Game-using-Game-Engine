@@ -25,7 +25,7 @@ class Renderer
 		static Renderer* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new Renderer(); }
 
 		void Init();
-		void Draw(Transform* transform, Texture* texture, float angle , float col = 1, float lines = 1, float totalColunm = 1, float totalLines = 1);
+		void Draw(Transform* transform, Texture* texture, float angle , float col = 1, float lines = 1, float totalColunm = 1, float totalLines = 1, bool flip = false);
 		void Clear() const;
 
 	private:

@@ -75,7 +75,7 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
         return;
     }
 
-    Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal));
+    Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor);
 }
 
 Texture* TextureManager::GetTexture(std::string id)

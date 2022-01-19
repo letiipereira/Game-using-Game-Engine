@@ -316,14 +316,16 @@ void Spaceship::WasHit(Entity* collidedObject)
 		{
 			if (companionPos1.second == nullptr)
 			{
-				collidedCompanion->SetDisplacement(companionPos1.first);
 				companionPos1.second = collidedCompanion;
+				collidedCompanion->SetDisplacement(companionPos1.first);
+				
 				
 			}
 			else if (companionPos2.second == nullptr)
 			{
-				collidedCompanion->SetDisplacement(companionPos2.first);
 				companionPos2.second = collidedCompanion;
+				collidedCompanion->SetDisplacement(companionPos2.first);
+				
 			}
 
 			if (companionPos1.second != nullptr)

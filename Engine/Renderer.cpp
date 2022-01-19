@@ -42,7 +42,7 @@ void Renderer::Init()
 	//shader->SetUniform4f("u_Color", 0.2f, 0.5f, 0.8f, 1.0f);
 }
 
-void Renderer::Draw(Transform* transform, Texture* texture, float angle, float col, float lines, float totalColunm, float totalLines)
+void Renderer::Draw(Transform* transform, Texture* texture, float angle, float col, float lines, float totalColunm, float totalLines, bool flip)
 {
 	float h = texture->GetHeight()/(2*totalLines);
 	float w = texture->GetWidth()/(2*totalColunm);
@@ -54,6 +54,13 @@ void Renderer::Draw(Transform* transform, Texture* texture, float angle, float c
 	float right = col / totalColunm;
 	float botton = (lines - 1) / totalLines;
 	float top = lines / totalLines;
+
+	if (flip)
+	{
+		float keep = left;
+		left = right;
+		right = keep;
+	}
 
 	
 	float positions[] = {
