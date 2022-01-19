@@ -2,6 +2,7 @@
 #include "Bullet.h"
 #include "Spawner.h"
 #include "GameInput.h"
+#include "UIManager.h"
 
 Spaceship::Spaceship()
 {
@@ -29,6 +30,7 @@ Spaceship::Spaceship()
 	maxCompanions = 2;
 
 	gameInput = GameInput::GetInstance();
+	UIManager::GetInstance()->SetMaxLifes(currentLifes);
 
 	KeyboardKeystate = gameInput->GetKeyState();
 	GamepadButtonstate = gameInput->GetButtonState();
@@ -53,6 +55,8 @@ void Spaceship::Init()
 
 void Spaceship::Update()
 {
+	//std::cout << health << std::endl;
+
 	Pawn::Update();
 
 	time += GameEngine::GetInstance()->GetDeltatime();
@@ -299,8 +303,6 @@ void Spaceship::RemoveCompanion(float posX, float posY, Companion* companion)
 			companionPos2.second = nullptr;
 		}
 	}
-	
-	
 }
 
 void Spaceship::WasHit(Entity* collidedObject)
@@ -337,29 +339,6 @@ void Spaceship::WasHit(Entity* collidedObject)
 			}
 			
 		}
-		
-
-		/*std::map<int, Companion*>::iterator itr;
-
-		for (itr = companionList.begin(); itr != companionList.end(); itr++)
-		{
-			if (itr->second == nullptr && !HasMaxCompanions())
-			{
-				itr->second = collidedCompanion;
-				collidedCompanion->SetDisplacement(companionPos[itr->first]);
-				collidedCompanion->SetPlayerReference(this);
-				collidedCompanion->TakeCompanion(true);
-
-				IncreaseCompanionCount();
-
-				if (HasMaxCompanions())
-				{
-					collidedCompanion->GetSpawner()->CompanionNecessity(false);
-				}
-
-				break;
-			}
-		}*/
 	}
 }
 
@@ -371,6 +350,8 @@ void Spaceship::ApplyShield(int shieldValue)
 	{
 		health = maxHealth;
 	}
+
+	UIManager::GetInstance()->UpdateHealth(maxHealth, health);
 }
 
 void Spaceship::ApplyDamage(int damageReceived)
@@ -383,10 +364,13 @@ void Spaceship::ApplyDamage(int damageReceived)
 		{
 			currentLifes--;
 			health = maxHealth;
+			UIManager::GetInstance()->UpdateLifes(currentLifes);
 		}
 		else
 		{
 			// quit
 		}		
 	}
+
+	UIManager::GetInstance()->UpdateHealth(maxHealth, health);
 }

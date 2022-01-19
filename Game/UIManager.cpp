@@ -1,7 +1,5 @@
 #include "UIManager.h"
 #include <iostream>
-#include "Entity.h"
-#include "level.h"
 #include "Transform.h"
 
 UIManager* UIManager::sInstance{ nullptr };
@@ -55,7 +53,7 @@ UIManager::UIManager()
     }
 }
 
-void UIManager::DrawText(std::string textToRender, CharacterType type, float x, float y, int layer, bool isStatic, std::vector<Letter*> letters)
+void UIManager::DrawText(std::string textToRender, CharacterType type, float x, float y, int layer, bool isStatic, std::vector<Icon*>& letters)
 {
     switch (type)
     {
@@ -67,7 +65,7 @@ void UIManager::DrawText(std::string textToRender, CharacterType type, float x, 
 
             std::string textureID = std::to_string(character);
 
-            Letter* newLetter = new Letter(textureID, "assets/Font8x8.bmp", x, y, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
+            Icon* newLetter = new Icon(textureID, "assets/Font8x8.bmp", x, y, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
             
             // If the text is refered to a varaible that will be updated from time to time
             if (!isStatic)
@@ -89,7 +87,7 @@ void UIManager::DrawText(std::string textToRender, CharacterType type, float x, 
 
             std::string textureID = std::to_string(character);
 
-            Letter* newLetter = new Letter(textureID, "assets/font16x16.bmp", x, y, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
+            Icon* newLetter = new Icon(textureID, "assets/font16x16.bmp", x, y, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
 
             // If the text is refered to a varaible that will be updated from time to time
             if (!isStatic)
@@ -108,36 +106,121 @@ void UIManager::DrawText(std::string textToRender, CharacterType type, float x, 
     }
 }
 
-void UIManager::DrawUI()
+void UIManager::DrawIcons(std::string textureID, std::string filePath, float x, float y, int layer, std::vector<Icon*>& icons)
 {
-    DrawScore();
-    DrawHighScore();
-    //DrawLifes();
-    //DrawHealthBar();
+    Icon* newIcon = new Icon(textureID, filePath, x, y, true, 1, 1, 1, 1, layer);
+
+    icons.push_back(newIcon);
+    //lifes.push_back(newIcon);
 }
 
-void UIManager::DrawScore()
+void UIManager::SetMaxLifes(int maxLifes)
 {
-    // Draw the high score title
-    int titlePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 40.f;
-    int titlePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
-    DrawText("Hi Score", CharacterType::small, titlePosX, titlePosY, 10, true, {});
+    playerLifes = maxLifes;
+    DrawLifes(playerLifes);
+}
 
+void UIManager::DrawUI()
+{
+    DrawTitles();
+    DrawScore("0000000000");
+    DrawHighScore();
+    DrawHealthBar();
+}
+
+void UIManager::UpdateScore(int newScore)
+{
+    for (int i = 0; i < score.size(); i++)
+    {
+        score[i]->Destroy();
+    }
+
+    score.clear();
+
+    playerScore += newScore;
+
+    std::string updatedScore = std::to_string(playerScore);
+
+    int charNumber = updatedScore.size();
+    int zeros = 10 - charNumber;
+    std::string zerosString{};
+
+    for (int i = 0; i < zeros; i++)
+    {
+        zerosString.append("0");
+    }
+
+    std::string finalScore = zerosString.append(updatedScore);
+
+    DrawScore(finalScore);
+}
+
+void UIManager::UpdateHealth(int maxHealth, int health)
+{
+    float percentage = (float)health / (float)maxHealth;
+    int healthWidth = healthBar->GetComponent<SpriteComponent>().GetWidth();
+
+    healthBar->GetComponent<Transform>().myScale.X = percentage;
+    //healthBar->GetComponent<Transform>().myPosition.X = barPosition.X - (barPosition.X / 1.6);
+}
+
+void UIManager::UpdateLifes(int lifeNumber)
+{
+    for (int i = 0; i < lifes.size(); i++)
+    {
+        lifes[i]->Destroy();
+    }
+
+    lifes.clear();
+
+    DrawLifes(lifeNumber);
+}
+
+void UIManager::DrawTitles()
+{
+    int hiPosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 40.f;
+    int hiPosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
+    DrawText("Hi Score", CharacterType::small, hiPosX, hiPosY, 10, true, staticIcons);
+
+    int scoreTitlePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
+    int scoreTitlePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
+    DrawText("Player One", CharacterType::small, scoreTitlePosX, scoreTitlePosY, 10, true, staticIcons);
+}
+
+void UIManager::DrawScore(std::string currentScore)
+{
     // Draw the high score
-    int scorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 47.f;
-    int scorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 205.f;
-    DrawText("0000000000", CharacterType::small, scorePosX, scorePosY, 10, false, highScore);
+    int scorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
+    int scorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 200.f;
+    DrawText(currentScore, CharacterType::big, scorePosX, scorePosY, 10, false, score);
 }
 
 void UIManager::DrawHighScore()
 {
-    // Draw the title
-    int titlePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
-    int titlePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
-    DrawText("Player One", CharacterType::small, titlePosX, titlePosY, 10, true, {});
-
     // Draw the current score
-    hiScorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
-    hiScorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 200.f;
-    DrawText("0000000000", CharacterType::big, hiScorePosX, hiScorePosY, 10, true, {});
+    hiScorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 47.f;
+    hiScorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 205.f;
+    DrawText("0000000000", CharacterType::small, hiScorePosX, hiScorePosY, 10, false, highScore);
+}
+
+void UIManager::DrawLifes(int totalLifes)
+{
+    float posX = 30.f;
+    float posY = 60.f;
+
+    for (int i = 0; i < totalLifes; i++)
+    {        
+        DrawIcons("icon", "assets/PULife.bmp", posX, posY, 10, lifes);
+
+        // now advance cursors for the next character
+        posX += 40.f;
+    }    
+}
+
+void UIManager::DrawHealthBar()
+{
+   healthBar = new Icon("healthBorder", "assets/healthBar.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 9);
+
+   Icon* healthBorder = new Icon("healthBorder", "assets/healthBorder.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 10);
+   staticIcons.push_back(healthBorder);
 }

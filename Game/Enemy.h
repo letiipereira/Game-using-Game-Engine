@@ -14,14 +14,18 @@ public:
 
 	void ApplyDamage(float damage);
 
+	int GetScore() { return score; }
+	bool ReceivesDamage() { return canReceiveDamage; }
+
 protected: 
 
 	Animation* die{nullptr};
 
-	bool canReceiveDemage{ true };
+	int score{50};
 	float health{50};
 	float time{};
 	float loseDamageRate{1};
+	bool canReceiveDamage{ true };
 	class Spawner* mySpawner = nullptr;
 };
 

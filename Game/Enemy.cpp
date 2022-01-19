@@ -2,6 +2,7 @@
 #include "Spaceship.h"
 #include "Companion.h"
 #include "Spawner.h"
+#include "UIManager.h"
 
 Enemy::~Enemy(){}
 
@@ -72,13 +73,15 @@ void Enemy::WasHit(Entity* collidedObject)
 
 void Enemy::ApplyDamage(float damage)
 {
-	if (canReceiveDemage)
+	if (canReceiveDamage)
 	{
 		health -= damage;
 	}
 		
 	if (health <= 0)
 	{
+		UIManager::GetInstance()->UpdateScore(score);
+
 		if (HasComponent<Animator>())
 			GetComponent<Animator>().PlayFromStart("enemydie", false, true);	
 	}

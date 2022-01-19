@@ -4,7 +4,6 @@
 
 Texture::Texture(const std::string& path)
 {
-
 	//stbi_set_flip_vertically_on_load(1); //so the image wont be compiled upside down
 	localBuffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
 

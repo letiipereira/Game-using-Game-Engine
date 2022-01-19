@@ -23,15 +23,18 @@ public:
 		return myLayer;
 	}
 
+	int GetWidth() { return spriteWidth; }
+	int GetHeight() { return spriteHeight; }
+
 private:
 	std::string myFilePath{};
 	Transform* transform{ nullptr };
 	std::string textureID{};
 	std::string newTextureID{};
 	class Texture* texture{ nullptr };
-	
-	int width{0};
-	int height{0};
+
+	int spriteWidth{ 0 };
+	int spriteHeight{ 0 };
 
 	float rotation{0};
 

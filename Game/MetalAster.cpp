@@ -45,7 +45,7 @@ MetalAster::MetalAster(int size, float posX, float posY, Spawner* spawner)
 		GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y,
 		colliderHeight, colliderWidth, true, 0.0f);
 
-	canReceiveDemage = false;
+	canReceiveDamage = false;
 	health = 10;
 }
 

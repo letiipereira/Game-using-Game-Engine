@@ -21,18 +21,24 @@ bool SpriteComponent::Init()
 
 	newTextureID = textureID;
 
+	
+
 	if (TextureManager::GetInstance()->GetTexture(textureID) != nullptr)
 	{
 		int count = 1;
-		textureID = textureID + std::to_string(count);
+		textureID = textureID.append(std::to_string(count));
 
 		while (TextureManager::GetInstance()->GetTexture(textureID) != nullptr)
 		{
 			count++;
-			textureID = textureID + std::to_string(count);
+			textureID = textureID.append(std::to_string(count));
 		}
 	}
+
 	texture = TextureManager::GetInstance()->LoadTexture(textureID, myFilePath);
+
+	spriteWidth = static_cast<int>(texture->GetWidth() / colCurrent);
+	spriteHeight = static_cast<int>(texture->GetHeight() / rowCurrent);
 
 	return true;
 }

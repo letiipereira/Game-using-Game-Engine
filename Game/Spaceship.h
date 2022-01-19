@@ -19,7 +19,7 @@ public:
 	Spaceship();
 	~Spaceship() 
 	{
-			delete gameInput;
+		delete gameInput;
 	};
 
 	enum Movement { move_right, move_left, move_up, move_down };

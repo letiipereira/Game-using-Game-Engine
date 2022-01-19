@@ -57,7 +57,7 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Letter.cpp">
+    <ClCompile Include="Icon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StoneAster.cpp">
@@ -110,7 +110,7 @@
     <ClInclude Include="UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Letter.h">
+    <ClInclude Include="Icon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StoneAster.h">

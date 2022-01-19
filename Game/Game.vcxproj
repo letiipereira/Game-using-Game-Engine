@@ -159,7 +159,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInput.cpp" />
-    <ClCompile Include="Letter.cpp" />
+    <ClCompile Include="Icon.cpp" />
     <ClCompile Include="Loner.cpp" />
     <ClCompile Include="MetalAster.cpp" />
     <ClCompile Include="Missile.cpp" />
@@ -183,7 +183,7 @@
     <ClInclude Include="Drone.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameInput.h" />
-    <ClInclude Include="Letter.h" />
+    <ClInclude Include="Icon.h" />
     <ClInclude Include="Loner.h" />
     <ClInclude Include="MetalAster.h" />
     <ClInclude Include="Missile.h" />

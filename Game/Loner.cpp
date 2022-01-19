@@ -35,6 +35,7 @@ Loner::~Loner()
 void Loner::Init()
 {
 	Enemy::Init();
+	score = 100;
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
 	GetComponent<Animator>().PlayFromStart("idle", true, true);

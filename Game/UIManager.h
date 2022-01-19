@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Letter.h"
+#include "Icon.h"
 
 struct Character {
 	char letter;		   // Letter to render
@@ -27,12 +27,14 @@ public:
 	~UIManager() {};
 
 	void DrawUI();
-	//void UpdateScore(int newScore);
-	//void UpdateHealth(int health);
-	//void UpdateLifes(int lifeNumber);
+	void UpdateScore(int newScore);
+	void UpdateHealth(int maxHealth, int health);
+	void UpdateLifes(int lifeNumber);
 
 	static UIManager* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new UIManager(); }
-	void DrawText(std::string textToRender, CharacterType type, float x, float y, int layer, bool isStatic, std::vector<Letter*> letters);
+	void DrawText(std::string textToRender, CharacterType type, float x, float y, int layer, bool isStatic, std::vector<Icon*>& letters);
+	void DrawIcons(std::string textureID, std::string filePath, float x, float y, int layer, std::vector<Icon*>& icons);
+	void SetMaxLifes(int maxLifes);
 
 private:
 
@@ -53,20 +55,27 @@ private:
 	'x', 'y', 'z', '{', '╎', '}', '~', '¤'
 	};
 
+	int playerScore = {};
 	int scorePosX = {};
 	int scorePosY = {};
 	int hiScorePosX = {};
 	int hiScorePosY = {};
+	int playerLifes = {};
 
-	void DrawScore();
+	void DrawTitles();
+	void DrawScore(std::string currentScore);
 	void DrawHighScore();
-	void DrawLifes();
+	void DrawLifes(int totalLifes);
 	void DrawHealthBar();
 
+	Icon* healthBar{};
+	Vector2D barPosition{ 100.f, 25.f};
 	std::map<char, Character> smallCharacters{};
 	std::map<char, Character> bigCharacters{};
-	std::vector<Letter*> score{};
-	std::vector<Letter*> highScore{};
+	std::vector<Icon*> staticIcons{};
+	std::vector<Icon*> score{};
+	std::vector<Icon*> highScore{};
+	std::vector<Icon*> lifes{};
 };
 
 //#endif // UIMANAGER_M
