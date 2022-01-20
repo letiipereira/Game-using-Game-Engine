@@ -7,7 +7,6 @@
 
 Level::~Level()
 {
-	
 	for (Entity* ent : levelEntities)
 	{
 		delete ent;
@@ -19,9 +18,7 @@ Level::~Level()
 		{
 			delete ent;
 		}
-	}
-
-	
+	}	
 }
 
 void Level::Draw()

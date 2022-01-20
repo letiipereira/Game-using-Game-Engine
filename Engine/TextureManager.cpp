@@ -11,11 +11,56 @@ TextureManager* TextureManager::sInstance{ nullptr };
 TextureManager::TextureManager()
 {
     Renderer::GetInstance()->Init();
+
+    int count = 0;
+
+    int bigCharCurrentRow = 1;
+    int bigCharCurrentCol = 1;
+
+    int smallCharCurrentRow = 1;
+    int smallCharCurrentCol = 1;
+
+    for (int character = 0; character < characters.size(); character++)
+    {
+        Character newSmallCharacter = {
+            characters[character],
+            16,
+            8,
+            smallCharCurrentRow,
+            smallCharCurrentCol,
+            8
+        };
+
+        Character newBigCharacter = {
+            characters[character],
+            12,
+            8,
+            bigCharCurrentRow,
+            bigCharCurrentCol,
+            16
+        };
+
+        smallCharacters.insert(std::pair<char, Character>(characters[character], newSmallCharacter));
+        bigCharacters.insert(std::pair<char, Character>(characters[character], newBigCharacter));
+
+        if (bigCharCurrentCol < 8 || smallCharCurrentCol < 8)
+        {
+            bigCharCurrentCol++;
+            smallCharCurrentCol++;
+        }
+        else if (bigCharCurrentCol >= 8 || smallCharCurrentCol >= 8)
+        {
+            bigCharCurrentCol = 1;
+            smallCharCurrentCol = 1;
+
+            bigCharCurrentRow++;
+            smallCharCurrentRow++;
+        }
+    }
 }
 
 TextureManager::~TextureManager()
 {
-
     std::map<std::string, Texture*>::iterator it;
     for (it = textureMap.begin(); it != textureMap.end(); it++)
     {
@@ -23,6 +68,17 @@ TextureManager::~TextureManager()
     }
 
     textureMap.clear();
+
+    std::map<std::string, std::vector<Entity*>>::iterator itr;
+    for (itr = textMap.begin(); itr != textMap.end(); itr++)
+    {
+        for (Entity* en : itr->second)
+        {
+            delete en;
+        }
+    }
+
+    textMap.clear();
         
 }
 
@@ -76,6 +132,76 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
     }
 
     Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor);
+}
+
+void TextureManager::DrawText(std::string textToRender, std::string textID, CharacterType type, float angle, float x, float y, int layer, bool isStatic)
+{
+    switch (type)
+    {
+    case CharacterType::small:
+    {
+        std::vector<Entity*> letters{};
+
+        for (char& character : textToRender)
+        {
+            Character ch = smallCharacters[character];
+
+            std::string textureID = std::to_string(character);
+
+            Entity* newLetter = new Entity();
+            newLetter->AddComponent<SpriteComponent>(textureID, "assets/Font8x8.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.rowTotal);
+            newLetter->GetComponent<Transform>().myPosition.X = x;
+            newLetter->GetComponent<Transform>().myPosition.Y = y;
+
+            // now advance cursors for the next character
+            x += ch.Advance;
+
+            
+            letters.push_back(newLetter);
+        }
+
+        // If the text is refered to a varaible that will be updated from time to time
+        if (!isStatic)
+        {
+            textMap.insert({ textID, letters });
+        }
+
+        break;
+    }
+
+    case CharacterType::big:
+    {
+        std::vector<Entity*> letters{};
+
+        for (char& character : textToRender)
+        {
+            Character ch = bigCharacters[character];
+
+            std::string textureID = std::to_string(character);
+
+            Entity* newLetter = new Entity();
+            newLetter->AddComponent<SpriteComponent>(textureID, "assets/font16x16.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.rowTotal);
+            newLetter->GetComponent<Transform>().myPosition.X = x;
+            newLetter->GetComponent<Transform>().myPosition.Y = y;
+
+            // now advance cursors for the next character
+            x += ch.Advance;
+
+
+            letters.push_back(newLetter);
+        }
+
+        // If the text is refered to a varaible that will be updated from time to time
+        if (!isStatic)
+        {
+            textMap.insert({ textID, letters });
+        }
+
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 Texture* TextureManager::GetTexture(std::string id)

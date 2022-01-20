@@ -22,7 +22,6 @@ bool SpriteComponent::Init()
 	newTextureID = textureID;
 
 	
-
 	if (TextureManager::GetInstance()->GetTexture(textureID) != nullptr)
 	{
 		int count = 1;

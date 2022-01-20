@@ -8,6 +8,7 @@
 
 #include "Transform.h"
 #include "SpriteComponent.h"
+#include "TextComponent.h"
 #include "Rigidbody.h"
 #include "Animator.h"
 #include "Collider.h"

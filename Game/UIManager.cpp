@@ -1,12 +1,13 @@
 #include "UIManager.h"
 #include <iostream>
 #include "Transform.h"
+#include "Text.h"
 
 UIManager* UIManager::sInstance{ nullptr };
 
 UIManager::UIManager()
 {
-    int count = 0;
+    /*int count = 0;
 
     int bigCharCurrentRow = 1;
     int bigCharCurrentCol = 1;
@@ -50,61 +51,61 @@ UIManager::UIManager()
             bigCharCurrentRow++;
             smallCharCurrentRow++;
         }
-    }
+    }*/
 }
 
-void UIManager::DrawText(std::string textToRender, CharacterType type, float x, float y, int layer, bool isStatic, std::vector<Icon*>& letters)
-{
-    switch (type)
-    {
-    case CharacterType::small:
-    {
-        for (char& character : textToRender)
-        {
-            Character ch = smallCharacters[character];
-
-            std::string textureID = std::to_string(character);
-
-            Icon* newLetter = new Icon(textureID, "assets/Font8x8.bmp", x, y, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
-            
-            // If the text is refered to a varaible that will be updated from time to time
-            if (!isStatic)
-            {
-                letters.push_back(newLetter);
-            }
-
-            // now advance cursors for the next character
-            x += ch.Advance;
-        }
-
-        break;
-    }
-    case CharacterType::big:
-    {
-        for (char& character : textToRender)
-        {
-            Character ch = bigCharacters[character];
-
-            std::string textureID = std::to_string(character);
-
-            Icon* newLetter = new Icon(textureID, "assets/font16x16.bmp", x, y, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
-
-            // If the text is refered to a varaible that will be updated from time to time
-            if (!isStatic)
-            {
-                letters.push_back(newLetter);
-            }
-
-            // now advance cursors for the next character
-            x += ch.Advance;
-        }
-
-        break;
-    }
-    default:
-        break;
-    }
-}
+//void UIManager::DrawText(std::string textToRender, CharacterType type, float x, float y, int layer, bool isStatic, std::vector<Icon*>& letters)
+//{
+//    switch (type)
+//    {
+//    case CharacterType::small:
+//    {
+//        for (char& character : textToRender)
+//        {
+//            Character ch = smallCharacters[character];
+//
+//            std::string textureID = std::to_string(character);
+//
+//            Icon* newLetter = new Icon(textureID, "assets/Font8x8.bmp", x, y, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
+//            
+//            // If the text is refered to a varaible that will be updated from time to time
+//            if (!isStatic)
+//            {
+//                letters.push_back(newLetter);
+//            }
+//
+//            // now advance cursors for the next character
+//            x += ch.Advance;
+//        }
+//
+//        break;
+//    }
+//    case CharacterType::big:
+//    {
+//        for (char& character : textToRender)
+//        {
+//            Character ch = bigCharacters[character];
+//
+//            std::string textureID = std::to_string(character);
+//
+//            Icon* newLetter = new Icon(textureID, "assets/font16x16.bmp", x, y, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, layer);
+//
+//            // If the text is refered to a varaible that will be updated from time to time
+//            if (!isStatic)
+//            {
+//                letters.push_back(newLetter);
+//            }
+//
+//            // now advance cursors for the next character
+//            x += ch.Advance;
+//        }
+//
+//        break;
+//    }
+//    default:
+//        break;
+//    }
+//}
 
 void UIManager::DrawIcons(std::string textureID, std::string filePath, float x, float y, int layer, std::vector<Icon*>& icons)
 {
@@ -130,10 +131,13 @@ void UIManager::DrawUI()
 
 void UIManager::UpdateScore(int newScore)
 {
-    for (int i = 0; i < score.size(); i++)
+    for (Icon* number : score)
     {
-        score[i]->Destroy();
+        number->Destroy();
     }
+
+    std::cout << score.size() << std::endl;
+    std::cout << score[1] << std::endl;
 
     score.clear();
 
@@ -166,9 +170,9 @@ void UIManager::UpdateHealth(int maxHealth, int health)
 
 void UIManager::UpdateLifes(int lifeNumber)
 {
-    for (int i = 0; i < lifes.size(); i++)
+    for (Icon* lifeIcon : lifes)
     {
-        lifes[i]->Destroy();
+        lifeIcon->Destroy();
     }
 
     lifes.clear();
@@ -180,11 +184,13 @@ void UIManager::DrawTitles()
 {
     int hiPosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 40.f;
     int hiPosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
-    DrawText("Hi Score", CharacterType::small, hiPosX, hiPosY, 10, true, staticIcons);
+    //DrawText("Hi Score", CharacterType::small, hiPosX, hiPosY, 10, true, staticIcons);
+    Text* hiScoreTitle = new Text("Hi Score", "hiScoreTitle", TextType::small, 0, hiPosX, hiPosY, 10, true);
 
     int scoreTitlePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
     int scoreTitlePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
-    DrawText("Player One", CharacterType::small, scoreTitlePosX, scoreTitlePosY, 10, true, staticIcons);
+    //DrawText("Player One", CharacterType::small, scoreTitlePosX, scoreTitlePosY, 10, true, staticIcons);
+    Text* playerTitle = new Text("Player One", "playerTitle", TextType::small, 0, scoreTitlePosX, scoreTitlePosY, 10, true);
 }
 
 void UIManager::DrawScore(std::string currentScore)
@@ -192,7 +198,9 @@ void UIManager::DrawScore(std::string currentScore)
     // Draw the high score
     int scorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
     int scorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 200.f;
-    DrawText(currentScore, CharacterType::big, scorePosX, scorePosY, 10, false, score);
+
+    //DrawText(currentScore, CharacterType::big, scorePosX, scorePosY, 10, false, score);
+    Text* score = new Text(currentScore, "currentScore", TextType::big, 0, scorePosX, scorePosY, 10, false);
 }
 
 void UIManager::DrawHighScore()
@@ -200,7 +208,9 @@ void UIManager::DrawHighScore()
     // Draw the current score
     hiScorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 47.f;
     hiScorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 205.f;
-    DrawText("0000000000", CharacterType::small, hiScorePosX, hiScorePosY, 10, false, highScore);
+
+    //DrawText("0000000000", CharacterType::small, hiScorePosX, hiScorePosY, 10, false, highScore);
+    Text* hiScore = new Text("0000000000", "hiScore", TextType::big, 0, scorePosX, scorePosY, 10, false);
 }
 
 void UIManager::DrawLifes(int totalLifes)

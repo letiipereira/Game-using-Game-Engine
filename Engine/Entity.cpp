@@ -6,7 +6,6 @@ Entity::Entity()
 	level = GameEngine::GetInstance()->GetActiveLevel();
 	level->AddEntity(this);
 	this->AddComponent<Transform>();
-	
 }
 
 Entity::~Entity()

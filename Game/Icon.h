@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "Entity.h"
 
-enum class LetterType { small, big };
-
 class Icon : public Entity
 {
 public:

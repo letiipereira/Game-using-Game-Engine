@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 
     spawner->SetPlayerReference(currentPlayer);
     
-    //não é necessario dar delete dos "Enities" criados. O nível cuida disto :)
+    //não é necessario dar delete dos "Entities" criados. O nível cuida disto :)
 
     UIManager::GetInstance()->DrawUI();
 
