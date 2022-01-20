@@ -2,7 +2,7 @@
 #include "TextureManager.h"
 #include "SDL.h"
 
-TextComponent::TextComponent(std::string textToRender, std::string textID, LetterType type, float angle, float x, float y, int layer, bool isStatic)
+TextComponent::TextComponent(std::string textToRender, std::string textID, LetterType type, float angle, float x, float y, int layer)
 {
 	text = textToRender;
 	ID = textID;
@@ -11,7 +11,6 @@ TextComponent::TextComponent(std::string textToRender, std::string textID, Lette
 	posX = x;
 	posY = y;
 	currentLayer = layer;
-	staticText = isStatic;
 
 	switch (type)
 	{
@@ -34,13 +33,13 @@ bool TextComponent::Init()
 	{
 	case LetterType::small:
 	{
-		TextureManager::GetInstance()->DrawText(text, ID, CharacterType::small, rotation, posX, posY, currentLayer, staticText);
+		TextureManager::GetInstance()->DrawText(text, ID, CharacterType::small, rotation, posX, posY, currentLayer);
 		break;
 	}
 		
 	case LetterType::big:
 	{
-		TextureManager::GetInstance()->DrawText(text, ID, CharacterType::big, rotation, posX, posY, currentLayer, staticText);
+		TextureManager::GetInstance()->DrawText(text, ID, CharacterType::big, rotation, posX, posY, currentLayer);
 		break;
 	}
 		

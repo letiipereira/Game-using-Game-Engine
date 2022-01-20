@@ -134,7 +134,7 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
     Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor);
 }
 
-void TextureManager::DrawText(std::string textToRender, std::string textID, CharacterType type, float angle, float x, float y, int layer, bool isStatic)
+void TextureManager::DrawText(std::string textToRender, std::string textID, CharacterType type, float angle, float x, float y, int layer)
 {
     switch (type)
     {
@@ -149,21 +149,12 @@ void TextureManager::DrawText(std::string textToRender, std::string textID, Char
             std::string textureID = std::to_string(character);
 
             Entity* newLetter = new Entity();
-            newLetter->AddComponent<SpriteComponent>(textureID, "assets/Font8x8.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.rowTotal);
+            newLetter->AddComponent<SpriteComponent>(textureID, "assets/Font8x8.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal);
             newLetter->GetComponent<Transform>().myPosition.X = x;
             newLetter->GetComponent<Transform>().myPosition.Y = y;
 
             // now advance cursors for the next character
             x += ch.Advance;
-
-            
-            letters.push_back(newLetter);
-        }
-
-        // If the text is refered to a varaible that will be updated from time to time
-        if (!isStatic)
-        {
-            textMap.insert({ textID, letters });
         }
 
         break;
@@ -180,21 +171,12 @@ void TextureManager::DrawText(std::string textToRender, std::string textID, Char
             std::string textureID = std::to_string(character);
 
             Entity* newLetter = new Entity();
-            newLetter->AddComponent<SpriteComponent>(textureID, "assets/font16x16.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.rowTotal);
+            newLetter->AddComponent<SpriteComponent>(textureID, "assets/font16x16.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal);
             newLetter->GetComponent<Transform>().myPosition.X = x;
             newLetter->GetComponent<Transform>().myPosition.Y = y;
 
             // now advance cursors for the next character
             x += ch.Advance;
-
-
-            letters.push_back(newLetter);
-        }
-
-        // If the text is refered to a varaible that will be updated from time to time
-        if (!isStatic)
-        {
-            textMap.insert({ textID, letters });
         }
 
         break;

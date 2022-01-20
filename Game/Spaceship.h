@@ -5,14 +5,6 @@
 #include <unordered_map>
 #include "Companion.h"
 
-//struct Vector2DCompare
-//{
-//	bool operator() (const Vector2D& lhs, const Vector2D& rhs) const
-//	{
-//		return lhs.Y < rhs.Y;
-//	}
-//};
-
 class Spaceship : public Pawn
 {
 public:
