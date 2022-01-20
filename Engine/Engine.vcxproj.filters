@@ -100,7 +100,7 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +186,7 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

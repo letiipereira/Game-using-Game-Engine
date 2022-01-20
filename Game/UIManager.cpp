@@ -90,11 +90,11 @@ void UIManager::DrawTitles()
 {
     int hiPosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 40.f;
     int hiPosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
-    Text* hiScoreTitle = new Text("Hi Score", "hiScoreTitle", TextType::small, 0, hiPosX, hiPosY, 10);
+    Text* hiScoreTitle = new Text("Hi Score", TextType::small, 0, hiPosX, hiPosY, 10);
 
     int scoreTitlePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
     int scoreTitlePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 220.f;
-    Text* playerTitle = new Text("Player One", "playerTitle", TextType::small, 0, scoreTitlePosX, scoreTitlePosY, 10);
+    Text* playerTitle = new Text("Player One", TextType::small, 0, scoreTitlePosX, scoreTitlePosY, 10);
 }
 
 void UIManager::DrawScore(std::string currentScore)
@@ -103,7 +103,7 @@ void UIManager::DrawScore(std::string currentScore)
     int scorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
     int scorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 200.f;
 
-    scoreText = new Text(currentScore, "currentScore", TextType::big, 0, scorePosX, scorePosY, 10);
+    scoreText = new Text(currentScore, TextType::big, 0, scorePosX, scorePosY, 10);
 }
 
 void UIManager::DrawHighScore()
@@ -112,7 +112,7 @@ void UIManager::DrawHighScore()
     hiScorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 47.f;
     hiScorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 205.f;
 
-    hiScoreText = new Text("0000000000", "hiScore", TextType::small, 0, hiScorePosX, hiScorePosY, 10);
+    hiScoreText = new Text("0000000000", TextType::small, 0, hiScorePosX, hiScorePosY, 10);
 }
 
 void UIManager::DrawLifes(int totalLifes)

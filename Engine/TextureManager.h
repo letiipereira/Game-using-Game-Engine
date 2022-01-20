@@ -34,7 +34,7 @@ public:
 	void Clear();
 	void DropTexture(std::string id);
 	void DrawFrame(std::string id, Transform* transform, int rowCurrent = 1, int colCurrent = 1, int rowTotal = 1, int colTotal = 1, float angle = 0, bool flipHor = false);
-	void DrawText(std::string textToRender, std::string textID, CharacterType type, float angle, float x, float y, int layer);
+	void DrawText(std::string textToRender, CharacterType type, float angle, float x, float y, int layer);
 	Texture* GetTexture(std::string id);
 	Texture* LoadTexture(std::string id, std::string filePath);
 	

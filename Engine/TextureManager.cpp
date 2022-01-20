@@ -134,7 +134,7 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
     Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor);
 }
 
-void TextureManager::DrawText(std::string textToRender, std::string textID, CharacterType type, float angle, float x, float y, int layer)
+void TextureManager::DrawText(std::string textToRender, CharacterType type, float angle, float x, float y, int layer)
 {
     switch (type)
     {
