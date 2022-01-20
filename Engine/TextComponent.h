@@ -11,14 +11,13 @@ enum class LetterType { small, big };
 class TextComponent : public Component
 {
 public:
-	TextComponent(std::string textToRender, std::string textID, LetterType type, float angle, float x, float y, int layer);
+	TextComponent(std::string textToRender, LetterType type, float angle, float x, float y, int layer);
 	~TextComponent() override {};
 
 	bool Init() override final;
 
 private:
 	std::string text{};
-	std::string ID{};
 	LetterType textType;
 	float rotation;
 	int posY{};
