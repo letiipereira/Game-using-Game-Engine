@@ -33,7 +33,6 @@ void UIManager::DrawUI()
 
 void UIManager::UpdateScore(int newScore)
 {
-    //delete scoreText;
     scoreText->Destroy();
     playerScore += newScore;
 
@@ -60,6 +59,19 @@ void UIManager::UpdateHealth(int maxHealth, int health)
 
     healthBar->GetComponent<Transform>().myScale.X = percentage;
     //healthBar->GetComponent<Transform>().myPosition.X = barPosition.X - (barPosition.X / 1.6);
+
+    if (percentage > 0.5)
+    {
+
+    }
+    else if (percentage <= 0.5 && percentage > 0.3)
+    {
+
+    }
+    else if (percentage <= 0.3)
+    {
+
+    }
 }
 
 void UIManager::UpdateLifes(int lifeNumber)

@@ -99,7 +99,7 @@ void Bullet::WasHit(Entity* collidedObject)
 		if (collidedObject->GetComponent<Collider>().GetId() == "Enemy")
 		{
 			Enemy* enemy = static_cast<Enemy*>(collidedObject);
-			enemy->ApplyDamage(firePower);
+			enemy->ApplyDamage(firePower, this);
 		}
 
 		Destroy();

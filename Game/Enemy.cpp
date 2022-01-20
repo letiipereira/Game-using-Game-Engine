@@ -59,7 +59,7 @@ void Enemy::WasHit(Entity* collidedObject)
 		Spaceship* currentPlayer = static_cast<Spaceship*>(collidedObject);
 		currentPlayer->ApplyDamage((currentPlayer->maxHealth) / 3);
 		currentPlayer->ChangeBulletLevel(false);
-		ApplyDamage(health);
+		ApplyDamage(health, collidedObject);
 	}
 
 	if (collidedObject->GetComponent<Collider>().GetId() == "Companion")
@@ -67,11 +67,11 @@ void Enemy::WasHit(Entity* collidedObject)
 		Companion* playerCompanion = static_cast<Companion*>(collidedObject);
 		playerCompanion->ApplyDamage((playerCompanion->maxHealth) / 3);
 		playerCompanion->ChangeBulletLevel(false);
-		ApplyDamage(health);
+		ApplyDamage(health, collidedObject);
 	}
 }
 
-void Enemy::ApplyDamage(float damage)
+void Enemy::ApplyDamage(float damage, Entity* collidedObject)
 {
 	if (canReceiveDamage)
 	{
@@ -80,8 +80,11 @@ void Enemy::ApplyDamage(float damage)
 		
 	if (health <= 0)
 	{
-		UIManager::GetInstance()->UpdateScore(score);
-
+		if (collidedObject->GetComponent<Collider>().GetId() == "Bullet")
+		{
+			UIManager::GetInstance()->UpdateScore(score);
+		}
+		
 		if (HasComponent<Animator>())
 			GetComponent<Animator>().PlayFromStart("enemydie", false, true);	
 	}

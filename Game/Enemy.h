@@ -12,7 +12,7 @@ public:
 	void Init() override;
 	void WasHit(Entity* collidedObject) override;
 
-	void ApplyDamage(float damage);
+	void ApplyDamage(float damage, Entity* collidedObject);
 
 	int GetScore() { return score; }
 	bool ReceivesDamage() { return canReceiveDamage; }
