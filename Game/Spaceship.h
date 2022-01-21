@@ -37,8 +37,8 @@ private:
 	float colliderHeight{};
 	float colliderWidth{};
 
-	int maxLifes{};
-	int currentLifes{};
+	int maxLives{};
+	int currentLives{};
 	int health{};
 	int currentCompanions{};
 	int maxCompanions{};

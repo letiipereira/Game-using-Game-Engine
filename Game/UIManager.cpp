@@ -1,4 +1,5 @@
 #include "UIManager.h"
+#include <fstream>
 #include <iostream>
 #include "Transform.h"
 
@@ -17,17 +18,17 @@ void UIManager::DrawIcons(std::string textureID, std::string filePath, float x, 
     icons.push_back(newIcon);
 }
 
-void UIManager::SetMaxLifes(int maxLifes)
+void UIManager::SetMaxLives(int maxLives)
 {
-    playerLifes = maxLifes;
-    DrawLifes(playerLifes);
+    playerLives = maxLives;
+    DrawLives(playerLives);
 }
 
 void UIManager::DrawUI()
 {
     DrawTitles();
     DrawScore("0000000000");
-    DrawHighScore();
+    DrawHighScore(GetHiScore());
     DrawHealthBar();
 }
 
@@ -52,13 +53,17 @@ void UIManager::UpdateScore(int newScore)
     DrawScore(finalScore);
 }
 
+void UIManager::UpdateHighScore(int hiScore)
+{
+
+}
+
 void UIManager::UpdateHealth(int maxHealth, int health)
 {
     float percentage = (float)health / (float)maxHealth;
-    //int healthWidth = healthBar->GetComponent<SpriteComponent>().GetWidth();
+    int healthWidth = healthBar->GetComponent<SpriteComponent>().GetWidth();
 
-    //healthBar->GetComponent<Transform>().myScale.X = percentage;
-    ////healthBar->GetComponent<Transform>().myPosition.X = barPosition.X - (barPosition.X / 1.6);
+    healthBar->GetComponent<Transform>().myScale.X = percentage;
 
     //if (percentage > 0.5)
     //{
@@ -74,16 +79,40 @@ void UIManager::UpdateHealth(int maxHealth, int health)
     //}
 }
 
-void UIManager::UpdateLifes(int lifeNumber)
+void UIManager::UpdateLives(int lifeNumber)
 {
-    for (Icon* lifeIcon : lifes)
+    for (Icon* lifeIcon : lives)
     {
         lifeIcon->Destroy();
     }
 
-    lifes.clear();
+    lives.clear();
 
-    DrawLifes(lifeNumber);
+    DrawLives(lifeNumber);
+}
+
+void UIManager::SaveScore(int newHiScore)
+{
+
+}
+
+int UIManager::GetHiScore()
+{
+    std::ifstream hiScoreFile;
+    hiScoreFile.open("HighScore.txt");
+
+    // Check for error
+    if (hiScoreFile.fail())
+    {
+        std::cout << "Error openning file." << std::endl;
+        exit(1);
+    }
+
+    int score;
+
+    hiScoreFile >> score;
+
+    return score;
 }
 
 void UIManager::DrawTitles()
@@ -106,23 +135,36 @@ void UIManager::DrawScore(std::string currentScore)
     scoreText = new Text(currentScore, TextType::big, 0, scorePosX, scorePosY, 10);
 }
 
-void UIManager::DrawHighScore()
+void UIManager::DrawHighScore(int hiScore)
 {
     // Draw the high score
     hiScorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 47.f;
     hiScorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 205.f;
 
-    hiScoreText = new Text("0000000000", TextType::small, 0, hiScorePosX, hiScorePosY, 10);
+    std::string currentHiScore = std::to_string(hiScore);
+
+    int charNumber = currentHiScore.size();
+    int zeros = 10 - charNumber;
+    std::string zerosString{};
+
+    for (int i = 0; i < zeros; ++i)
+    {
+        zerosString.append("0");
+    }
+
+    std::string finalHiScore = zerosString.append(currentHiScore);
+
+    hiScoreText = new Text(finalHiScore, TextType::small, 0, hiScorePosX, hiScorePosY, 10);
 }
 
-void UIManager::DrawLifes(int totalLifes)
+void UIManager::DrawLives(int totalLives)
 {
     float posX = 30.f;
     float posY = 60.f;
 
-    for (int i = 0; i < totalLifes; ++i)
+    for (int i = 0; i < totalLives; ++i)
     {        
-       // DrawIcons("icon", "assets/PULife.bmp", posX, posY, 10, lifes);
+        DrawIcons("icon", "assets/PULife.bmp", posX, posY, 10, lives);
 
         // now advance cursors for the next character
         posX += 40.f;
@@ -131,8 +173,8 @@ void UIManager::DrawLifes(int totalLifes)
 
 void UIManager::DrawHealthBar()
 {
-   //healthBar = new Icon("healthBorder", "assets/healthBar.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 9);
+   healthBar = new Icon("healthBar", "assets/healthBar.bmp", barPosition.X - 81.f, barPosition.Y, false, 1, 1, 1, 1, 9);
+   Icon* healthBorder = new Icon("healthBorder", "assets/healthBorder.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 10);
 
-   //Icon* healthBorder = new Icon("healthBorder", "assets/healthBorder.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 10);
-   //staticIcons.push_back(healthBorder);
+   staticIcons.push_back(healthBorder);
 }

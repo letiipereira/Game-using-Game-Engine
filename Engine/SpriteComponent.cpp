@@ -19,9 +19,14 @@ bool SpriteComponent::Init()
 {
 	transform = &entity->GetComponent<Transform>();
 
-	newTextureID = textureID;
-
-	texture = TextureManager::GetInstance()->LoadTexture(textureID, myFilePath);
+	if (TextureManager::GetInstance()->GetTexture(textureID) == nullptr)
+	{
+		texture = TextureManager::GetInstance()->LoadTexture(textureID, myFilePath);
+	}
+	else
+	{
+		texture = TextureManager::GetInstance()->GetTexture(textureID);
+	}
 
 	spriteWidth = static_cast<int>(texture->GetWidth() / colCurrent);
 	spriteHeight = static_cast<int>(texture->GetHeight() / rowCurrent);

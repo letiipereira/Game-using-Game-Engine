@@ -6,8 +6,8 @@
 
 Spaceship::Spaceship()
 {
-	maxLifes = 2;
-	currentLifes = maxLifes;
+	maxLives = 2;
+	currentLives = maxLives;
 	maxHealth = 100;
 	health = maxHealth;
 	currentCompanions = 0;
@@ -30,7 +30,7 @@ Spaceship::Spaceship()
 	maxCompanions = 2;
 
 	gameInput = GameInput::GetInstance();
-	UIManager::GetInstance()->SetMaxLifes(currentLifes);
+	UIManager::GetInstance()->SetMaxLives(currentLives);
 
 	KeyboardKeystate = gameInput->GetKeyState();
 	GamepadButtonstate = gameInput->GetButtonState();
@@ -362,11 +362,11 @@ void Spaceship::ApplyDamage(int damageReceived)
 
 	if (health <= 0)
 	{
-		if (currentLifes != 0)
+		if (currentLives != 0)
 		{
-			currentLifes--;
+			currentLives--;
 			health = maxHealth;
-			UIManager::GetInstance()->UpdateLifes(currentLifes);
+			UIManager::GetInstance()->UpdateLives(currentLives);
 		}
 		else
 		{
