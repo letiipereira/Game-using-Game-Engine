@@ -38,8 +38,8 @@ void Companion::Init()
 
 	GetComponent<Animator>().PlayFromStart("companionIdle", true, true);
 
-	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight) + 200;
-	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth) + 200;
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight) + 10;
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth) + 10;
 
 	AddComponent<Collider>().AddAttributes("Companion", this, Collider::BodyType::dynamicBody,
 		GetComponent<Transform>().myPosition.X,

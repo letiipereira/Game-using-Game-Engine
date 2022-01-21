@@ -47,10 +47,15 @@ void ShieldPowerUp::WasHit(Entity* collidedObject)
 
 	if (collidedObject->GetComponent<Collider>().GetId() == "Companion")
 	{
+		std::cout << "companion" << std::endl;
 		Companion* playerCompanion = static_cast<Companion*>(collidedObject);
-		playerCompanion->ApplyShield(20);
-		mySpawner->RemovePowerUp(this);
-		Destroy();
+
+		if (playerCompanion->IsTaken())
+		{
+			playerCompanion->ApplyShield(20);
+			mySpawner->RemovePowerUp(this);
+			Destroy();
+		}
 	}
 }
 

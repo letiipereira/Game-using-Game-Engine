@@ -36,6 +36,8 @@ void WeaponPowerUp::Init()
 
 void WeaponPowerUp::WasHit(Entity* collidedObject)
 {
+	std::cout << "entrou" << std::endl;
+
 	if (collidedObject->GetComponent<Collider>().GetId() == "Spaceship")
 	{
 		Spaceship* currentPlayer = static_cast<Spaceship*>(collidedObject);
@@ -45,9 +47,14 @@ void WeaponPowerUp::WasHit(Entity* collidedObject)
 
 	if (collidedObject->GetComponent<Collider>().GetId() == "Companion")
 	{
+		std::cout << "companion" << std::endl;
 		Companion* playerCompanion = static_cast<Companion*>(collidedObject);
-		playerCompanion->ChangeBulletLevel(true);
-		Destroy();
+
+		if (playerCompanion->IsTaken())
+		{
+			playerCompanion->ChangeBulletLevel(true);
+			Destroy();
+		}
 	}
 }
 
