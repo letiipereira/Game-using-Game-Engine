@@ -40,7 +40,6 @@ void WeaponPowerUp::WasHit(Entity* collidedObject)
 	{
 		Spaceship* currentPlayer = static_cast<Spaceship*>(collidedObject);
 		currentPlayer->ChangeBulletLevel(true);
-
 		Destroy();
 	}
 
@@ -48,7 +47,6 @@ void WeaponPowerUp::WasHit(Entity* collidedObject)
 	{
 		Companion* playerCompanion = static_cast<Companion*>(collidedObject);
 		playerCompanion->ChangeBulletLevel(true);
-
 		Destroy();
 	}
 }

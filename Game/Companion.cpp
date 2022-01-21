@@ -15,7 +15,7 @@ Companion::Companion(float posX, float posY, Spawner* spawner)
 	companionSpawner = spawner;
 	companionIdle = new Animation("companionIdle", "assets/clone.bmp", 5, 4, 4, 4, 1, 1, 10, false, 3, true, true, true);
 
-	GetComponent<Transform>().myRotation = -90.0f;
+	//GetComponent<Transform>().myRotation = -90.0f;
 	GetComponent<Animator>().AddAnimation("companionIdle", companionIdle);
 }
 
@@ -38,8 +38,8 @@ void Companion::Init()
 
 	GetComponent<Animator>().PlayFromStart("companionIdle", true, true);
 
-	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight) + 10;
-	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth) + 10;
+	float colliderHeight = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameHeight) + 200;
+	float colliderWidth = static_cast<float>(GetComponent<Animator>().GetAnimationByName("companionIdle")->frameWidth) + 200;
 
 	AddComponent<Collider>().AddAttributes("Companion", this, Collider::BodyType::dynamicBody,
 		GetComponent<Transform>().myPosition.X,
@@ -65,6 +65,7 @@ void Companion::Update()
 		GetComponent<Transform>().myPosition.Y = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementX;
 
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+		
 	}
 }
 

@@ -69,6 +69,12 @@ void UIManager::UpdateHighScore(int hiScore)
 void UIManager::UpdateHealth(int maxHealth, int health)
 {
     float percentage = (float)health / (float)maxHealth;
+
+    if (percentage < 0)
+    {
+        percentage = 0;
+    }
+
     int healthWidth = healthBar->GetComponent<SpriteComponent>().GetWidth();
 
     healthBar->GetComponent<Transform>().myScale.X = percentage;
@@ -190,7 +196,7 @@ void UIManager::DrawLives(int totalLives)
 
 void UIManager::DrawHealthBar()
 {
-   healthBar = new Icon("healthBar", "assets/healthBar.bmp", barPosition.X - 81.f, barPosition.Y, false, 1, 1, 1, 1, 9);
+   healthBar = new Icon("healthBar", "assets/healthBar.bmp", barPosition.X - 80.f, barPosition.Y, false, 1, 1, 1, 1, 9);
    Icon* healthBorder = new Icon("healthBorder", "assets/healthBorder.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 10);
 
    staticIcons.push_back(healthBorder);

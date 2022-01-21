@@ -16,8 +16,8 @@ Spaceship::Spaceship()
 	bulletMaxLevel = 3;
 	AddComponent<Animator>();
 
-	moveDown = new Animation("moveUp", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 14, false, 6, false, true, false);
-	moveUp = new Animation("moveDown", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 14, false, 6, false, false, false);
+	moveDown = new Animation("moveDown", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 14, false, 6, false, true, false);
+	moveUp = new Animation("moveUp", "assets/Ship1.bmp", 1, 7, 1, 3, 1, 1, 14, false, 6, false, false, false);
 	idle = new Animation("idle", "assets/Ship1.bmp", 1, 7, 1, 4, 1, 4, 7, false, 6, false, false, true);
 
 	GetComponent<Animator>().AddAnimation("moveUp", moveUp);
@@ -69,7 +69,7 @@ void Spaceship::Update()
 	}
 	lastPosY = GetComponent<Transform>().myPosition.Y;
 
-	//ShipAnimation();
+	ShipAnimation();
 }
 
 void Spaceship::OnKeyDown(std::string key)
@@ -207,20 +207,6 @@ void Spaceship::ShipAnimation()
 {
 	if (spaceshipXDir > 0 && animDir != 1)
 	{
-		if ((GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveLeft")))
-		{
-			GetComponent<Animator>().PlayFromStart("moveUp", false, true);
-			GetComponent<Animator>().ClearAnimationQueu();
-			GetComponent<Animator>().AddToAnimationQueue("moveDown", false, true);
-		}
-		else if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("idle"))
-		{
-			GetComponent<Animator>().PlayFromStart("moveDown", false, true);
-		}
-		animDir = 1;
-	}
-	else if (spaceshipXDir < 0 && animDir != -1)
-	{
 		if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveDown"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveDown", false, false);
@@ -230,6 +216,20 @@ void Spaceship::ShipAnimation()
 		else if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("idle"))
 		{
 			GetComponent<Animator>().PlayFromStart("moveUp", false, false);
+		}
+		animDir = 1;
+	}
+	else if (spaceshipXDir < 0 && animDir != -1)
+	{
+		if ((GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("moveUp")))
+		{
+			GetComponent<Animator>().PlayFromStart("moveUp", false, true);
+			GetComponent<Animator>().ClearAnimationQueu();
+			GetComponent<Animator>().AddToAnimationQueue("moveDown", false, true);
+		}
+		else if (GetComponent<Animator>().GetCurrentAnimation() == GetComponent<Animator>().GetAnimationByName("idle"))
+		{
+			GetComponent<Animator>().PlayFromStart("moveDown", false, true);
 		}
 
 		animDir = -1;
@@ -370,7 +370,11 @@ void Spaceship::ApplyDamage(int damageReceived)
 		}
 		else
 		{
-			// quit
+			currentLives = maxLives;
+			health = maxHealth;
+			UIManager::GetInstance()->UpdateLives(currentLives);
+			UIManager::GetInstance()->UpdateScore(0);
+			UIManager::GetInstance()->UpdateHealth(maxHealth, health);
 		}		
 	}
 
