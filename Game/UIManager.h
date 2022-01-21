@@ -33,6 +33,7 @@ private:
 	static UIManager* sInstance;
 
 	int playerScore = {};
+	int hiScore = {};
 	int scorePosX = {};
 	int scorePosY = {};
 	int hiScorePosX = {};

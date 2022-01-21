@@ -51,11 +51,19 @@ void UIManager::UpdateScore(int newScore)
     std::string finalScore = zerosString.append(updatedScore);
 
     DrawScore(finalScore);
+
+    if (playerScore > hiScore)
+    {
+        UpdateHighScore(playerScore);
+    }
 }
 
 void UIManager::UpdateHighScore(int hiScore)
 {
+    hiScoreText->Destroy();
 
+    SaveScore(hiScore);
+    DrawHighScore(hiScore);
 }
 
 void UIManager::UpdateHealth(int maxHealth, int health)
@@ -93,7 +101,17 @@ void UIManager::UpdateLives(int lifeNumber)
 
 void UIManager::SaveScore(int newHiScore)
 {
+    std::ofstream hiScoreFile;
+    hiScoreFile.open("HighScore.txt");
 
+    // Check for error
+    if (hiScoreFile.fail())
+    {
+        std::cout << "Error openning file." << std::endl;
+        exit(1);
+    }
+
+    hiScoreFile << newHiScore;
 }
 
 int UIManager::GetHiScore()
@@ -108,11 +126,10 @@ int UIManager::GetHiScore()
         exit(1);
     }
 
-    int score;
+    hiScoreFile >> hiScore;
 
-    hiScoreFile >> score;
 
-    return score;
+    return hiScore;
 }
 
 void UIManager::DrawTitles()
