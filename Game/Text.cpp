@@ -1,24 +1,29 @@
 #include "Text.h"
 #include "Transform.h"
 
-Text::Text(std::string textToRender, TextType type, float angle, float x, float y, int layer)
+Text::Text(std::string text, TextType type, float angle, float posX, float posY, int layerText)
 {
 	switch (type)
 	{
 	case TextType::small:
-		AddComponent<TextComponent>(textToRender, LetterType::small, angle, x, y, layer, "defaultText");
+	{
+		AddComponent<TextComponent>(text, angle, posX, posY, layerText);
 		break;
+	}
 
 	case TextType::big:
-		AddComponent<TextComponent>(textToRender, LetterType::big, angle, x, y, layer, "defaultText");
+	{
+		AddComponent<TextComponent>(text, angle, posX, posY, layerText);
+		GetComponent<TextComponent>().SetNewFont("XenonBigFont", "assets/font16x16.bmp", 12, 8, charOrder);
 		break;
+	}
 
 	default:
 		break;
 	}
 
-	GetComponent<Transform>().myPosition.X = x;
-	GetComponent<Transform>().myPosition.Y = y;
+	GetComponent<Transform>().myPosition.X = posX;
+	GetComponent<Transform>().myPosition.Y = posY;
 }
 
 Text::~Text()

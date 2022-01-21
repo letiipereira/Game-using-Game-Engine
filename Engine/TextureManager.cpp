@@ -10,53 +10,9 @@ TextureManager* TextureManager::sInstance{ nullptr };
 
 TextureManager::TextureManager()
 {
-    int count = 0;
 
-    int bigCharCurrentRow = 1;
-    int bigCharCurrentCol = 1;
+    CreateNewFont("defaultText", "assets/Font8x8.bmp", 16, 8, characters);
 
-    int smallCharCurrentRow = 1;
-    int smallCharCurrentCol = 1;
-
-    for (int character = 0; character < characters.size(); ++character)
-    {
-        Character newSmallCharacter = {
-            characters[character],
-            16,
-            8,
-            smallCharCurrentRow,
-            smallCharCurrentCol,
-            8
-        };
-
-        Character newBigCharacter = {
-            characters[character],
-            12,
-            8,
-            bigCharCurrentRow,
-            bigCharCurrentCol,
-            16
-        };
-
-        smallCharacters.insert(std::pair<char, Character>(characters[character], newSmallCharacter));
-        bigCharacters.insert(std::pair<char, Character>(characters[character], newBigCharacter));
-
-        if (bigCharCurrentCol < 8 || smallCharCurrentCol < 8)
-        {
-            ++bigCharCurrentCol;
-            ++smallCharCurrentCol;
-        }
-        else if (bigCharCurrentCol >= 8 || smallCharCurrentCol >= 8)
-        {
-            bigCharCurrentCol = 1;
-            smallCharCurrentCol = 1;
-
-            ++bigCharCurrentRow;
-            ++smallCharCurrentRow;
-        }
-    }
-
-    
 }
 
 TextureManager::~TextureManager()
@@ -68,7 +24,7 @@ TextureManager::~TextureManager()
     }
 
     textureMap.clear();
-        
+
 }
 
 void TextureManager::DrawTexture(std::string id, Transform* transform, float angle, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
@@ -93,9 +49,9 @@ void TextureManager::DrawTexture(std::string id, Transform* transform, float ang
     //dstRect.w = static_cast<int>(width * transform->myScale.X);
     //dstRect.h = static_cast<int>(height * transform->myScale.Y);
 
-    
+
     Renderer::GetInstance()->Draw(transform, current, angle);
-    
+
 }
 
 void TextureManager::Clear()
@@ -123,63 +79,34 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
     Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor);
 }
 
-void TextureManager::DrawText(std::string textToRender, CharacterType type, float angle, float x, float y, int layer, std::string id)
+void TextureManager::DrawText(std::string textToRender, float angle, float x, float y, int layer, std::string id)
 {
-  
 
-    switch (type)
+    std::map<char, Character> currentFont = fonts[id];
+
+
+    for (char character : textToRender)
     {
-    case CharacterType::small:
-    {
-        std::vector<Entity*> letters{};
+        Character ch = currentFont[character];
 
-        for (char& character : textToRender)
-        {
-            Character ch = smallCharacters[character];
-            
-            // now advance cursors for the next character
-            x += ch.Advance;
+        std::cout << character << std::endl;
 
-            Transform pos;
-            pos.myPosition.X = x;
-            pos.myPosition.Y = y;
+        // now advance cursors for the next character
 
-            DrawFrame(id, &pos , ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, 0, false);
-        }
+        Transform pos;
+        pos.myPosition.X = x;
+        pos.myPosition.Y = y;
 
-        break;
+        x += ch.Advance;
+
+        DrawFrame(id, &pos, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, 0, false);
     }
 
-    case CharacterType::big:
-    {
-        std::vector<Entity*> letters{};
-
-        for (char& character : textToRender)
-        {
-            Character ch = bigCharacters[character];
-
-            std::string textureID = std::to_string(character);
-
-            // now advance cursors for the next character
-            x += ch.Advance;
-
-            Transform pos;
-            pos.myPosition.X = x;
-            pos.myPosition.Y = y;
-
-            DrawFrame(id, &pos, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, 0, false);
-        }
-
-        break;
-    }
-    default:
-        break;
-    }
 }
 
 Texture* TextureManager::GetTexture(std::string id)
 {
-    return (textureMap.count(id)>0) ? textureMap[id] : nullptr;
+    return (textureMap.count(id) > 0) ? textureMap[id] : nullptr;
 }
 
 Texture* TextureManager::LoadTexture(std::string id, std::string filePath)
@@ -191,10 +118,53 @@ Texture* TextureManager::LoadTexture(std::string id, std::string filePath)
         newTexture = new Texture(filePath);
         textureMap[id] = newTexture; // problemas de overwrite (?)
         if (newTexture == nullptr)
-        std::cout << "Error creating texture from surface" << std::endl;
+            std::cout << "Error creating texture from surface" << std::endl;
     }
     else
-        std::cout << "Error Id already exists" << std::endl;
+        std::cout << "Error Id already exists: " << id << std::endl;
 
     return newTexture;
+}
+
+void TextureManager::CreateNewFont(std::string id, std::string filePath, int rowTotal, int colTotal, std::vector<char> charFontOrder)
+{
+    if (fonts.find(id) != fonts.end())
+    {
+        return;
+    }
+
+    Texture* font = LoadTexture(id, filePath);
+
+    int count = 0;
+
+    int charCurrentRow = 1;
+    int charCurrentCol = 1;
+
+    std::map<char, Character> newFont;
+
+    for (char character : charFontOrder)
+    {
+        Character newCharacter = {
+            character,
+            rowTotal,
+            colTotal,
+            charCurrentRow,
+            charCurrentCol,
+            font->GetWidth() / colTotal
+        };
+
+        newFont[character] = newCharacter;
+
+        if (charCurrentCol < colTotal)
+        {
+            ++charCurrentCol;
+        }
+        else
+        {
+            charCurrentCol = 1;
+            ++charCurrentRow;
+        }
+    }
+
+    fonts[id] = newFont;
 }

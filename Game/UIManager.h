@@ -11,7 +11,7 @@
 
 enum class CharacterType { small, big };
 
-class UIManager : public Entity
+class UIManager 
 {
 public:
 
