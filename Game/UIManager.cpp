@@ -32,7 +32,7 @@ void UIManager::DrawUI()
 }
 
 void UIManager::UpdateScore(int newScore)
-{
+{ 
     scoreText->Destroy();
     playerScore += newScore;
 
@@ -42,7 +42,7 @@ void UIManager::UpdateScore(int newScore)
     int zeros = 10 - charNumber;
     std::string zerosString{};
 
-    for (int i = 0; i < zeros; i++)
+    for (int i = 0; i < zeros;++i)
     {
         zerosString.append("0");
     }
@@ -55,23 +55,23 @@ void UIManager::UpdateScore(int newScore)
 void UIManager::UpdateHealth(int maxHealth, int health)
 {
     float percentage = (float)health / (float)maxHealth;
-    int healthWidth = healthBar->GetComponent<SpriteComponent>().GetWidth();
+    //int healthWidth = healthBar->GetComponent<SpriteComponent>().GetWidth();
 
-    healthBar->GetComponent<Transform>().myScale.X = percentage;
-    //healthBar->GetComponent<Transform>().myPosition.X = barPosition.X - (barPosition.X / 1.6);
+    //healthBar->GetComponent<Transform>().myScale.X = percentage;
+    ////healthBar->GetComponent<Transform>().myPosition.X = barPosition.X - (barPosition.X / 1.6);
 
-    if (percentage > 0.5)
-    {
+    //if (percentage > 0.5)
+    //{
 
-    }
-    else if (percentage <= 0.5 && percentage > 0.3)
-    {
+    //}
+    //else if (percentage <= 0.5 && percentage > 0.3)
+    //{
 
-    }
-    else if (percentage <= 0.3)
-    {
+    //}
+    //else if (percentage <= 0.3)
+    //{
 
-    }
+    //}
 }
 
 void UIManager::UpdateLifes(int lifeNumber)
@@ -120,9 +120,9 @@ void UIManager::DrawLifes(int totalLifes)
     float posX = 30.f;
     float posY = 60.f;
 
-    for (int i = 0; i < totalLifes; i++)
+    for (int i = 0; i < totalLifes; ++i)
     {        
-        DrawIcons("icon", "assets/PULife.bmp", posX, posY, 10, lifes);
+       // DrawIcons("icon", "assets/PULife.bmp", posX, posY, 10, lifes);
 
         // now advance cursors for the next character
         posX += 40.f;
@@ -131,8 +131,8 @@ void UIManager::DrawLifes(int totalLifes)
 
 void UIManager::DrawHealthBar()
 {
-   healthBar = new Icon("healthBorder", "assets/healthBar.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 9);
+   //healthBar = new Icon("healthBorder", "assets/healthBar.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 9);
 
-   Icon* healthBorder = new Icon("healthBorder", "assets/healthBorder.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 10);
-   staticIcons.push_back(healthBorder);
+   //Icon* healthBorder = new Icon("healthBorder", "assets/healthBorder.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 10);
+   //staticIcons.push_back(healthBorder);
 }

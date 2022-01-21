@@ -61,7 +61,7 @@ Animator::~Animator()
 	{
 		std::map<std::string, Animation*>::iterator it;
 
-		for (it = animations.begin(); it != animations.end(); it++)
+		for (it = animations.begin(); it != animations.end(); ++it)
 		{
 			delete it->second;
 		}

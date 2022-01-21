@@ -11,7 +11,7 @@ Icon::Icon(std::string textureID, std::string filePath, int posX, int posY, bool
 
 Icon::~Icon()
 {
-	Entity::~Entity();
+	//Entity::~Entity();
 }
 
 void Icon::Init()

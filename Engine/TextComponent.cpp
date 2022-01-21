@@ -2,7 +2,7 @@
 #include "TextureManager.h"
 #include "SDL.h"
 
-TextComponent::TextComponent(std::string textToRender, LetterType type, float angle, float x, float y, int layer)
+TextComponent::TextComponent(std::string textToRender, LetterType type, float angle, float x, float y, int layer, std::string id)
 {
 	text = textToRender;
 	textType = type;
@@ -28,23 +28,36 @@ TextComponent::TextComponent(std::string textToRender, LetterType type, float an
 
 bool TextComponent::Init()
 {
+	transform = &entity->GetComponent<Transform>();
+	TextureManager::GetInstance()->LoadTexture("defaultText", "assets/Font8x8.bmp");
+
+	return true;
+}
+
+void TextComponent::Draw()
+{
 	switch (textType)
 	{
 	case LetterType::small:
 	{
 		TextureManager::GetInstance()->DrawText(text, CharacterType::small, rotation, posX, posY, currentLayer);
+
 		break;
 	}
-		
+
 	case LetterType::big:
 	{
 		TextureManager::GetInstance()->DrawText(text, CharacterType::big, rotation, posX, posY, currentLayer);
+		
 		break;
 	}
-		
+
 	default:
 		break;
-	}	
+	}
+}
 
-	return true;
+void TextComponent::Update()
+{
+	transform = &entity->GetComponent<Transform>();
 }

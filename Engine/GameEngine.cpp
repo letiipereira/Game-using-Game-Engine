@@ -131,7 +131,7 @@ void GameEngine::start()
 					if (pawnController.size())
 					{
 						std::map<Pawn*, SDL_GameController*>::iterator it;
-						for (it = pawnController.begin(); it != pawnController.end(); it++)
+						for (it = pawnController.begin(); it != pawnController.end(); ++it)
 						{
 							if (it->second == nullptr)
 							{
@@ -154,7 +154,7 @@ void GameEngine::start()
 					// Remove controller from index map
 					std::map<int, SDL_GameController*> temporaryControllerIndexMap = InputManager::GetInstance()->ControllerIndex;
 					std::map<int, SDL_GameController*>::iterator it;
-					for (it = temporaryControllerIndexMap.begin(); it != temporaryControllerIndexMap.end(); it++)
+					for (it = temporaryControllerIndexMap.begin(); it != temporaryControllerIndexMap.end(); ++it)
 					{
 						if (it->second == SDL_GameControllerFromInstanceID(ev.cdevice.which))
 						{
@@ -169,7 +169,7 @@ void GameEngine::start()
 					if (pawnController.size())
 					{
 						std::map<Pawn*, SDL_GameController*>::iterator it;
-						for (it = pawnController.begin(); it != pawnController.end(); it++)
+						for (it = pawnController.begin(); it != pawnController.end(); ++it)
 						{
 							if (it->second == SDL_GameControllerFromInstanceID(ev.cdevice.which))
 							{
@@ -300,7 +300,7 @@ GameEngine::~GameEngine()
 
 	std::map<std::string, Level*>::iterator it;
 	int count{ 0 };
-	for (it = levelMap.begin(); it != levelMap.end(); it++)
+	for (it = levelMap.begin(); it != levelMap.end(); ++it)
 	{
 		if(it->second != nullptr)
 			delete it->second;

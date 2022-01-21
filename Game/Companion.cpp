@@ -110,14 +110,14 @@ void Companion::ChangeBulletLevel(bool willIncrease)
 	{
 		if (bulletLevel != bulletMaxLevel)
 		{
-			bulletLevel++;
+			++bulletLevel;
 		}
 	}
 	else if (!willIncrease)
 	{
 		if (bulletLevel != bulletMinLevel)
 		{
-			bulletLevel--;
+			--bulletLevel;
 		}
 	}
 }

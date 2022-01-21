@@ -40,6 +40,11 @@ void Level::Draw()
 			int layer = ent->GetComponent<Animator>().GetLayer();
 			store.push_back(std::pair<Entity*, int>{ent, layer});
 		}
+		else if (ent->HasComponent<TextComponent>())
+		{
+			int layer = ent->GetComponent<TextComponent>().GetLayer();
+			store.push_back(std::pair<Entity*, int>{ent, layer});
+		}
 		else
 		{
 			ent->Draw();
@@ -92,7 +97,7 @@ void Level::Refresh()
 {
 	std::vector<Entity*> entitiesToDelete;
 
-	for (int i = 0; i < levelEntities.size(); i++) // MEMORY LEAK?
+	for (int i = 0; i < levelEntities.size(); ++i)
 	{
 		if (!levelEntities[i]->IsActive())
 		{

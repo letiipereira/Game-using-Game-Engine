@@ -52,7 +52,7 @@ void InputManager::OnButtonDown(SDL_Event gamepadEvent)
 	SDL_GameController* controller = nullptr;
 
 	std::map<Pawn*, SDL_GameController*>::iterator it;
-	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
+	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); ++it)
 	{
 		if (it->second == SDL_GameControllerFromInstanceID(gamepadEvent.cdevice.which))
 		{
@@ -93,7 +93,7 @@ void InputManager::OnButtonUp(SDL_Event gamepadEvent)
 	SDL_GameController* controller = nullptr;
 
 	std::map<Pawn*, SDL_GameController*>::iterator it;
-	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
+	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); ++it)
 	{
 		if (it->second == SDL_GameControllerFromInstanceID(gamepadEvent.cdevice.which))
 		{
@@ -136,7 +136,7 @@ void InputManager::OnAxisMotion(SDL_Event gamepadEvent)
 	if (gamepadEvent.type == SDL_JOYAXISMOTION && (ControlledPawn.size() != 0))
 	{
 		std::map<Pawn*, SDL_GameController*>::iterator it;
-		for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
+		for (it = ControlledPawn.begin(); it != ControlledPawn.end(); ++it)
 		{
 			if (it->second == SDL_GameControllerOpen(gamepadEvent.cdevice.which))
 			{
@@ -196,13 +196,13 @@ InputManager::~InputManager()
 {
 	
 	std::map<Pawn*, SDL_GameController*>::iterator it;
-	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); it++)
+	for (it = ControlledPawn.begin(); it != ControlledPawn.end(); ++it)
 	{
 		SDL_GameControllerClose(it->second);
 	}
 
 	std::map<int, SDL_GameController*>::iterator it2;
-	for (it2 = ControllerIndex.begin(); it2 != ControllerIndex.end(); it2++)
+	for (it2 = ControllerIndex.begin(); it2 != ControllerIndex.end(); ++it2)
 	{
 		SDL_GameControllerClose(it2->second);
 	}

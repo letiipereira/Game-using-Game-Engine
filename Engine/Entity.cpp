@@ -10,7 +10,10 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	
+	for (auto& comp : components)
+	{
+		comp.reset();
+	}
 }
 
 

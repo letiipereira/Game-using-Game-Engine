@@ -171,7 +171,7 @@ void Spawner::SpawnCompanion()
 
 void Spawner::RemoveEnemy(Enemy* enemy)
 {
-	for (int i = 0; i < levelEnemies.size(); i++)
+	for (int i = 0; i < levelEnemies.size(); ++i)
 	{
 		if (levelEnemies.at(i) == enemy)
 		{
@@ -183,7 +183,7 @@ void Spawner::RemoveEnemy(Enemy* enemy)
 
 void Spawner::RemovePowerUp(Entity* powerUp)
 {
-	for (int i = 0; i < levelPowerUps.size(); i++)
+	for (int i = 0; i < levelPowerUps.size(); ++i)
 	{
 		if (levelPowerUps.at(i) == powerUp)
 		{

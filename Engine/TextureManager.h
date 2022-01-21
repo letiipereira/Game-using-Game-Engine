@@ -32,12 +32,13 @@ public:
 
 	void DrawTexture(std::string id, Transform* transform, float angle, bool flipHor = false);
 	void Clear();
+
 	void DropTexture(std::string id);
 	void DrawFrame(std::string id, Transform* transform, int rowCurrent = 1, int colCurrent = 1, int rowTotal = 1, int colTotal = 1, float angle = 0, bool flipHor = false);
-	void DrawText(std::string textToRender, CharacterType type, float angle, float x, float y, int layer);
+	void DrawText(std::string textToRender, CharacterType type, float angle, float x, float y, int layer, std::string id = "defaultText");
+
 	Texture* GetTexture(std::string id);
 	Texture* LoadTexture(std::string id, std::string filePath);
-	
 
 private:
 
@@ -57,7 +58,9 @@ private:
 	'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
 	'x', 'y', 'z', '{', '╎', '}', '~', '¤'
 	};
+
 	std::map<std::string, Texture*> textureMap{};
+
 	std::map<std::string, std::vector<Entity*>> textMap{};
 	std::map<char, Character> smallCharacters{};
 	std::map<char, Character> bigCharacters{};

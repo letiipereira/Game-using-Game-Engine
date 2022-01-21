@@ -6,11 +6,11 @@ Text::Text(std::string textToRender, TextType type, float angle, float x, float 
 	switch (type)
 	{
 	case TextType::small:
-		AddComponent<TextComponent>(textToRender, LetterType::small, angle, x, y, layer);
+		AddComponent<TextComponent>(textToRender, LetterType::small, angle, x, y, layer, "defaultText");
 		break;
 
 	case TextType::big:
-		AddComponent<TextComponent>(textToRender, LetterType::big, angle, x, y, layer);
+		AddComponent<TextComponent>(textToRender, LetterType::big, angle, x, y, layer, "defaultText");
 		break;
 
 	default:
@@ -23,7 +23,7 @@ Text::Text(std::string textToRender, TextType type, float angle, float x, float 
 
 Text::~Text()
 {
-	Entity::~Entity();
+	//Entity::~Entity();
 }
 
 void Text::Init()

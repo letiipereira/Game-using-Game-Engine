@@ -10,8 +10,6 @@ TextureManager* TextureManager::sInstance{ nullptr };
 
 TextureManager::TextureManager()
 {
-    Renderer::GetInstance()->Init();
-
     int count = 0;
 
     int bigCharCurrentRow = 1;
@@ -20,7 +18,7 @@ TextureManager::TextureManager()
     int smallCharCurrentRow = 1;
     int smallCharCurrentCol = 1;
 
-    for (int character = 0; character < characters.size(); character++)
+    for (int character = 0; character < characters.size(); ++character)
     {
         Character newSmallCharacter = {
             characters[character],
@@ -45,40 +43,31 @@ TextureManager::TextureManager()
 
         if (bigCharCurrentCol < 8 || smallCharCurrentCol < 8)
         {
-            bigCharCurrentCol++;
-            smallCharCurrentCol++;
+            ++bigCharCurrentCol;
+            ++smallCharCurrentCol;
         }
         else if (bigCharCurrentCol >= 8 || smallCharCurrentCol >= 8)
         {
             bigCharCurrentCol = 1;
             smallCharCurrentCol = 1;
 
-            bigCharCurrentRow++;
-            smallCharCurrentRow++;
+            ++bigCharCurrentRow;
+            ++smallCharCurrentRow;
         }
     }
+
+    
 }
 
 TextureManager::~TextureManager()
 {
     std::map<std::string, Texture*>::iterator it;
-    for (it = textureMap.begin(); it != textureMap.end(); it++)
+    for (it = textureMap.begin(); it != textureMap.end(); ++it)
     {
         delete it->second;
     }
 
     textureMap.clear();
-
-    std::map<std::string, std::vector<Entity*>>::iterator itr;
-    for (itr = textMap.begin(); itr != textMap.end(); itr++)
-    {
-        for (Entity* en : itr->second)
-        {
-            delete en;
-        }
-    }
-
-    textMap.clear();
         
 }
 
@@ -134,8 +123,10 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
     Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor);
 }
 
-void TextureManager::DrawText(std::string textToRender, CharacterType type, float angle, float x, float y, int layer)
+void TextureManager::DrawText(std::string textToRender, CharacterType type, float angle, float x, float y, int layer, std::string id)
 {
+  
+
     switch (type)
     {
     case CharacterType::small:
@@ -145,16 +136,15 @@ void TextureManager::DrawText(std::string textToRender, CharacterType type, floa
         for (char& character : textToRender)
         {
             Character ch = smallCharacters[character];
-
-            std::string textureID = std::to_string(character);
-
-            Entity* newLetter = new Entity();
-            newLetter->AddComponent<SpriteComponent>(textureID, "assets/Font8x8.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal);
-            newLetter->GetComponent<Transform>().myPosition.X = x;
-            newLetter->GetComponent<Transform>().myPosition.Y = y;
-
+            
             // now advance cursors for the next character
             x += ch.Advance;
+
+            Transform pos;
+            pos.myPosition.X = x;
+            pos.myPosition.Y = y;
+
+            DrawFrame(id, &pos , ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, 0, false);
         }
 
         break;
@@ -170,13 +160,14 @@ void TextureManager::DrawText(std::string textToRender, CharacterType type, floa
 
             std::string textureID = std::to_string(character);
 
-            Entity* newLetter = new Entity();
-            newLetter->AddComponent<SpriteComponent>(textureID, "assets/font16x16.bmp", angle, layer, true, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal);
-            newLetter->GetComponent<Transform>().myPosition.X = x;
-            newLetter->GetComponent<Transform>().myPosition.Y = y;
-
             // now advance cursors for the next character
             x += ch.Advance;
+
+            Transform pos;
+            pos.myPosition.X = x;
+            pos.myPosition.Y = y;
+
+            DrawFrame(id, &pos, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, 0, false);
         }
 
         break;
