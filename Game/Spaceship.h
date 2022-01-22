@@ -60,6 +60,7 @@ private:
 	void OnKeyUp(std::string key) override;
 	void OnButtonDown(std::string button) override;
 	void OnButtonUp(std::string button) override;
+	void OnAxisChange(float axisValue, bool Yaxis) override;
 	void Init() override final;
 	void Update() override final;
 	void Move();

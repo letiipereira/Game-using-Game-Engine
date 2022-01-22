@@ -146,47 +146,32 @@ void InputManager::OnAxisMotion(SDL_Event gamepadEvent)
 			}
 		}
 				
-		if (gamepadEvent.jaxis.axis == 0)
+		if (gamepadEvent.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX)
 		{
-			if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
-			//if (gamepadEvent.jaxis.value < -joystickDeadZone)
+			float axisValue = gamepadEvent.caxis.value;
+			if (axisValue < 0 )
 			{
-				currentPlayer->OnButtonDown("Joystick_XAxis_Left");
+				axisValue /= 32768;
+				currentPlayer->OnAxisChange(axisValue, false);
 			}
-
-			if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
-			//if (gamepadEvent.jaxis.value > joystickDeadZone)
+			else
 			{
-				currentPlayer->OnButtonDown("Joystick_XAxis_Right");
-			}
-
-			//if (110 < gamepadEvent.jaxis.value < 130)
-			if (-1000 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 1000)
-			{
-				currentPlayer->OnButtonUp("Joystick_XAxis_Left");
-				currentPlayer->OnButtonUp("Joystick_XAxis_Right");
+				axisValue /= 32767;
+				currentPlayer->OnAxisChange(axisValue, false);
 			}
 		}
-
-		if (gamepadEvent.jaxis.axis == 1)
+		if (gamepadEvent.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY)
 		{
-			if (-32768 <= gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 128)
-			//if (gamepadEvent.jaxis.value > -joystickDeadZone)
+			float axisValue = gamepadEvent.caxis.value;
+			if (axisValue < 0)
 			{
-				currentPlayer->OnButtonDown("Joystick_YAxis_Up");
+				axisValue /= 32768;
+				currentPlayer->OnAxisChange(axisValue, true);
 			}
-
-			if (128 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value <= 32767)
-			//if (gamepadEvent.jaxis.value > joystickDeadZone)
+			else
 			{
-				currentPlayer->OnButtonDown("Joystick_YAxis_Down");
-			}
-
-			//if (110 < gamepadEvent.jaxis.value < 130)
-			if (-1000 < gamepadEvent.jaxis.value && gamepadEvent.jaxis.value < 1000)
-			{
-				currentPlayer->OnButtonUp("Joystick_YAxis_Up");
-				currentPlayer->OnButtonUp("Joystick_YAxis_Down");
+				axisValue /= 32767;
+				currentPlayer->OnAxisChange(axisValue, true);
 			}
 		}
 	}

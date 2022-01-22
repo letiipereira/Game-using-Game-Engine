@@ -113,6 +113,90 @@ void Spaceship::OnButtonUp(std::string button)
 		GamepadButtonstate[button] = false;
 }
 
+void Spaceship::OnAxisChange(float axisValue, bool Yaxis)
+{
+	Vector2D movement{};
+
+	bool up{ false };
+	bool down{ false };
+	bool left{ false };
+	bool right{ false };
+
+	if (Yaxis)
+	{
+		if (axisValue > 0.1 && !up)
+		{
+			if (GetComponent<Transform>().myPosition.Y >= 32)
+			{
+				movement.Y -= axisValue;
+				up = true;
+				fireEfx["up"]->GetComponent<SpriteComponent>().SetActive(true);
+			}
+			else
+			{
+				fireEfx["up"]->GetComponent<SpriteComponent>().SetActive(false);
+			}
+		}
+		else if (axisValue < -0.1 && !down)
+		{
+			
+			if ((GetComponent<Transform>().myPosition.Y <= GameEngine::GetInstance()->GameWindowHeight() - 32))
+			{
+				movement.Y -= axisValue;
+				down = true;
+				fireEfx["down"]->GetComponent<SpriteComponent>().SetActive(true);
+			}
+			else
+			{
+				fireEfx["down"]->GetComponent<SpriteComponent>().SetActive(false);
+			}
+		}		
+	}
+
+	if (!Yaxis)
+	{
+		if (axisValue < -0.1 && !left)
+		{
+			if (GetComponent<Transform>().myPosition.X > 32)
+			{
+				movement.X += axisValue;
+				left = true;
+				fireEfx["left1"]->GetComponent<SpriteComponent>().SetActive(true);
+				fireEfx["left2"]->GetComponent<SpriteComponent>().SetActive(true);
+			}
+			else
+			{
+				fireEfx["left1"]->GetComponent<SpriteComponent>().SetActive(false);
+				fireEfx["left2"]->GetComponent<SpriteComponent>().SetActive(false);
+			}
+		}
+		else if (axisValue > 0.1 && !right)
+		{
+			if (GetComponent<Transform>().myPosition.X < GameEngine::GetInstance()->GameWindowWidht() - 32)
+			{
+				movement.X += axisValue;
+				right = true;
+				fireEfx["right"]->GetComponent<SpriteComponent>().SetActive(true);
+			}
+			else
+			{
+				fireEfx["right"]->GetComponent<SpriteComponent>().SetActive(false);
+			}
+		}
+	}
+	
+	movement.NormalizeVector();
+
+	if (HasComponent<Collider>())
+	{
+		GetComponent<Collider>().SetVelocity(moveSpeed);
+		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X + movement.X * moveSpeed * GameEngine::GetInstance()->GetDeltatime(),
+			GetComponent<Transform>().myPosition.Y + movement.Y * moveSpeed * GameEngine::GetInstance()->GetDeltatime());
+
+		GetComponent<Transform>().myPosition = GetComponent<Collider>().GetPosition();
+	}
+}
+
 void Spaceship::Move()
 {
 	Vector2D movement{};
@@ -124,7 +208,7 @@ void Spaceship::Move()
 	bool left{ false };
 	bool right{ false };
 
-	if ((KeyboardKeystate["Up"] || GamepadButtonstate["Joystick_YAxis_Up"]) && !up )
+	if (KeyboardKeystate["Up"] && !up)
 	{
 		if (GetComponent<Transform>().myPosition.Y <= GameEngine::GetInstance()->GameWindowHeight() - 32)
 		{
@@ -139,7 +223,7 @@ void Spaceship::Move()
 		fireEfx["up"]->GetComponent<SpriteComponent>().SetActive(false);
 	}
 
-	if ((KeyboardKeystate["Down"] || GamepadButtonstate["Joystick_YAxis_Down"]) && !down)
+	if (KeyboardKeystate["Down"] && !down)
 	{
 		if (GetComponent<Transform>().myPosition.Y >=  32)
 		{
@@ -154,7 +238,7 @@ void Spaceship::Move()
 		fireEfx["down"]->GetComponent<SpriteComponent>().SetActive(false);
 	}
 
-	if ((KeyboardKeystate["Left"] || GamepadButtonstate["Joystick_XAxis_Left"]) && !left)
+	if (KeyboardKeystate["Left"] && !left)
 	{
 		if (GetComponent<Transform>().myPosition.X > 32)
 		{
@@ -171,7 +255,7 @@ void Spaceship::Move()
 		fireEfx["left2"]->GetComponent<SpriteComponent>().SetActive(false);
 	}
 
-	if ((KeyboardKeystate["Right"] || GamepadButtonstate["Joystick_XAxis_Right"]) && !right)
+	if (KeyboardKeystate["Right"] && !right)
 	{
 		if (GetComponent<Transform>().myPosition.X < GameEngine::GetInstance()->GameWindowWidht() - 32)
 		{

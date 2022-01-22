@@ -21,6 +21,8 @@ public:
 
 	virtual void OnButtonUp(std::string button) {};
 
+	virtual void OnAxisChange(float axisValue, bool Yaxis) {};
+
 	virtual void CheckKeyState() {};
 
 private:
