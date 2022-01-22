@@ -65,9 +65,13 @@ void Enemy::WasHit(Entity* collidedObject)
 	if (collidedObject->GetComponent<Collider>().GetId() == "Companion")
 	{
 		Companion* playerCompanion = static_cast<Companion*>(collidedObject);
-		playerCompanion->ApplyDamage((playerCompanion->maxHealth) / 3);
-		playerCompanion->ChangeBulletLevel(false);
-		ApplyDamage(health, collidedObject);
+
+		if (playerCompanion->IsTaken())
+		{
+			playerCompanion->ApplyDamage((playerCompanion->maxHealth) / 3);
+			playerCompanion->ChangeBulletLevel(false);
+			ApplyDamage(health, collidedObject);
+		}
 	}
 
 }

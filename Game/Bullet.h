@@ -13,6 +13,8 @@ public:
 
 private:
 	Animation* bulletAnim{ nullptr };
+	Animation* bulletDie{ nullptr };
+	bool hasCollided;
 	float spawnPosX{};
 	float spawnPosY{};
 	float firePower{};

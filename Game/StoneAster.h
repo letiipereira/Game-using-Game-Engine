@@ -24,5 +24,4 @@ private:
 	float moveSpeedX{ 2.0f };
 	float moveSpeedY{ 0 };
 	float uniform = 0.7071f;
-
 };

@@ -90,7 +90,7 @@ void Renderer::Draw(Transform* transform, Texture* texture, float angle, float c
 
 	Shader shader{ "../Engine/basic.shader" };
 
-	glm::vec3 translation{ transform->myPosition.X, transform->myPosition.Y , 0};
+	glm::vec3 translation{ transform->myPosition.X, transform->myPosition.Y, 0};
 
 	// Since it is a 2D texture, if we need to rotate it we need to do it around the Z axis
 	if (angle != 0)

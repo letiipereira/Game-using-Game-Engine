@@ -109,9 +109,15 @@ void StoneAster::Update()
 	{
 		GetComponent<Transform>().myPosition.X -= moveSpeedX;
 		GetComponent<Transform>().myPosition.Y += moveSpeedY;
+
+		float asterPosX = GetComponent<Transform>().myPosition.X;
+		float asterPosY = GetComponent<Transform>().myPosition.Y;
+
+		Vector2D colliderVelocity = (moveSpeedX, moveSpeedY);
+
+		GetComponent<Collider>().SetVelocity(colliderVelocity);
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}
-
 }
 
 

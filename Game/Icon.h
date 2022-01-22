@@ -11,5 +11,9 @@ public:
 	void Init() override;;
 	void Update() override;
 
+	Vector2D GetIconColor() { return iconColor; }
+
 private:
+
+	Vector2D iconColor = { 1.f, 1.f };
 };

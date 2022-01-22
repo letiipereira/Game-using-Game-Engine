@@ -5,6 +5,7 @@ Bullet::Bullet(float posX, float posY, int currentBulletLevel)
 {
 	AddComponent<Animator>();
 	GetComponent<Transform>().myRotation = -90.0f;
+	bulletDie = new Animation("bulletExplode", "assets/explode16.bmp", 2, 5, 2, 5, 1, 1, 15, false, 3, false, true, true);
 
 	switch (currentBulletLevel)
 	{
@@ -43,6 +44,7 @@ Bullet::Bullet(float posX, float posY, int currentBulletLevel)
 
 	spawnPosX = posX;
 	spawnPosY = posY;
+	hasCollided = false;
 }
 
 Bullet::~Bullet()
@@ -54,11 +56,27 @@ void Bullet::Update()
 {
 	Entity::Update();
 
-	GetComponent<Transform>().myPosition.X += 10;
+	if (!hasCollided)
+	{
+		GetComponent<Transform>().myPosition.X += 10;
 
-	GetComponent<Collider>().SetVelocity(7/ GameEngine::GetInstance()->GetDeltatime());
-	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+		float bulletPosX = GetComponent<Transform>().myPosition.X;
+		float bulletPosY = GetComponent<Transform>().myPosition.Y;
 
+		Vector2D colliderVelocity = (bulletPosX, bulletPosY);
+
+		GetComponent<Collider>().SetVelocity(colliderVelocity);
+		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+	}
+	else
+	{
+		if (!GetComponent<Animator>().AnimationIsPlaying())
+		{
+			Destroy();
+		}
+
+		GetComponent<Collider>().SetBullet(false);
+	}
 
 	if (GetComponent<Transform>().myPosition.X > ((GameEngine::GetInstance()->GameWindowWidht()) + 10) ||
 		GetComponent<Transform>().myPosition.X < -10)
@@ -76,6 +94,9 @@ void Bullet::Update()
 void Bullet::Init()
 {
 	Entity::Init();
+
+	if (HasComponent<Animator>())
+		GetComponent<Animator>().AddAnimation("bulletExplode", bulletDie);
 
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
@@ -102,7 +123,9 @@ void Bullet::WasHit(Entity* collidedObject)
 			enemy->ApplyDamage(firePower, this);
 		}
 
-		Destroy();
+		hasCollided = true;
+		if (HasComponent<Animator>())
+			GetComponent<Animator>().PlayFromStart("bulletExplode", false, true);
 	}
 		
 }

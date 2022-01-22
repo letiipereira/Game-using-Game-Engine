@@ -22,7 +22,7 @@ private:
 	float uniform = 0.7071f;
 
 	float missileDeltaTime{0};
-	float missileCoolDown{1};
+	float missileCoolDown{2.f};
 
 	Vector2D playerPosition = (0.0f, 0.0f);
 };

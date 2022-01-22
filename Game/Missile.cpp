@@ -6,7 +6,7 @@ Missile::Missile(float posX, float posY, float movementX, float movementY)
 {
 	AddComponent<Animator>();
 	missileEnAnim = new Animation("missileEnAnim", "assets/EnWeap6.bmp", 1, 8, 1, 8, 1, 1, 4, false, 8, true, true, true);
-	die = new Animation("missileExplode", "assets/explode64.bmp", 2, 5, 2, 5, 1, 1, 15, false, 2, false, true, true);
+	die = new Animation("missileExplode", "assets/explode16.bmp", 2, 5, 2, 5, 1, 1, 15, false, 5, false, true, true);
 	GetComponent<Animator>().AddAnimation("missileEnAnim", missileEnAnim);
 	spawnPosX = posX;
 	spawnPosY = posY;

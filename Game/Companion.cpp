@@ -16,7 +16,7 @@ Companion::Companion(float posX, float posY, Spawner* spawner)
 	companionSpawner = spawner;
 	companionIdle = new Animation("companionIdle", "assets/clone.bmp", 5, 4, 4, 4, 1, 1, 10, false, 3, true, true, true);
 
-	//GetComponent<Transform>().myRotation = -90.0f;
+	GetComponent<Transform>().myRotation = -90.0f;
 	GetComponent<Animator>().AddAnimation("companionIdle", companionIdle);
 }
 
@@ -58,13 +58,25 @@ void Companion::Update()
 	{
 		GetComponent<Transform>().myPosition.X += moveSpeed;
 
+		float compPosX = GetComponent<Transform>().myPosition.X;
+		float compPosY = GetComponent<Transform>().myPosition.Y;
+
+		Vector2D colliderVelocity = (compPosX, compPosY);
+
+		GetComponent<Collider>().SetVelocity(colliderVelocity);
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 	}
 	else
 	{
+		float compPosX = currentPlayer->GetComponent<Transform>().myPosition.X + displacementY;
+		float compPosY = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementX;
 
-		GetComponent<Transform>().myPosition.X = currentPlayer->GetComponent<Transform>().myPosition.X + displacementY;
-		GetComponent<Transform>().myPosition.Y = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementX;
+		GetComponent<Transform>().myPosition.X = compPosX;
+		GetComponent<Transform>().myPosition.Y = compPosY;
+
+		Vector2D colliderVelocity = (compPosX, compPosY);
+
+		GetComponent<Collider>().SetVelocity(colliderVelocity);
 
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 

@@ -66,7 +66,7 @@ void ShieldPowerUp::Update()
 
 	if (GetComponent<Transform>().myPosition.X < -75)
 	{
-		mySpawner->RemovePowerUp(this);
+		//mySpawner->RemovePowerUp(this);
 		Destroy();
 	}
 }
