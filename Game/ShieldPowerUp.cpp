@@ -1,4 +1,5 @@
 #include "ShieldPowerUp.h"
+#include "UIManager.h"
 
 ShieldPowerUp::ShieldPowerUp(float posX, float posY, Spawner* spawner)
 {

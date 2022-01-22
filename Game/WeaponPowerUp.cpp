@@ -36,7 +36,7 @@ void WeaponPowerUp::Init()
 
 void WeaponPowerUp::WasHit(Entity* collidedObject)
 {
-	std::cout << "entrou" << std::endl;
+	//std::cout << "entrou" << std::endl;
 
 	if (collidedObject->GetComponent<Collider>().GetId() == "Spaceship")
 	{

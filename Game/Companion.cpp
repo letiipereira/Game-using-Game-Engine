@@ -1,6 +1,7 @@
 #include "Companion.h"
 #include "Spaceship.h"
 #include "Bullet.h"
+#include "UIManager.h"
 
 Companion::Companion(float posX, float posY, Spawner* spawner)
 {
@@ -61,12 +62,16 @@ void Companion::Update()
 	}
 	else
 	{
+
 		GetComponent<Transform>().myPosition.X = currentPlayer->GetComponent<Transform>().myPosition.X + displacementY;
 		GetComponent<Transform>().myPosition.Y = currentPlayer->GetComponent<Transform>().myPosition.Y + displacementX;
 
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+
 		
 	}
+
+	
 }
 
 void Companion::Attack()
@@ -80,8 +85,12 @@ void Companion::Attack()
 
 void Companion::ApplyShield(int shieldValue)
 {
-	health += shieldValue;
-
+	if (health < maxHealth)
+	{
+		health += shieldValue;
+		std::cout << "companion apply shield\n";
+		UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, "shield up");
+	}
 	if (health > maxHealth)
 	{
 		health = maxHealth;
@@ -94,7 +103,8 @@ void Companion::ApplyDamage(int damageReceived)
 
 	if (health <= 0 && isTaken)
 	{
-		std::cout << "posx: " << displacementX << "posy: " << displacementY << std::endl;
+		//std::cout << "posx: " << displacementX << "posy: " << displacementY << std::endl;
+		std::cout << "companion apply demage\n";
 		currentPlayer->RemoveCompanion(static_cast<float>(displacementX), static_cast<float>(displacementY), this);
 	}
 }
@@ -112,6 +122,7 @@ void Companion::ChangeBulletLevel(bool willIncrease)
 		if (bulletLevel != bulletMaxLevel)
 		{
 			++bulletLevel;
+			UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, "weapon up");
 		}
 	}
 	else if (!willIncrease)

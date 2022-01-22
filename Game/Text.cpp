@@ -43,7 +43,6 @@ void Text::Update()
 	if (shouldDestroy)
 	{
 		destructionDeltaTime += GameEngine::GetInstance()->GetDeltatime();
-		std::cout << "move up " << GetComponent<Transform>().myPosition.Y << std::endl;
 
 		if (destructionDeltaTime >= destructionTimer)
 		{
@@ -60,7 +59,6 @@ void Text::Update()
 
 void Text::SetTimerForDestruction(float time)
 {
-	std::cout << "destroy\n";
 	shouldDestroy = true;
 	destructionTimer = time;
 }

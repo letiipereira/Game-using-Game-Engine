@@ -225,19 +225,11 @@ void Spaceship::CheckKeyState()
 void Spaceship::IncreaseCompanionCount()
 {
 	++currentCompanions;
-
-	std::cout << " companion count " << currentCompanions << std::endl;
-	std::cout << " companion max " << maxCompanions << std::endl;
-	std::cout << std::endl;
 }
 
 void Spaceship::DecreaseCompanionCount()
 {
 	--currentCompanions;
-
-	std::cout << " companion count " << currentCompanions << std::endl;
-	std::cout << " companion max " << maxCompanions << std::endl;
-	std::cout << std::endl;
 }
 
 void Spaceship::SetupFireEffects()
@@ -348,6 +340,7 @@ void Spaceship::ChangeBulletLevel(bool willIncrease)
 		if (bulletLevel != bulletMaxLevel)
 		{
 			++bulletLevel;
+			UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, "weapon up");
 		}
 	}
 	else if (!willIncrease)
@@ -421,14 +414,19 @@ void Spaceship::WasHit(Entity* collidedObject)
 
 void Spaceship::ApplyShield(int shieldValue)
 {
-	health += shieldValue;
+	
 
+	if (health < maxHealth)
+	{
+		health += shieldValue;
+		UIManager::GetInstance()->UpdateHealth(maxHealth, health);
+		UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, "shield up");
+	}
 	if (health > maxHealth)
 	{
 		health = maxHealth;
 	}
-
-	UIManager::GetInstance()->UpdateHealth(maxHealth, health);
+	
 }
 
 void Spaceship::ApplyDamage(int damageReceived)

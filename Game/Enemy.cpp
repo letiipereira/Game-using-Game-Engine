@@ -84,8 +84,7 @@ void Enemy::ApplyDamage(float damage, Entity* collidedObject)
 		if (collidedObject->GetComponent<Collider>().GetId() == "Bullet")
 		{
 			UIManager::GetInstance()->UpdateScore(score);
-			UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, GetScore());
-			std::cout << "enemy score: " << score << std::endl;
+			UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, std::to_string(GetScore()));
 		}
 		
 		if (HasComponent<Animator>())

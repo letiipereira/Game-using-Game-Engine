@@ -24,9 +24,9 @@ void UIManager::SetMaxLives(int maxLives)
     DrawLives(playerLives);
 }
 
-void UIManager::ScoreUi(Vector2D position, int score)
+void UIManager::ScoreUi(Vector2D position, std::string text)
 {
-    std::string enemyScore = std::to_string(score);
+    std::string enemyScore = text;
     Text* EnemyPoints = new Text(enemyScore, TextType::small, 0, position.X, position.Y + 32, 10);
     EnemyPoints->SetTimerForDestruction(0.75f);
     EnemyPoints->SetMoveUp(2);

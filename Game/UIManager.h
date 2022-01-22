@@ -27,7 +27,7 @@ public:
 	static UIManager* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new UIManager(); }
 	void DrawIcons(std::string textureID, std::string filePath, float x, float y, int layer, std::vector<Icon*>& icons);
 	void SetMaxLives(int maxLives);
-	void ScoreUi(Vector2D position, int score);
+	void ScoreUi(Vector2D position, std::string text);
 	void ResetPlayerScore();
 
 private:
