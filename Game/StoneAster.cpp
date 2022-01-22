@@ -86,8 +86,9 @@ void StoneAster::Update()
 		{
 		case 96:
 		{
-			new StoneAster(64, GetComponent<Transform>().myPosition.X + 40.0f, GetComponent<Transform>().myPosition.Y + 40.0f, mySpawner);
+			new StoneAster(64, GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y + 40.0f, mySpawner);
 			new StoneAster(64, GetComponent<Transform>().myPosition.X - 40.0f, GetComponent<Transform>().myPosition.Y - 40.0f, mySpawner);
+			new StoneAster(64, GetComponent<Transform>().myPosition.X + 40.0f, GetComponent<Transform>().myPosition.Y - 40.0f, mySpawner);
 			hasCracked = true;
 			break;
 		}
