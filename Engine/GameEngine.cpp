@@ -216,8 +216,8 @@ void GameEngine::start()
 		}
 
 		currentLevel->Update();
-		currentLevel->Draw();
 		currentLevel->Refresh();
+		currentLevel->Draw();
 		window->Update();
 		
 	}
