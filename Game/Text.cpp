@@ -39,4 +39,28 @@ void Text::Init()
 void Text::Update()
 {
 	Entity::Update();
+	
+	if (shouldDestroy)
+	{
+		destructionDeltaTime += GameEngine::GetInstance()->GetDeltatime();
+		std::cout << "move up " << GetComponent<Transform>().myPosition.Y << std::endl;
+
+		if (destructionDeltaTime >= destructionTimer)
+		{
+			
+			Destroy();
+			
+		}
+	}
+
+	GetComponent<Transform>().myPosition.Y += moveUpVel;
+	
+
+}
+
+void Text::SetTimerForDestruction(float time)
+{
+	std::cout << "destroy\n";
+	shouldDestroy = true;
+	destructionTimer = time;
 }

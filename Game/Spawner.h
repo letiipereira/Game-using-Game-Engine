@@ -47,11 +47,11 @@ private:
 
 	// enemy spawn rates 
 
-	float lonerSpawnRate{8};
-	float rusherSpawnRate{3};
-	float stoneAsterSpawnRate{6};
-	float metalAsterSpawnRate{10};
-	float droneSpawnRate{ 5 };
+	float lonerSpawnRate{11};
+	float rusherSpawnRate{6};
+	float stoneAsterSpawnRate{9};
+	float metalAsterSpawnRate{13};
+	float droneSpawnRate{ 8 };
 	float droneSpawnRateLong{ 10 };
 	float droneSpawnRateShort{ 0.4f };
 
@@ -59,15 +59,15 @@ private:
 
 	float lonerDeltaTime{ 2 };
 	float droneDeltaTime{ 5 };
-	float rusherDeltaTime{ 1 };
-	float stoneAsterDeltaTime{ 2 };
-	float metalAsterDeltaTime{ 2 };
+	float rusherDeltaTime{ 5 };
+	float stoneAsterDeltaTime{ 8 };
+	float metalAsterDeltaTime{ 10 };
 
 	// power up spawn rates
 
 	float weaponPUSpawnRate{15};
 	float shieldPUSpawnRate{10};
-	float companionSpawnRate{10};
+	float companionSpawnRate{15};
 
 	// power up delta time 
 
@@ -94,6 +94,7 @@ private:
 
 	std::vector<Enemy*> levelEnemies{};
 	std::vector<Entity*> levelPowerUps{};
+
 };
 
 

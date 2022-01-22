@@ -68,8 +68,11 @@ private:
 	void IncreaseCompanionCount();
 	void DecreaseCompanionCount();
 	bool HasMaxCompanions();
+	void SetupFireEffects();
 
 	void ShipAnimation();
+
+	std::map<std::string, Entity*> fireEfx;
 
 	std::pair<Vector2D, Companion*> companionPos1{};
 	std::pair<Vector2D, Companion*> companionPos2{};

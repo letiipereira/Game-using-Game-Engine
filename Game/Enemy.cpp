@@ -69,6 +69,7 @@ void Enemy::WasHit(Entity* collidedObject)
 		playerCompanion->ChangeBulletLevel(false);
 		ApplyDamage(health, collidedObject);
 	}
+
 }
 
 void Enemy::ApplyDamage(float damage, Entity* collidedObject)
@@ -83,6 +84,8 @@ void Enemy::ApplyDamage(float damage, Entity* collidedObject)
 		if (collidedObject->GetComponent<Collider>().GetId() == "Bullet")
 		{
 			UIManager::GetInstance()->UpdateScore(score);
+			UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, GetScore());
+			std::cout << "enemy score: " << score << std::endl;
 		}
 		
 		if (HasComponent<Animator>())

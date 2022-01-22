@@ -13,6 +13,7 @@ SpriteComponent::SpriteComponent(std::string textureid, std::string filePath, fl
 	colCurrent = currentCol;
 	rowTotal = totalRows;
 	colTotal = totalCol;
+	offset = Vector2D(0, 0);
 }
 
 bool SpriteComponent::Init()
@@ -36,13 +37,24 @@ bool SpriteComponent::Init()
 
 void SpriteComponent::Draw()
 {
-	if (!willBeCut)
+	if (isActive)
 	{
-		TextureManager::GetInstance()->DrawTexture(textureID, transform, rotation, flip);
-	}
-	else
-	{
-		TextureManager::GetInstance()->DrawFrame(textureID, transform, rowCurrent, colCurrent, rowTotal, colTotal, 0, false);
+		Transform* texPos = new Transform;
+		texPos->myPosition.X += transform->myPosition.X + offset.X;
+		texPos->myPosition.Y += transform->myPosition.Y + offset.Y;
+		texPos->myRotation = transform->myRotation;
+		texPos->myScale = transform->myScale;
+
+		if (!willBeCut)
+		{
+			TextureManager::GetInstance()->DrawTexture(textureID, texPos, rotation, flip);
+		}
+		else
+		{
+			TextureManager::GetInstance()->DrawFrame(textureID, texPos, rowCurrent, colCurrent, rowTotal, colTotal, 0, false);
+		}
+
+		delete texPos;
 	}
 	
 }
@@ -50,4 +62,9 @@ void SpriteComponent::Draw()
 void SpriteComponent::Update()
 {
 	transform = &entity->GetComponent<Transform>();
+}
+
+void SpriteComponent::SetOffset(Vector2D offsetFromEntity)
+{
+	offset = offsetFromEntity;
 }

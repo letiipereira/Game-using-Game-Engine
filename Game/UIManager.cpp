@@ -24,6 +24,20 @@ void UIManager::SetMaxLives(int maxLives)
     DrawLives(playerLives);
 }
 
+void UIManager::ScoreUi(Vector2D position, int score)
+{
+    std::string enemyScore = std::to_string(score);
+    Text* EnemyPoints = new Text(enemyScore, TextType::small, 0, position.X, position.Y + 32, 10);
+    EnemyPoints->SetTimerForDestruction(0.75f);
+    EnemyPoints->SetMoveUp(2);
+}
+
+void UIManager::ResetPlayerScore()
+{
+    playerScore = 0;
+    UpdateScore(0);
+}
+
 void UIManager::DrawUI()
 {
     DrawTitles();
@@ -154,7 +168,7 @@ void UIManager::DrawScore(std::string currentScore)
     // Draw the high score
     int scorePosX = (GameEngine::GetInstance()->GameWindowWidht() / 2) - 300.f;
     int scorePosY = (GameEngine::GetInstance()->GameWindowHeight() / 2) + 200.f;
-
+   
     scoreText = new Text(currentScore, TextType::big, 0, scorePosX, scorePosY, 10);
 }
 

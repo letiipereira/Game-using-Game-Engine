@@ -89,8 +89,6 @@ void TextureManager::DrawText(std::string textToRender, float angle, float x, fl
     {
         Character ch = currentFont[character];
 
-        std::cout << character << std::endl;
-
         // now advance cursors for the next character
 
         Transform pos;

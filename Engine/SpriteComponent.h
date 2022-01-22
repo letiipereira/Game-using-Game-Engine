@@ -18,6 +18,10 @@ public:
 	
 	void Update() override final;
 
+	void SetOffset(Vector2D offsetFromEntity);
+
+	inline void SetActive(bool shouldDraw) { isActive = shouldDraw; };
+
 	inline int GetLayer() 
 	{
 		return myLayer;
@@ -37,6 +41,9 @@ private:
 
 	float rotation{0};
 
+	Vector2D offset{};
+	
+	bool isActive{ true };
 	int myLayer{0};
 	bool flip{ false };
 	bool willBeCut{ false };

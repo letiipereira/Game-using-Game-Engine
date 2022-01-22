@@ -22,7 +22,7 @@ bool TextComponent::Init()
 void TextComponent::Draw()
 {
 
-	TextureManager::GetInstance()->DrawText(text, rotation, posX, posY, currentLayer, fontId);
+	TextureManager::GetInstance()->DrawText(text, transform->myRotation, transform->myPosition.X, transform->myPosition.Y, currentLayer, fontId);
 
 }
 

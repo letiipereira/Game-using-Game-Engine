@@ -21,6 +21,7 @@ StoneAster::StoneAster(int size, float posX, float posY, Spawner* spawner)
 			idle = new Animation("idleStone96", "assets/SAster96.bmp", 5, 5, 5, 5, 1, 1, 10, false, 2, true, true, true);
 			die = new Animation("enemydie64", "assets/explode64.bmp", 2, 5, 2, 5, 1, 1, 15, false, 2, false, true, true);
 			moveSpeedX = 1;
+			score = 75;
 			break;
 		}
 		case 64:
@@ -28,6 +29,7 @@ StoneAster::StoneAster(int size, float posX, float posY, Spawner* spawner)
 			idle = new Animation("idleStone64", "assets/SAster64.bmp", 3, 8, 3, 8, 1, 1, 10, false, 2, true, true, true);
 			die = new Animation("enemydie32", "assets/explode32.bmp", 2, 5, 2, 5, 1, 1, 30, false, 2, false, true, true);
 			moveSpeedX = 2;
+			score = 50;
 			break;
 		}
 		case 32:
@@ -35,6 +37,7 @@ StoneAster::StoneAster(int size, float posX, float posY, Spawner* spawner)
 			idle = new Animation("idleStone32", "assets/SAster32.bmp", 2, 8, 2, 8, 1, 1, 8, false, 2, true, true, true);
 			die = new Animation("enemydie16", "assets/explode16.bmp", 2, 5, 2, 5, 1, 1, 30, false, 2, false, true, true);
 			moveSpeedX = 3;
+			score = 25;
 			break;
 		}
 		default:

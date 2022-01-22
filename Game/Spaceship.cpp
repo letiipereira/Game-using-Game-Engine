@@ -14,6 +14,9 @@ Spaceship::Spaceship()
 	bulletLevel = 1;
 	bulletMinLevel = 1;
 	bulletMaxLevel = 3;
+
+	//spaceship animation
+
 	AddComponent<Animator>();
 
 	moveDown = new Animation("moveDown", "assets/Ship1.bmp", 1, 7, 1, 7, 1, 5, 14, false, 6, false, true, false);
@@ -24,10 +27,18 @@ Spaceship::Spaceship()
 	GetComponent<Animator>().AddAnimation("moveDown", moveDown);
 	GetComponent<Animator>().AddAnimation("idle", idle);
 
+	//fire effect setup
+
+	SetupFireEffects();
+
+	//companion setup
+
 	companionPos1 = std::pair<Vector2D, Companion*>((-51.0f, 80.0f), nullptr);
 	companionPos2 = std::pair<Vector2D, Companion*>((50.0f, -81.0f), nullptr);
 
 	maxCompanions = 2;
+
+	//Game input setup
 
 	gameInput = GameInput::GetInstance();
 	UIManager::GetInstance()->SetMaxLives(currentLives);
@@ -68,6 +79,12 @@ void Spaceship::Update()
 		time = 0;
 	}
 	lastPosY = GetComponent<Transform>().myPosition.Y;
+
+	std::map<std::string, Entity*>::iterator it;
+	for (it = fireEfx.begin(); it != fireEfx.end(); ++it)
+	{
+		it->second->GetComponent<Transform>().myPosition = GetComponent<Transform>().myPosition;
+	}
 
 	ShipAnimation();
 }
@@ -113,7 +130,13 @@ void Spaceship::Move()
 		{
 			movement.Y += 1;
 			up = true;
-		}	
+			fireEfx["up"]->GetComponent<SpriteComponent>().SetActive(true);
+		}
+
+	}
+	else
+	{
+		fireEfx["up"]->GetComponent<SpriteComponent>().SetActive(false);
 	}
 
 	if ((KeyboardKeystate["Down"] || GamepadButtonstate["Joystick_YAxis_Down"]) && !down)
@@ -122,7 +145,13 @@ void Spaceship::Move()
 		{
 			movement.Y -= 1;
 			down = true;
+			fireEfx["down"]->GetComponent<SpriteComponent>().SetActive(true);
 		}
+
+	}
+	else
+	{
+		fireEfx["down"]->GetComponent<SpriteComponent>().SetActive(false);
 	}
 
 	if ((KeyboardKeystate["Left"] || GamepadButtonstate["Joystick_XAxis_Left"]) && !left)
@@ -131,7 +160,15 @@ void Spaceship::Move()
 		{
 			movement.X -= 1;
 			left = true;
+			fireEfx["left1"]->GetComponent<SpriteComponent>().SetActive(true);
+			fireEfx["left2"]->GetComponent<SpriteComponent>().SetActive(true);
 		}
+
+	}
+	else
+	{
+		fireEfx["left1"]->GetComponent<SpriteComponent>().SetActive(false);
+		fireEfx["left2"]->GetComponent<SpriteComponent>().SetActive(false);
 	}
 
 	if ((KeyboardKeystate["Right"] || GamepadButtonstate["Joystick_XAxis_Right"]) && !right)
@@ -140,7 +177,12 @@ void Spaceship::Move()
 		{
 			movement.X += 1;
 			right = true;
+			fireEfx["right"]->GetComponent<SpriteComponent>().SetActive(true);
 		}
+	}
+	else
+	{
+		fireEfx["right"]->GetComponent<SpriteComponent>().SetActive(false);
 	}
 
 	movement.NormalizeVector();
@@ -196,6 +238,39 @@ void Spaceship::DecreaseCompanionCount()
 	std::cout << " companion count " << currentCompanions << std::endl;
 	std::cout << " companion max " << maxCompanions << std::endl;
 	std::cout << std::endl;
+}
+
+void Spaceship::SetupFireEffects()
+{
+	Entity* Burner1 = new Entity;
+	Burner1->AddComponent<SpriteComponent>("burner1", "assets/Burner1.bmp", -90, 3, false);
+	Burner1->GetComponent<SpriteComponent>().SetOffset(Vector2D(-45, 0));
+	Burner1->GetComponent<SpriteComponent>().SetActive(false);
+	fireEfx["right"] = Burner1;
+
+	Entity* Burner6 = new Entity;
+	Burner6->AddComponent<SpriteComponent>("burner6", "assets/Burner6.bmp", -90, 2, false);
+	Burner6->GetComponent<SpriteComponent>().SetOffset(Vector2D(-32, 16));
+	Burner6->GetComponent<SpriteComponent>().SetActive(false);
+	fireEfx["down"] = Burner6;
+
+	Entity* Burner3 = new Entity;
+	Burner3->AddComponent<SpriteComponent>("burner3", "assets/Burner3.bmp", -90, 2, false);
+	Burner3->GetComponent<SpriteComponent>().SetOffset(Vector2D(24, 16));
+	Burner3->GetComponent<SpriteComponent>().SetActive(false);
+	fireEfx["left1"] = Burner3;
+
+	Entity* Burner5 = new Entity;
+	Burner5->AddComponent<SpriteComponent>("burner5", "assets/Burner5.bmp", -90, 2, false);
+	Burner5->GetComponent<SpriteComponent>().SetOffset(Vector2D(-32, -16));
+	Burner5->GetComponent<SpriteComponent>().SetActive(false);
+	fireEfx["up"] = Burner5;
+
+	Entity* Burner4 = new Entity;
+	Burner4->AddComponent<SpriteComponent>("burner4", "assets/Burner4.bmp", -90, 2, false);
+	Burner4->GetComponent<SpriteComponent>().SetOffset(Vector2D(24, -16));
+	//Burner4->GetComponent<SpriteComponent>().SetActive(false);
+	fireEfx["left2"] = Burner4;
 }
 
 bool Spaceship::HasMaxCompanions()
@@ -373,7 +448,7 @@ void Spaceship::ApplyDamage(int damageReceived)
 			currentLives = maxLives;
 			health = maxHealth;
 			UIManager::GetInstance()->UpdateLives(currentLives);
-			UIManager::GetInstance()->UpdateScore(0);
+			UIManager::GetInstance()->ResetPlayerScore();
 			UIManager::GetInstance()->UpdateHealth(maxHealth, health);
 		}		
 	}
