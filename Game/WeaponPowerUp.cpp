@@ -28,7 +28,7 @@ WeaponPowerUp::~WeaponPowerUp()
 void WeaponPowerUp::Init()
 {
 	PowerUp::Init();
-	moveSpeed = -0.8f;
+	moveSpeed = -50.0f;
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
 	GetComponent<Animator>().PlayFromStart("idle", true, true);

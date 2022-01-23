@@ -10,7 +10,7 @@ void PowerUp::Update()
 {
 	Entity::Update();
 
-	GetComponent<Transform>().myPosition.X += moveSpeed;
+	GetComponent<Transform>().myPosition.X += moveSpeed * GameEngine::GetInstance()->GetDeltatime();
 	GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
 }
 

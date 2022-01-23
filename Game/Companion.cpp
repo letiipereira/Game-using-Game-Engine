@@ -56,7 +56,7 @@ void Companion::Update()
 
 	if (!isTaken)
 	{
-		GetComponent<Transform>().myPosition.X += moveSpeed;
+		GetComponent<Transform>().myPosition.X += moveSpeed * GameEngine::GetInstance()->GetDeltatime();
 
 		float compPosX = GetComponent<Transform>().myPosition.X;
 		float compPosY = GetComponent<Transform>().myPosition.Y;
@@ -78,12 +78,8 @@ void Companion::Update()
 
 		GetComponent<Collider>().SetVelocity(colliderVelocity);
 
-		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
-
-		
+		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);	
 	}
-
-	
 }
 
 void Companion::Attack()

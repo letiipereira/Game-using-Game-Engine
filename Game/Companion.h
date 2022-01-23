@@ -33,7 +33,7 @@ private:
 	int displacementX{0};
 	int displacementY{0};
 	bool isTaken{ false };
-	float moveSpeed{-0.8f};
+	float moveSpeed{-60.0f};
 	float bulletDeltaTime{ 0.1f };
 	float bulletCoolDown{ 0.15f };
 	Animation* companionIdle{ nullptr };
