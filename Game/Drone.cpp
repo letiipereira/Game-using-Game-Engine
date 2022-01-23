@@ -50,7 +50,7 @@ void Drone::Update()
 
 		if (spawnPosX < static_cast<float>(GameEngine::GetInstance()->GameWindowWidht() / 2))
 		{
-			
+
 			GetComponent<Transform>().myPosition.X += (moveSpeed * GameEngine::GetInstance()->GetDeltatime() * uniform);
 		}
 		else
@@ -60,10 +60,9 @@ void Drone::Update()
 
 		}
 
-		GetComponent<Transform>().myPosition.Y = GetComponent<Transform>().myPosition.Y + sin(time * frequency) * magnitude;
+
+		GetComponent<Transform>().myPosition.Y = GetComponent<Transform>().myPosition.Y + (sin(time * frequency) * magnitude);
 		GetComponent<Collider>().SetPosition(GetComponent<Transform>().myPosition.X, GetComponent<Transform>().myPosition.Y);
+
 	}
-	
 }
-
-

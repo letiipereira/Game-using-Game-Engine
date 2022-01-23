@@ -20,7 +20,7 @@ StoneAster::StoneAster(int size, float posX, float posY, Spawner* spawner)
 		{
 			idle = new Animation("idleStone96", "assets/SAster96.bmp", 5, 5, 5, 5, 1, 1, 10, false, 2, true, true, true);
 			die = new Animation("enemydie64", "assets/explode64.bmp", 2, 5, 2, 5, 1, 1, 15, false, 2, false, true, true);
-			moveSpeedX = 1;
+			moveSpeedX = 40;
 			score = 75;
 			break;
 		}
@@ -28,7 +28,7 @@ StoneAster::StoneAster(int size, float posX, float posY, Spawner* spawner)
 		{
 			idle = new Animation("idleStone64", "assets/SAster64.bmp", 3, 8, 3, 8, 1, 1, 10, false, 2, true, true, true);
 			die = new Animation("enemydie32", "assets/explode32.bmp", 2, 5, 2, 5, 1, 1, 30, false, 2, false, true, true);
-			moveSpeedX = 2;
+			moveSpeedX = 55;
 			score = 50;
 			break;
 		}
@@ -36,7 +36,7 @@ StoneAster::StoneAster(int size, float posX, float posY, Spawner* spawner)
 		{
 			idle = new Animation("idleStone32", "assets/SAster32.bmp", 2, 8, 2, 8, 1, 1, 8, false, 2, true, true, true);
 			die = new Animation("enemydie16", "assets/explode16.bmp", 2, 5, 2, 5, 1, 1, 30, false, 2, false, true, true);
-			moveSpeedX = 3;
+			moveSpeedX = 75;
 			score = 25;
 			break;
 		}
@@ -68,7 +68,7 @@ void StoneAster::Init()
 	GetComponent<Transform>().myPosition.X = spawnPosX;
 	GetComponent<Transform>().myPosition.Y = spawnPosY;
 
-	moveSpeedY = static_cast<float>((rand() % 16) / 10);
+	moveSpeedY = static_cast<float>((rand() % 16));
 	int sighn = rand() % (2);
 	if (sighn != 1)
 	{
@@ -108,8 +108,8 @@ void StoneAster::Update()
 	}
 	else if (health > 0)
 	{
-		GetComponent<Transform>().myPosition.X -= moveSpeedX;
-		GetComponent<Transform>().myPosition.Y += moveSpeedY;
+		GetComponent<Transform>().myPosition.X -= moveSpeedX * GameEngine::GetInstance()->GetDeltatime();
+		GetComponent<Transform>().myPosition.Y += moveSpeedY * GameEngine::GetInstance()->GetDeltatime();
 
 		float asterPosX = GetComponent<Transform>().myPosition.X;
 		float asterPosY = GetComponent<Transform>().myPosition.Y;
