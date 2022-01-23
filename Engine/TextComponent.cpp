@@ -33,7 +33,6 @@ void TextComponent::Update()
 
 void TextComponent::SetNewFont(std::string newId, std::string filePath, int rowTotal, int colTotal, std::vector<char> charFontOrder)
 {
-
 	fontId = newId;
 	TextureManager::GetInstance()->CreateNewFont(newId, filePath, rowTotal, colTotal, charFontOrder);
 }
