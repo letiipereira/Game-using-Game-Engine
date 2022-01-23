@@ -30,12 +30,13 @@ public:
 
 	static TextureManager* GetInstance() { return sInstance = (sInstance != nullptr) ? sInstance : new TextureManager(); }
 
-	void DrawTexture(std::string id, Transform* transform, float angle, bool flipHor = false);
+	void DrawTexture(std::string id, Transform* transform, float angle, bool flipHor = false, float r = 0, float g = 0, float b = 0, float alpha = 0);
 	void Clear();
 
 	void DropTexture(std::string id);
-	void DrawFrame(std::string id, Transform* transform, int rowCurrent = 1, int colCurrent = 1, int rowTotal = 1, int colTotal = 1, float angle = 0, bool flipHor = false);
+	void DrawFrame(std::string id, Transform* transform, int rowCurrent = 1, int colCurrent = 1, int rowTotal = 1, int colTotal = 1, float angle = 0, bool flipHor = false, float r = 0, float g = 0, float b = 0, float alpha = 0);
 	void DrawText(std::string textToRender, float angle, float x, float y, int layer, std::string id = "defaultText");
+	void DrawSquare(Transform* position, float sizeX, float sizeY, float r, float g, float b, float alpha);
 
 	Texture* GetTexture(std::string id);
 	Texture* LoadTexture(std::string id, std::string filePath);

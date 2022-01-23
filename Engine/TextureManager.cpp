@@ -27,7 +27,7 @@ TextureManager::~TextureManager()
 
 }
 
-void TextureManager::DrawTexture(std::string id, Transform* transform, float angle, bool flipHor) // could implement flip vertical and the rotation relkated to a especific point
+void TextureManager::DrawTexture(std::string id, Transform* transform, float angle, bool flipHor, float r, float g, float b, float alpha) // could implement flip vertical and the rotation relkated to a especific point
 {
     Texture* current = GetTexture(id);
 
@@ -50,7 +50,7 @@ void TextureManager::DrawTexture(std::string id, Transform* transform, float ang
     //dstRect.h = static_cast<int>(height * transform->myScale.Y);
 
 
-    Renderer::GetInstance()->Draw(transform, current, angle);
+    Renderer::GetInstance()->Draw(transform, current, angle, 1, 1, 1, 1, flipHor, r, g, b, alpha);
 
 }
 
@@ -65,7 +65,7 @@ void TextureManager::DropTexture(std::string id)
     textureMap.erase(id);
 }
 
-void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurrent, int colCurrent, int rowTotal, int colTotal, float angle, bool flipHor)
+void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurrent, int colCurrent, int rowTotal, int colTotal, float angle, bool flipHor, float r, float g, float b, float alpha)
 {
     Texture* current = GetTexture(id);
 
@@ -76,7 +76,7 @@ void TextureManager::DrawFrame(std::string id, Transform* transform, int rowCurr
         return;
     }
 
-    Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor);
+    Renderer::GetInstance()->Draw(transform, current, static_cast<float>(angle), static_cast<float>(colCurrent), static_cast<float>(rowCurrent), static_cast<float>(colTotal), static_cast<float>(rowTotal), flipHor, r, g, b, alpha);
 }
 
 void TextureManager::DrawText(std::string textToRender, float angle, float x, float y, int layer, std::string id)
@@ -100,6 +100,11 @@ void TextureManager::DrawText(std::string textToRender, float angle, float x, fl
         DrawFrame(id, &pos, ch.rowCurrent, ch.colCurrent, ch.rowTotal, ch.colTotal, 0, false);
     }
 
+}
+
+void TextureManager::DrawSquare(Transform* position, float sizeX, float sizeY, float r, float g, float b, float alpha)
+{
+    //Renderer::GetInstance()->DrawSquare(position, position->myRotation, sizeX, sizeY, r, g, b, alpha);
 }
 
 Texture* TextureManager::GetTexture(std::string id)

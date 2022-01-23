@@ -23,14 +23,14 @@ layout(location = 0) out vec4 color;
 in vec2 v_TexCoord;
 
 uniform vec4 u_Color;
-uniform sampler2D u_Texture;
+uniform sampler2D u_Texture;   
+uniform float u_Blend;
 
 void main()
 {
 	vec4 texColor = texture(u_Texture, v_TexCoord); //* vec4(ourColor, 1.0);
 	if (texColor[0] < 1 || texColor[1] > 0.01 || texColor[2] < 1)
 	{
-		color = texColor;
+		color = mix(texColor, u_Color, u_Blend);
 	}
-	
 }

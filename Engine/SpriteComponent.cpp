@@ -1,6 +1,6 @@
 #include "SpriteComponent.h"
 #include "TextureManager.h"
-#include "SDL.h"
+
 
 SpriteComponent::SpriteComponent(std::string textureid, std::string filePath, float spriteRotation, int layer, bool needsCut, int currentRow, int currentCol, int totalRows, int totalCol)
 {
@@ -47,11 +47,11 @@ void SpriteComponent::Draw()
 
 		if (!willBeCut)
 		{
-			TextureManager::GetInstance()->DrawTexture(textureID, texPos, rotation, flip);
+			TextureManager::GetInstance()->DrawTexture(textureID, texPos, rotation, flip, rColor, gColor, bColor, myAlpha);
 		}
 		else
 		{
-			TextureManager::GetInstance()->DrawFrame(textureID, texPos, rowCurrent, colCurrent, rowTotal, colTotal, 0, false);
+			TextureManager::GetInstance()->DrawFrame(textureID, texPos, rowCurrent, colCurrent, rowTotal, colTotal, 0, false, rColor, gColor, bColor, myAlpha);
 		}
 
 		delete texPos;
@@ -67,4 +67,18 @@ void SpriteComponent::Update()
 void SpriteComponent::SetOffset(Vector2D offsetFromEntity)
 {
 	offset = offsetFromEntity;
+}
+
+void SpriteComponent::SetFilterColor(float r, float g, float b, float alpha)
+{
+	rColor = r;
+	gColor = g;
+	bColor = b;
+	myAlpha = alpha;
+}
+
+inline void SpriteComponent::SetFilterActive(bool active)
+{
+		if (active) { myAlpha = 1; }
+		else { myAlpha = 0; }
 }

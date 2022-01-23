@@ -8,7 +8,9 @@
 
 struct Animation
 {
-	Animation(std::string textureID, std::string filePath, int rowNumber, int columnNumber, int rowEnd, int columnEnd, int rowStart = 1, int colunmStart = 1, int framesPerSeconds = 2, bool horFlip = false, int layer = 0, bool shouldLoop = true, bool playfoward = true, bool playOnStart = true)
+	Animation(std::string textureID, std::string filePath, int rowNumber, int columnNumber, int rowEnd, 
+		int columnEnd, int rowStart = 1, int colunmStart = 1, int framesPerSeconds = 2, bool horFlip = false, 
+		int layer = 0, bool shouldLoop = true, bool playfoward = true, bool playOnStart = true)
 	{
 		myTextureID = textureID;
 		myFilePath = filePath;

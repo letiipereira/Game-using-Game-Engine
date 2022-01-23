@@ -78,7 +78,8 @@ bool Animator::Init()
 
 void Animator::Draw()
 {
-	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform, currentFrame.first, currentFrame.second, currentAnimation->myRowNumber, currentAnimation->myColumnNumber, transform->myRotation, currentAnimation->flip);
+	TextureManager::GetInstance()->DrawFrame(currentAnimation->myTextureID, transform, currentFrame.first, currentFrame.second, 
+				currentAnimation->myRowNumber, currentAnimation->myColumnNumber, transform->myRotation, currentAnimation->flip);
 }
 
 

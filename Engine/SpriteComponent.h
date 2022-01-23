@@ -20,6 +20,10 @@ public:
 
 	void SetOffset(Vector2D offsetFromEntity);
 
+	void SetFilterColor(float r, float g, float b, float alpha);
+
+	inline void SetFilterActive(bool active);
+
 	inline void SetActive(bool shouldDraw) { isActive = shouldDraw; };
 
 	inline int GetLayer() 
@@ -51,4 +55,9 @@ private:
 	int colTotal{1};
 	int rowCurrent{1};
 	int rowTotal{1};
+	
+	float rColor;
+	float gColor;
+	float bColor;
+	float myAlpha;
 };

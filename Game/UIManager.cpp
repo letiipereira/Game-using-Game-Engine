@@ -93,18 +93,18 @@ void UIManager::UpdateHealth(int maxHealth, int health)
 
     healthBar->GetComponent<Transform>().myScale.X = percentage;
 
-    //if (percentage > 0.5)
-    //{
-
-    //}
-    //else if (percentage <= 0.5 && percentage > 0.3)
-    //{
-
-    //}
-    //else if (percentage <= 0.3)
-    //{
-
-    //}
+    if (percentage > 0.7)
+    {
+        healthBar->GetComponent<SpriteComponent>().SetFilterColor(0.0f, 0.9f, .0f, 0.8f);
+    }
+    else if (percentage <= 0.7 && percentage > 0.4)
+    {
+        healthBar->GetComponent<SpriteComponent>().SetFilterColor(1.0f, 1.0f, 0.0f, 0.8f);
+    }
+    else if (percentage <= 0.4)
+    {
+        healthBar->GetComponent<SpriteComponent>().SetFilterColor(0.9f, 0.0f, .0f, 0.8f);
+    }
 }
 
 void UIManager::UpdateLives(int lifeNumber)
@@ -212,6 +212,6 @@ void UIManager::DrawHealthBar()
 {
    healthBar = new Icon("healthBar", "assets/healthBar.bmp", barPosition.X - 80.f, barPosition.Y, false, 1, 1, 1, 1, 9);
    Icon* healthBorder = new Icon("healthBorder", "assets/healthBorder.bmp", barPosition.X, barPosition.Y, false, 1, 1, 1, 1, 10);
-
+   healthBar->GetComponent<SpriteComponent>().SetFilterColor(0.0f, 0.9f, 0.0f, 0.8f);
    staticIcons.push_back(healthBorder);
 }

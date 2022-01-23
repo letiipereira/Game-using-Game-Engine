@@ -42,7 +42,9 @@ void Renderer::Init()
 	//shader->SetUniform4f("u_Color", 0.2f, 0.5f, 0.8f, 1.0f);
 }
 
-void Renderer::Draw(Transform* transform, Texture* texture, float angle, float col, float lines, float totalColunm, float totalLines, bool flip)
+
+
+void Renderer::Draw(Transform* transform, Texture* texture, float angle, float col, float lines, float totalColunm, float totalLines, bool flip, float r, float g , float b, float alpha)
 {
 	float h = texture->GetHeight()/(2*totalLines);
 	float w = texture->GetWidth()/(2*totalColunm);
@@ -111,16 +113,18 @@ void Renderer::Draw(Transform* transform, Texture* texture, float angle, float c
 
 	shader.Bind();
 	texture->Bind();
-	shader.SetUniform1i("u_Texture", 0);
+
 	shader.SetUniformMat4f("u_MVP", mvp);
+	shader.SetUniform4f("u_Color", r, g, b, 1);
+	shader.SetUniform1i("u_Texture", 0);
+	shader.SetUniform1f("u_Blend", alpha);
+	
 
 	vertexArray.Bind();
 	indexBuffer.Bind();
 
 	GLCall(glDrawElements(GL_TRIANGLES, indexBuffer.GetCount(), GL_UNSIGNED_INT, nullptr));
 }
-
-
 
 void Renderer::Clear() const
 {
