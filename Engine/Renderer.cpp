@@ -67,8 +67,8 @@ void Renderer::Draw(Transform* transform, Texture* texture, float angle, float c
 	
 	float positions[] = {
 			-w * sizeX , -h * sizeY ,	left  , top ,		//0
-			w * sizeX , -h * sizeY,		right , top,	//1
-			w * sizeX , h * sizeY,		right, botton,			//2
+			w * sizeX , -h * sizeY,		right , top,		//1
+			w * sizeX , h * sizeY,		right, botton,		//2
 			-w * sizeX , h* sizeY,		left, botton 		//3
 	};
 

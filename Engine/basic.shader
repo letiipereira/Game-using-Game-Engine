@@ -33,4 +33,8 @@ void main()
 	{
 		color = mix(texColor, u_Color, u_Blend);
 	}
+	else
+	{
+		color = vec4(0, 0, 0, 0);
+	}
 }
