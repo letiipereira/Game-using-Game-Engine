@@ -469,15 +469,12 @@ void Spaceship::WasHit(Entity* collidedObject)
 			if (companionPos1.second == nullptr)
 			{
 				companionPos1.second = collidedCompanion;
-				collidedCompanion->SetDisplacement(companionPos1.first);
-				
-				
+				collidedCompanion->SetDisplacement(companionPos1.first);			
 			}
 			else if (companionPos2.second == nullptr)
 			{
 				companionPos2.second = collidedCompanion;
 				collidedCompanion->SetDisplacement(companionPos2.first);
-				
 			}
 
 			if (companionPos1.second != nullptr)
@@ -498,8 +495,6 @@ void Spaceship::WasHit(Entity* collidedObject)
 
 void Spaceship::ApplyShield(int shieldValue)
 {
-	
-
 	if (health < maxHealth)
 	{
 		health += shieldValue;
@@ -510,7 +505,6 @@ void Spaceship::ApplyShield(int shieldValue)
 	{
 		health = maxHealth;
 	}
-	
 }
 
 void Spaceship::ApplyDamage(int damageReceived)
@@ -529,6 +523,23 @@ void Spaceship::ApplyDamage(int damageReceived)
 		{
 			currentLives = maxLives;
 			health = maxHealth;
+
+			// Remove companions
+			if (companionPos1.second != nullptr)
+			{
+				DecreaseCompanionCount();
+				companionPos1.second->GetSpawner()->CompanionNecessity(true);
+				companionPos1.second->Destroy();
+				companionPos1.second = nullptr;
+			}
+			
+			if (companionPos2.second != nullptr)
+			{
+				DecreaseCompanionCount();
+				companionPos2.second->Destroy();
+				companionPos2.second = nullptr;
+			}
+
 			UIManager::GetInstance()->UpdateLives(currentLives);
 			UIManager::GetInstance()->ResetPlayerScore();
 			UIManager::GetInstance()->UpdateHealth(maxHealth, health);

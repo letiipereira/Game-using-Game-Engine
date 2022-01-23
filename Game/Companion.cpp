@@ -100,7 +100,6 @@ void Companion::ApplyShield(int shieldValue)
 	if (health < maxHealth)
 	{
 		health += shieldValue;
-		std::cout << "companion apply shield\n";
 		UIManager::GetInstance()->ScoreUi(GetComponent<Transform>().myPosition, "shield up");
 	}
 	if (health > maxHealth)
@@ -116,7 +115,6 @@ void Companion::ApplyDamage(int damageReceived)
 	if (health <= 0 && isTaken)
 	{
 		//std::cout << "posx: " << displacementX << "posy: " << displacementY << std::endl;
-		std::cout << "companion apply demage\n";
 		currentPlayer->RemoveCompanion(static_cast<float>(displacementX), static_cast<float>(displacementY), this);
 	}
 }
